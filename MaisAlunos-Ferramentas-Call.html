@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Ferramentas de Diagnóstico — MaisAlunos Marketing</title>
+<style>
+:root {
+  --teal:#00b4a6; --teal-dark:#008f84; --teal-glow:rgba(0,180,166,.12);
+  --dark:#09090f; --dark2:#0d1b2a; --dark3:#111c2a; --dark4:#162030;
+  --white:#fff; --gray:#8899aa; --light:#dde6f0;
+  --red:rgba(252,129,129,1); --red-bg:rgba(229,62,62,.1); --red-border:rgba(229,62,62,.3);
+  --green:rgba(104,211,145,1); --green-bg:rgba(56,161,105,.1); --green-border:rgba(56,161,105,.3);
+  --yellow:rgba(246,201,14,1); --yellow-bg:rgba(214,158,46,.1); --yellow-border:rgba(214,158,46,.3);
+  --blue:rgba(99,179,237,1); --blue-bg:rgba(66,153,225,.1); --blue-border:rgba(66,153,225,.3);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--dark);color:var(--white);min-height:100vh;}
+
+/* ── SHELL ── */
+.topbar{background:var(--teal);padding:8px 24px;text-align:center;font-size:13px;font-weight:700;color:var(--dark);letter-spacing:.5px;}
+header{background:var(--dark2);border-bottom:1px solid rgba(0,180,166,.2);padding:14px 32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.logo{font-size:18px;font-weight:900;} .logo span{color:var(--teal);}
+.tag{background:var(--teal-glow);border:1px solid rgba(0,180,166,.3);color:var(--teal);font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:5px 14px;border-radius:100px;}
+.page{max-width:1060px;margin:0 auto;padding:48px 24px 80px;}
+.divider{border:none;border-top:1px solid rgba(255,255,255,.06);margin:64px 0;}
+
+/* ── SECTION ── */
+.sec-header{margin-bottom:28px;}
+.sec-num{display:inline-block;background:var(--teal);color:var(--dark);font-size:12px;font-weight:900;letter-spacing:1px;padding:4px 12px;border-radius:6px;margin-bottom:10px;}
+.sec-title{font-size:clamp(20px,2.8vw,30px);font-weight:900;letter-spacing:-.5px;line-height:1.2;margin-bottom:6px;}
+.sec-sub{font-size:14px;color:var(--gray);line-height:1.6;max-width:600px;}
+
+/* ── CARD ── */
+.card{background:var(--dark2);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:26px 30px;}
+.card+.card{margin-top:18px;}
+
+/* ── FIELD LABEL ── */
+.flabel{font-size:11px;font-weight:700;color:var(--teal);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;}
+
+/* ── GRID ROWS ── */
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:20px;}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin-bottom:20px;}
+.row4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:20px;}
+.fgroup{display:flex;flex-direction:column;gap:7px;}
+.fgroup label{font-size:13px;color:var(--gray);font-weight:600;}
+
+/* ── INPUTS ── */
+input[type=number]{
+  background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.1);
+  border-radius:8px;padding:11px 14px;font-size:18px;font-weight:700;
+  color:var(--white);width:100%;outline:none;transition:border-color .18s;font-family:inherit;
+}
+input[type=number]:focus{border-color:var(--teal);}
+input[type=number]::-webkit-inner-spin-button{opacity:.4;}
+
+/* pct input wrapper */
+.pct-wrap{position:relative;}
+.pct-wrap input{padding-right:40px;}
+.pct-wrap::after{content:'%';position:absolute;right:14px;top:50%;transform:translateY(-50%);
+  font-size:18px;font-weight:700;color:var(--teal);pointer-events:none;}
+
+/* ── SCENARIO TABS ── */
+.sc-tabs{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;}
+.sc-tab{flex:1;min-width:130px;border-radius:10px;padding:12px 10px;cursor:pointer;text-align:center;
+  border:2px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03);transition:all .2s;}
+.sc-tab:hover{border-color:rgba(0,180,166,.4);}
+.sc-tab.act-c{border-color:var(--blue);background:var(--blue-bg);}
+.sc-tab.act-m{border-color:var(--yellow);background:var(--yellow-bg);}
+.sc-tab.act-a{border-color:var(--green);background:var(--green-bg);}
+.sc-tab .ic{font-size:20px;margin-bottom:4px;}
+.sc-tab .nm{font-size:13px;font-weight:800;margin-bottom:2px;}
+.sc-tab .ds{font-size:11px;color:var(--gray);line-height:1.3;}
+.sc-tab.act-c .nm{color:var(--blue);}
+.sc-tab.act-m .nm{color:var(--yellow);}
+.sc-tab.act-a .nm{color:var(--green);}
+
+/* ── SIDE BY SIDE LAYOUT ── */
+.params-and-funnel{display:grid;grid-template-columns:1fr 3fr;gap:18px;margin-top:18px;align-items:start;}
+@media(max-width:760px){.params-and-funnel{grid-template-columns:1fr;}}
+
+/* ── FUNNEL ── */
+.funnel{display:flex;flex-direction:column;gap:0;}
+.f-block{background:var(--dark3);border:1px solid rgba(255,255,255,.07);border-radius:10px;
+  padding:14px 18px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px;}
+.f-block.f0{border-top:3px solid var(--teal);}
+.f-block.f1{border-top:3px solid var(--blue);}
+.f-block.f2{border-top:3px solid var(--yellow);}
+.f-block.f3{border-top:3px solid #b794f4;}
+.f-block.f4{border-top:3px solid var(--green);}
+.f-icon{font-size:20px;}
+.f-name{font-size:10px;font-weight:700;color:var(--gray);letter-spacing:.5px;text-transform:uppercase;}
+.f-val{font-size:clamp(22px,2.8vw,32px);font-weight:900;color:var(--white);line-height:1.1;}
+.f-val span{font-size:12px;font-weight:600;color:var(--gray);}
+.f-arrow{text-align:center;padding:2px 0;font-size:13px;color:rgba(255,255,255,.15);}
+.f-pct{font-size:12px;color:var(--yellow);margin-left:4px;font-weight:700;}
+
+/* ── RESULT BOXES ── */
+.rbox{border-radius:12px;padding:18px 16px;text-align:center;}
+.rbox.tc  {background:var(--teal-glow);border:1px solid rgba(0,180,166,.25);}
+.rbox.gn  {background:var(--green-bg);border:1px solid var(--green-border);}
+.rbox.rd  {background:var(--red-bg);border:1px solid var(--red-border);}
+.rbox.yl  {background:var(--yellow-bg);border:1px solid var(--yellow-border);}
+.rbox.dk  {background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);}
+.rb-lbl{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:7px;opacity:.8;}
+.rb-val{font-size:clamp(22px,3vw,32px);font-weight:900;line-height:1;margin-bottom:3px;}
+.rb-sub{font-size:11px;opacity:.6;}
+.rbox.tc .rb-lbl,.rbox.tc .rb-val{color:var(--teal);}
+.rbox.gn .rb-lbl,.rbox.gn .rb-val{color:var(--green);}
+.rbox.rd .rb-lbl,.rbox.rd .rb-val{color:var(--red);}
+.rbox.yl .rb-lbl,.rbox.yl .rb-val{color:var(--yellow);}
+.rbox.dk .rb-val{color:var(--white);} .rbox.dk .rb-lbl{color:var(--gray);}
+
+/* ── ROAS ── */
+.roas-box{border-radius:14px;padding:22px;text-align:center;margin-top:14px;
+  background:linear-gradient(135deg,var(--green-bg),transparent);border:1px solid var(--green-border);}
+.roas-lbl{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--green);margin-bottom:5px;}
+.roas-val{font-size:clamp(48px,7vw,68px);font-weight:900;color:var(--green);line-height:1;}
+.roas-sub{font-size:13px;color:var(--gray);margin-top:5px;}
+
+/* ── PERÍODO TABS ── */
+.period-tabs{display:flex;gap:10px;margin-bottom:20px;}
+.ptab{flex:1;text-align:center;padding:10px;border-radius:8px;cursor:pointer;font-size:14px;
+  font-weight:700;border:2px solid rgba(255,255,255,.1);background:transparent;transition:all .2s;}
+.ptab.active{border-color:var(--teal);background:var(--teal-glow);color:var(--teal);}
+.ptab:hover:not(.active){border-color:rgba(0,180,166,.35);}
+
+/* ── PARCERIA COLS ── */
+.parc-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:20px;}
+.parc-col{border-radius:14px;padding:24px 22px;}
+.parc-col.sem{background:linear-gradient(135deg,rgba(229,62,62,.07),transparent);border:1px solid var(--red-border);}
+.parc-col.com{background:linear-gradient(135deg,var(--teal-glow),transparent);border:2px solid var(--teal);}
+.parc-badge{font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;}
+.parc-col.sem .parc-badge{color:var(--red);}
+.parc-col.com .parc-badge{color:var(--teal);}
+.parc-title{font-size:17px;font-weight:900;margin-bottom:3px;}
+.parc-cpl{font-size:13px;color:var(--gray);margin-bottom:16px;}
+.parc-cpl strong{font-size:19px;font-weight:900;}
+.parc-col.sem .parc-cpl strong{color:var(--red);}
+.parc-col.com .parc-cpl strong{color:var(--teal);}
+.pstat{display:flex;justify-content:space-between;align-items:center;
+  padding:11px 0;border-bottom:1px solid rgba(255,255,255,.05);}
+.pstat:last-child{border-bottom:none;}
+.pstat-lbl{font-size:13px;color:var(--gray);}
+.pstat-val{font-size:17px;font-weight:900;}
+.parc-col.sem .pstat-val{color:var(--red);}
+.parc-col.com .pstat-val{color:var(--teal);}
+
+/* ── BIG FINAL NUMBER ── */
+.big-final{background:linear-gradient(135deg,rgba(0,180,166,.14),rgba(0,180,166,.04));
+  border:2px solid var(--teal);border-radius:18px;padding:40px 32px;text-align:center;margin-top:24px;}
+.bf-eyebrow{font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teal);margin-bottom:12px;}
+.bf-value{font-size:clamp(52px,8vw,88px);font-weight:900;color:var(--teal);line-height:1;letter-spacing:-2px;}
+.bf-detail{font-size:15px;color:var(--gray);margin-top:14px;line-height:1.7;}
+.bf-detail strong{color:var(--white);}
+
+.note{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:8px;
+  padding:13px 16px;font-size:13px;color:var(--gray);line-height:1.6;margin-top:16px;}
+.note strong{color:var(--white);}
+
+@media(max-width:640px){
+  .row2,.row3,.row4{grid-template-columns:1fr 1fr;}
+  .parc-grid{grid-template-columns:1fr;}
+  header{justify-content:center;}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">🎯 Ferramentas de Diagnóstico · Uso Exclusivo em Call · MaisAlunos Marketing</div>
+<header>
+  <div class="logo">Mais<span>Alunos</span> Marketing</div>
+  <div class="tag">Ferramentas de Call</div>
+</header>
+
+<div class="page">
+
+<!-- ══════════════════════════════════════
+     CALCULADORA 1 — POTENCIAL DE MERCADO
+══════════════════════════════════════ -->
+<div class="sec-header">
+  <div class="sec-num">Calculadora 1</div>
+  <div class="sec-title">Potencial de Mercado da Cidade</div>
+  <div class="sec-sub">Descubra quantas pessoas na cidade do cliente são potenciais alunos.</div>
+</div>
+
+<div class="card">
+  <div class="row2">
+    <div class="fgroup">
+      <label>População da cidade</label>
+      <input type="number" id="c1_pop" value="100000" min="1000" step="1000" oninput="calc1()"/>
+    </div>
+    <div class="fgroup">
+      <label>% que pratica a modalidade</label>
+      <div class="pct-wrap">
+        <input type="number" id="c1_pct" value="1.3" min="0.1" max="20" step="0.1" oninput="calc1()"/>
+      </div>
+    </div>
+  </div>
+
+  <div style="background:var(--teal-glow);border:1px solid rgba(0,180,166,.25);border-radius:14px;padding:28px;text-align:center;margin-bottom:0;">
+    <div style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--teal);margin-bottom:10px;">Praticantes estimados na cidade</div>
+    <div style="font-size:clamp(52px,7vw,80px);font-weight:900;color:var(--teal);line-height:1;" id="c1_prat">1.300</div>
+    <div style="font-size:13px;color:var(--gray);margin-top:8px;">pessoas · população × %</div>
+  </div>
+</div>
+
+
+<hr class="divider"/>
+
+
+<!-- ══════════════════════════════════════
+     CALCULADORA 2 — FUNIL DE TRÁFEGO PAGO
+══════════════════════════════════════ -->
+<div class="sec-header">
+  <div class="sec-num">Calculadora 2</div>
+  <div class="sec-title">Funil de Tráfego Pago</div>
+  <div class="sec-sub">Simule o resultado de cada real investido em Meta Ads — do investimento ao aluno matriculado.</div>
+</div>
+
+<!-- CENÁRIO TABS -->
+<div class="sc-tabs">
+  <div class="sc-tab" id="tab_c" onclick="setScen('c')">
+    <div class="ic">🌱</div><div class="nm">Conservador</div>
+    <div class="ds">Sem time de vendas · iniciando</div>
+  </div>
+  <div class="sc-tab act-m" id="tab_m" onclick="setScen('m')">
+    <div class="ic">⚡</div><div class="nm">Moderado</div>
+    <div class="ds">Time formado · precisa treinamento</div>
+  </div>
+  <div class="sc-tab" id="tab_a" onclick="setScen('a')">
+    <div class="ic">🚀</div><div class="nm">Agressivo</div>
+    <div class="ds">Time treinado · alta conversão</div>
+  </div>
+</div>
+
+<div class="params-and-funnel">
+
+  <!-- COLUNA ESQUERDA: parâmetros + taxas (compacta) -->
+  <div class="card" style="padding:20px;">
+    <div class="flabel">Parâmetros</div>
+    <div class="fgroup" style="margin-bottom:10px;">
+      <label style="font-size:11px;">Investimento mensal (R$)</label>
+      <input type="number" id="c2_inv" value="1000" min="100" step="100" oninput="calc2()" style="font-size:15px;padding:9px 12px;"/>
+    </div>
+    <div class="fgroup" style="margin-bottom:10px;">
+      <label style="font-size:11px;">Custo por lead — CPL (R$)</label>
+      <input type="number" id="c2_cpl" value="25" min="1" step="1" oninput="calc2()" style="font-size:15px;padding:9px 12px;"/>
+    </div>
+    <div class="fgroup" style="margin-bottom:18px;">
+      <label style="font-size:11px;">Valor da matrícula / mês (R$)</label>
+      <input type="number" id="c2_tick" value="200" min="50" step="10" oninput="calc2()" style="font-size:15px;padding:9px 12px;"/>
+    </div>
+
+    <div class="flabel">Taxas de Conversão</div>
+    <div class="fgroup" style="margin-bottom:10px;">
+      <label style="font-size:11px;">Lead → Agendamento</label>
+      <div class="pct-wrap">
+        <input type="number" id="cv_ag" value="40" min="1" max="100" step="1" oninput="clearScen();calc2()" style="font-size:15px;padding:9px 12px;"/>
+      </div>
+    </div>
+    <div class="fgroup" style="margin-bottom:10px;">
+      <label style="font-size:11px;">Agendamento → Aula feita</label>
+      <div class="pct-wrap">
+        <input type="number" id="cv_au" value="65" min="1" max="100" step="1" oninput="clearScen();calc2()" style="font-size:15px;padding:9px 12px;"/>
+      </div>
+    </div>
+    <div class="fgroup" style="margin-bottom:0;">
+      <label style="font-size:11px;">Aula feita → Matrícula</label>
+      <div class="pct-wrap">
+        <input type="number" id="cv_vd" value="40" min="1" max="100" step="1" oninput="clearScen();calc2()" style="font-size:15px;padding:9px 12px;"/>
+      </div>
+    </div>
+  </div>
+
+  <!-- COLUNA DIREITA: funil -->
+  <div class="card">
+    <div class="flabel">Resultado do Mês</div>
+
+    <div class="funnel">
+      <div class="f-block f0">
+        <div class="f-icon">💰</div>
+        <div class="f-name">INVESTIMENTO</div>
+        <div class="f-val" id="f_inv">R$ 1.000 <span>/mês</span></div>
+      </div>
+      <div class="f-arrow">↓</div>
+
+      <div class="f-block f1">
+        <div class="f-icon">🧲</div>
+        <div class="f-name">LEADS GERADOS</div>
+        <div class="f-val" id="f_leads">— <span>pessoas</span></div>
+      </div>
+      <div class="f-arrow">↓ <span class="f-pct" id="fa_ag">—%</span></div>
+
+      <div class="f-block f2">
+        <div class="f-icon">📅</div>
+        <div class="f-name">AGENDAMENTOS</div>
+        <div class="f-val" id="f_ag">— <span>pessoas</span></div>
+      </div>
+      <div class="f-arrow">↓ <span class="f-pct" id="fa_au">—%</span></div>
+
+      <div class="f-block f3">
+        <div class="f-icon">🥋</div>
+        <div class="f-name">AULAS EXPERIMENTAIS</div>
+        <div class="f-val" id="f_au">— <span>pessoas</span></div>
+      </div>
+      <div class="f-arrow">↓ <span class="f-pct" id="fa_vd">—%</span></div>
+
+      <div class="f-block f4">
+        <div class="f-icon">✅</div>
+        <div class="f-name">MATRÍCULAS NO MÊS</div>
+        <div class="f-val" id="f_vd">— <span>aluno(s)</span></div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px;">
+      <div class="rbox tc">
+        <div class="rb-lbl">Fat. mensal</div>
+        <div class="rb-val" id="r2_fatm">—</div>
+        <div class="rb-sub" id="r2_fatm_sub">—</div>
+      </div>
+      <div class="rbox gn">
+        <div class="rb-lbl">Fat. anual (LTV)</div>
+        <div class="rb-val" id="r2_fata">—</div>
+        <div class="rb-sub">× 12 meses</div>
+      </div>
+    </div>
+
+    <div class="roas-box" style="margin-top:12px;">
+      <div class="roas-lbl">ROAS 12 meses</div>
+      <div class="roas-val" id="r2_roas">—</div>
+      <div class="roas-sub" id="r2_roas_sub">R$— gerado por cada R$1 investido</div>
+    </div>
+  </div>
+
+</div><!-- /params-and-funnel -->
+
+
+<hr class="divider"/>
+
+
+<!-- ══════════════════════════════════════
+     PROJEÇÃO PARCERIA MAISALUNOS
+══════════════════════════════════════ -->
+<div class="sec-header">
+  <div class="sec-num">Projeção</div>
+  <div class="sec-title">Sem MaisAlunos vs. Com MaisAlunos</div>
+  <div class="sec-sub">Mesmo investimento, mesmas taxas de conversão — só o custo por lead muda. Veja o impacto real ao longo do tempo.</div>
+</div>
+
+<!-- PERÍODO -->
+<div class="period-tabs">
+  <div class="ptab active" id="pt6"  onclick="setPeriod(6)">6 Meses</div>
+  <div class="ptab"        id="pt12" onclick="setPeriod(12)">12 Meses</div>
+</div>
+
+<!-- CPL INPUTS -->
+<div class="card">
+  <div class="flabel">Custo por Lead no Período</div>
+  <div class="row2" style="margin-bottom:0;">
+    <div class="fgroup">
+      <label>CPL médio do mercado (R$)</label>
+      <input type="number" id="p_cplm" value="25" min="1" step="1" oninput="calcParc()"/>
+    </div>
+    <div class="fgroup">
+      <label>CPL MaisAlunos (R$)</label>
+      <input type="number" id="p_cpla" value="5" min="1" step="1" oninput="calcParc()"/>
+    </div>
+  </div>
+</div>
+
+<!-- COLUNAS -->
+<div class="parc-grid">
+  <div class="parc-col sem">
+    <div class="parc-badge">⚠️ Sem MaisAlunos</div>
+    <div class="parc-title">Agência comum / Solo</div>
+    <div class="parc-cpl">CPL médio: <strong id="ps_cpl">R$ 25</strong></div>
+    <div class="pstat"><span class="pstat-lbl">Leads gerados</span><span class="pstat-val" id="ps_leads">—</span></div>
+    <div class="pstat"><span class="pstat-lbl">Matrículas</span>   <span class="pstat-val" id="ps_mat">—</span></div>
+    <div class="pstat"><span class="pstat-lbl">Faturamento gerado</span><span class="pstat-val" id="ps_fat">—</span></div>
+    <div class="pstat"><span class="pstat-lbl">ROAS acumulado</span><span class="pstat-val" id="ps_roas">—</span></div>
+  </div>
+
+  <div class="parc-col com">
+    <div class="parc-badge">✅ Com MaisAlunos</div>
+    <div class="parc-title">Parceria especializada</div>
+    <div class="parc-cpl">CPL entregue: <strong id="pm_cpl">R$ 5</strong></div>
+    <div class="pstat"><span class="pstat-lbl">Leads gerados</span><span class="pstat-val" id="pm_leads">—</span></div>
+    <div class="pstat"><span class="pstat-lbl">Matrículas</span>   <span class="pstat-val" id="pm_mat">—</span></div>
+    <div class="pstat"><span class="pstat-lbl">Faturamento gerado</span><span class="pstat-val" id="pm_fat">—</span></div>
+    <div class="pstat"><span class="pstat-lbl">ROAS acumulado</span><span class="pstat-val" id="pm_roas">—</span></div>
+  </div>
+</div>
+
+<!-- BIG FINAL NUMBER -->
+<div class="big-final">
+  <div class="bf-eyebrow" id="bf_eyebrow">Com MaisAlunos em 12 meses você gera a mais</div>
+  <div class="bf-value" id="bf_value">—</div>
+  <div class="bf-detail" id="bf_detail">
+    <strong id="bf_novos">—</strong> novos alunos ×
+    <strong id="bf_tick">R$—</strong> ticket médio ×
+    <strong>12 meses</strong>
+    = receita gerada a mais em relação ao mercado
+  </div>
+</div>
+
+<div class="note">
+  <strong>Como apresentar:</strong> Com o mesmo orçamento em mídia, a MaisAlunos gera até 5× mais leads por ter um CPL de R$5 vs R$25 do mercado. Isso se multiplica em cada etapa do funil e ao final do período resulta em dezenas de alunos extras — e toda essa receita acima seria dinheiro perdido sem a parceria certa.
+</div>
+
+</div><!-- /page -->
+
+<footer style="background:var(--dark2);border-top:1px solid rgba(255,255,255,.05);padding:22px;text-align:center;">
+  <p style="font-size:13px;color:var(--gray);">
+    <strong style="color:var(--white);">MaisAlunos Marketing</strong> · Ferramentas de diagnóstico para calls ·
+    <a href="https://instagram.com/maisalunosmarketing" style="color:var(--teal);text-decoration:none;">@maisalunosmarketing</a>
+  </p>
+</footer>
+
+<script>
+/* ─ STATE ─ */
+let period = 6;
+
+/* ══ CALC 1 ══ */
+function calc1(){
+  const pop  = +g('c1_pop') || 0;
+  const pct  = +g('c1_pct') || 1.3;
+  const prat = Math.round(pop * pct / 100);
+  s('c1_prat', fN(prat));
+}
+
+/* ══ SCENARIOS (only conv rates) ══ */
+const SC = {
+  c:{ag:25, au:50, vd:25},
+  m:{ag:40, au:65, vd:40},
+  a:{ag:55, au:80, vd:60}
+};
+function setScen(k){
+  ['c','m','a'].forEach(x => document.getElementById('tab_'+x).className='sc-tab');
+  document.getElementById('tab_'+k).classList.add('act-'+k);
+  setN('cv_ag', SC[k].ag);
+  setN('cv_au', SC[k].au);
+  setN('cv_vd', SC[k].vd);
+  calc2();
+}
+function clearScen(){
+  ['c','m','a'].forEach(x => document.getElementById('tab_'+x).className='sc-tab');
+}
+
+/* ══ CALC 2 ══ */
+function calc2(){
+  const inv  = +g('c2_inv')  || 0;
+  const cpl  = +g('c2_cpl')  || 0;
+  const tick = +g('c2_tick') || 0;
+  const pAg  = (+g('cv_ag')  || 0) / 100;
+  const pAu  = (+g('cv_au')  || 0) / 100;
+  const pVd  = (+g('cv_vd')  || 0) / 100;
+
+  const leads = (cpl > 0 && inv > 0) ? Math.floor(inv / cpl) : 0;
+  const ag    = Math.round(leads * pAg);
+  const au    = Math.round(ag    * pAu);
+  const vd    = Math.round(au    * pVd);
+  const fatM  = vd * tick;
+  const fatA  = fatM * 12;
+  const roas  = (inv > 0 && fatA > 0) ? (fatA / inv).toFixed(1) : '0';
+
+  s('f_inv',  'R$ '+fN(inv)+' <span>/mês</span>');
+  s('f_leads', leads+' <span>pessoas</span>');
+  s('f_ag',    ag   +' <span>pessoas</span>');
+  s('f_au',    au   +' <span>pessoas</span>');
+  s('f_vd',    vd   +' <span>aluno'+(vd!==1?'s':'')+'</span>');
+  s('fa_ag', g('cv_ag')+'%');
+  s('fa_au', g('cv_au')+'%');
+  s('fa_vd', g('cv_vd')+'%');
+  s('r2_fatm',     fR(fatM)+'/mês');
+  s('r2_fatm_sub', vd+' aluno'+(vd!==1?'s':'')+' × '+fR(tick)+'/mês');
+  s('r2_fata',     fR(fatA)+'/ano');
+  s('r2_roas',     roas+'x');
+  s('r2_roas_sub', 'Para cada R$1 investido em mídia, você gera R$'+roas+' em receita no ano');
+
+  calcParc();
+}
+
+/* ══ PARCERIA ══ */
+function setPeriod(m){
+  period = m;
+  document.getElementById('pt6').className  = 'ptab'+(m===6  ?' active':'');
+  document.getElementById('pt12').className = 'ptab'+(m===12 ?' active':'');
+  calcParc();
+}
+
+function calcParc(){
+  const inv     = +g('c2_inv')  || 0;
+  const tick    = +g('c2_tick') || 0;
+  const cplMerc = +g('p_cplm') || 0;
+  const cplMA   = +g('p_cpla') || 0;
+  const pAg = (+g('cv_ag') || 0) / 100;
+  const pAu = (+g('cv_au') || 0) / 100;
+  const pVd = (+g('cv_vd') || 0) / 100;
+
+  s('ps_cpl', 'R$ '+cplMerc);
+  s('pm_cpl', 'R$ '+cplMA);
+
+  function run(cpl){
+    const leadsM  = (cpl > 0 && inv > 0) ? Math.floor(inv / cpl) : 0;
+    const vendasM = Math.round(leadsM * pAg * pAu * pVd) || 0;
+    const leads   = leadsM  * period;
+    const mat     = vendasM * period;
+    const fat     = mat * tick;
+    const invTot  = inv * period;
+    const roas    = (invTot > 0 && fat > 0) ? (fat / invTot).toFixed(1) : '0';
+    return { leads, mat, fat, roas };
+  }
+
+  const SM = run(cplMerc);
+  const MA = run(cplMA);
+  const diff       = Math.max(0, MA.fat - SM.fat);
+  const diffAlunos = Math.max(0, MA.mat - SM.mat);
+
+  s('ps_leads', fN(SM.leads));
+  s('ps_mat',   SM.mat+' aluno'+(SM.mat!==1?'s':''));
+  s('ps_fat',   fR(SM.fat));
+  s('ps_roas',  SM.roas+'x');
+
+  s('pm_leads', fN(MA.leads));
+  s('pm_mat',   MA.mat+' aluno'+(MA.mat!==1?'s':''));
+  s('pm_fat',   fR(MA.fat));
+  s('pm_roas',  MA.roas+'x');
+
+  // Big final number — MaisAlunos extra students × ticket × 12 months
+  const fatExtra = diffAlunos * tick * 12;
+  s('bf_eyebrow', 'Com MaisAlunos em '+period+' meses você gera a mais');
+  s('bf_value', fR(fatExtra));
+  s('bf_novos', diffAlunos+' novos alunos extras');
+  s('bf_tick',  'R$ '+tick);
+}
+
+/* ─ UTILS ─ */
+function g(id){ return document.getElementById(id).value; }
+function s(id, html){ const el=document.getElementById(id); if(el) el.innerHTML=html; }
+function setN(id, v){ document.getElementById(id).value = v; }
+function fN(n){ return n.toLocaleString('pt-BR'); }
+function fR(n){
+  if(n>=1000000) return 'R$ '+(n/1000000).toFixed(1).replace('.',',')+'M';
+  if(n>=1000)    return 'R$ '+(n/1000).toFixed(n%1000===0?0:1).replace('.',',')+'k';
+  return 'R$ '+fN(Math.round(n));
+}
+
+/* ─ INIT ─ */
+calc1();
+setScen('m');
+</script>
+</body>
+</html>

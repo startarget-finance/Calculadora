@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Calculadora de Alunos — MaisAlunos Marketing</title>
+  <style>
+    :root {
+      --teal: #00b4a6;
+      --teal-dark: #008f84;
+      --teal-glow: rgba(0,180,166,0.12);
+      --dark: #0A0A0A;
+      --dark2: #0d1b2a;
+      --dark3: #111c2a;
+      --dark4: #162030;
+      --white: #ffffff;
+      --gray: #8899aa;
+      --light: #e2e8f0;
+      --red: #e53e3e;
+      --green: #38a169;
+      --yellow: #d69e2e;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--dark);
+      color: var(--white);
+      min-height: 100vh;
+    }
+
+    /* HEADER */
+    header {
+      background: var(--dark2);
+      border-bottom: 1px solid rgba(0,180,166,0.2);
+      padding: 16px 24px;
+      text-align: center;
+    }
+    .logo { font-size: 20px; font-weight: 800; }
+    .logo span { color: var(--teal); }
+
+    /* HERO */
+    .hero {
+      background: linear-gradient(160deg, var(--dark2), var(--dark3));
+      padding: 56px 24px 48px;
+      text-align: center;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: var(--teal-glow);
+      border: 1px solid rgba(0,180,166,0.35);
+      color: var(--teal);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 6px 18px;
+      border-radius: 100px;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: clamp(24px, 4vw, 42px);
+      font-weight: 900;
+      line-height: 1.15;
+      max-width: 680px;
+      margin: 0 auto 14px;
+      letter-spacing: -0.5px;
+    }
+    .hero h1 em { font-style:normal; color:var(--teal); }
+    .hero p {
+      font-size: 16px;
+      color: var(--gray);
+      max-width: 520px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* CALCULATOR WRAPPER */
+    .calc-wrap {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+
+    /* PROGRESS BAR */
+    .progress-wrap {
+      margin-bottom: 32px;
+    }
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .progress-label {
+      font-size: 13px;
+      color: var(--gray);
+      font-weight: 600;
+    }
+    .progress-step {
+      font-size: 13px;
+      color: var(--teal);
+      font-weight: 700;
+    }
+    .progress-bar {
+      height: 4px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 100px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--teal);
+      border-radius: 100px;
+      transition: width 0.4s ease;
+    }
+
+    /* STEP CARD */
+    .step-card {
+      background: var(--dark2);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 16px;
+      padding: 36px 32px;
+      display: none;
+      animation: fadeIn 0.35s ease;
+    }
+    .step-card.active { display: block; }
+    @keyframes fadeIn {
+      from { opacity:0; transform:translateY(12px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+
+    .step-num {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--teal);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .step-question {
+      font-size: clamp(18px, 3vw, 24px);
+      font-weight: 800;
+      line-height: 1.3;
+      margin-bottom: 8px;
+    }
+    .step-hint {
+      font-size: 14px;
+      color: var(--gray);
+      margin-bottom: 28px;
+      line-height: 1.6;
+    }
+
+    /* OPTIONS GRID */
+    .options-grid {
+      display: grid;
+      gap: 12px;
+    }
+    .options-grid.cols-2 { grid-template-columns: 1fr 1fr; }
+    .options-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+
+    .option-btn {
+      background: rgba(255,255,255,0.04);
+      border: 2px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 18px 16px;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.18s;
+      color: var(--white);
+    }
+    .option-btn:hover {
+      border-color: rgba(0,180,166,0.5);
+      background: var(--teal-glow);
+    }
+    .option-btn.selected {
+      border-color: var(--teal);
+      background: var(--teal-glow);
+    }
+    .option-icon { font-size: 26px; margin-bottom: 8px; }
+    .option-label { font-size: 14px; font-weight: 700; }
+    .option-sub { font-size: 12px; color: var(--gray); margin-top: 4px; }
+
+    /* SLIDER */
+    .slider-wrap { padding: 8px 0; }
+    .slider-value-display {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .slider-value-display .big-num {
+      font-size: 52px;
+      font-weight: 900;
+      color: var(--teal);
+      line-height: 1;
+    }
+    .slider-value-display .big-label {
+      font-size: 14px;
+      color: var(--gray);
+      margin-top: 4px;
+    }
+    input[type=range] {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 6px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 100px;
+      outline: none;
+      cursor: pointer;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--teal);
+      cursor: pointer;
+      box-shadow: 0 0 0 4px rgba(0,180,166,0.2);
+      transition: box-shadow 0.2s;
+    }
+    input[type=range]::-webkit-slider-thumb:hover {
+      box-shadow: 0 0 0 8px rgba(0,180,166,0.2);
+    }
+    .slider-minmax {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+      font-size: 12px;
+      color: var(--gray);
+    }
+
+    /* NAV BUTTONS */
+    .step-nav {
+      display: flex;
+      gap: 12px;
+      margin-top: 32px;
+    }
+    .btn-back {
+      padding: 14px 24px;
+      border-radius: 8px;
+      border: 2px solid rgba(255,255,255,0.12);
+      background: transparent;
+      color: var(--gray);
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.18s;
+    }
+    .btn-back:hover { border-color: rgba(255,255,255,0.3); color: var(--white); }
+    .btn-next {
+      flex: 1;
+      padding: 16px;
+      border-radius: 8px;
+      border: none;
+      background: var(--teal);
+      color: var(--dark);
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.18s;
+      letter-spacing: 0.3px;
+    }
+    .btn-next:hover { background: var(--teal-dark); transform: translateY(-1px); }
+    .btn-next:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* RESULTADO */
+    #resultado { display: none; animation: fadeIn 0.5s ease; }
+    #resultado.active { display: block; }
+
+    .resultado-header {
+      text-align: center;
+      padding: 12px 0 28px;
+    }
+    .resultado-header .emoji { font-size: 48px; margin-bottom: 12px; }
+    .resultado-header h2 {
+      font-size: clamp(22px, 3.5vw, 32px);
+      font-weight: 900;
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+    .resultado-header p { font-size: 15px; color: var(--gray); }
+
+    .resultado-card {
+      background: var(--dark2);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+    .resultado-section-title {
+      background: rgba(0,180,166,0.08);
+      border-bottom: 1px solid rgba(0,180,166,0.15);
+      padding: 14px 24px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--teal);
+    }
+    .resultado-rows { padding: 8px 0; }
+    .resultado-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 24px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .resultado-row:last-child { border-bottom: none; }
+    .row-label { font-size: 14px; color: var(--gray); }
+    .row-value {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--white);
+    }
+    .row-value.teal { color: var(--teal); }
+    .row-value.red { color: #fc8181; }
+    .row-value.green { color: #68d391; }
+
+    /* BIG LOSS BOX */
+    .loss-box {
+      background: linear-gradient(135deg, rgba(229,62,62,0.12), rgba(229,62,62,0.06));
+      border: 1px solid rgba(229,62,62,0.3);
+      border-radius: 14px;
+      padding: 28px;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    .loss-box .loss-label {
+      font-size: 13px;
+      color: #fc8181;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .loss-box .loss-value {
+      font-size: 48px;
+      font-weight: 900;
+      color: #fc8181;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .loss-box .loss-sub { font-size: 14px; color: var(--gray); }
+
+    /* POTENTIAL BOX */
+    .potential-box {
+      background: linear-gradient(135deg, rgba(0,180,166,0.12), rgba(0,180,166,0.06));
+      border: 1px solid rgba(0,180,166,0.3);
+      border-radius: 14px;
+      padding: 28px;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    .potential-box .pot-label {
+      font-size: 13px;
+      color: var(--teal);
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .potential-box .pot-value {
+      font-size: 48px;
+      font-weight: 900;
+      color: var(--teal);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .potential-box .pot-sub { font-size: 14px; color: var(--gray); }
+
+    /* CTA SECTION */
+    .cta-box {
+      background: linear-gradient(135deg, var(--dark3), var(--dark4));
+      border: 1px solid rgba(0,180,166,0.25);
+      border-radius: 16px;
+      padding: 36px 28px;
+      text-align: center;
+      margin-top: 8px;
+    }
+    .cta-box h3 {
+      font-size: 22px;
+      font-weight: 900;
+      line-height: 1.3;
+      margin-bottom: 10px;
+    }
+    .cta-box p {
+      font-size: 15px;
+      color: var(--gray);
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+    .btn-cta {
+      display: inline-block;
+      background: var(--teal);
+      color: var(--dark);
+      font-size: 17px;
+      font-weight: 900;
+      padding: 18px 40px;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: all 0.2s;
+      box-shadow: 0 0 30px rgba(0,180,166,0.3);
+      width: 100%;
+    }
+    .btn-cta:hover {
+      background: var(--teal-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 0 50px rgba(0,180,166,0.5);
+    }
+    .cta-urgency {
+      margin-top: 14px;
+      font-size: 13px;
+      color: #fc8181;
+      font-weight: 600;
+    }
+
+    /* RECALCULAR */
+    .btn-recalc {
+      display: block;
+      width: 100%;
+      margin-top: 16px;
+      padding: 14px;
+      border-radius: 8px;
+      border: 2px solid rgba(255,255,255,0.1);
+      background: transparent;
+      color: var(--gray);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.18s;
+      text-align: center;
+    }
+    .btn-recalc:hover { border-color: rgba(255,255,255,0.25); color: var(--white); }
+
+    /* FOOTER */
+    footer {
+      background: var(--dark2);
+      border-top: 1px solid rgba(255,255,255,0.05);
+      padding: 28px 24px;
+      text-align: center;
+    }
+    footer p { font-size: 13px; color: var(--gray); }
+    footer a { color: var(--teal); text-decoration: none; }
+    .footer-logo { font-size: 16px; font-weight: 800; margin-bottom: 6px; }
+    .footer-logo span { color: var(--teal); }
+
+    @media (max-width: 480px) {
+      .options-grid.cols-2 { grid-template-columns: 1fr 1fr; }
+      .options-grid.cols-3 { grid-template-columns: 1fr 1fr; }
+      .step-card { padding: 24px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Mais<span>Alunos</span> Marketing</div>
+</header>
+
+<div class="hero">
+  <div class="hero-badge">Calculadora Gratuita</div>
+  <h1>Descubra quanto dinheiro seu CT ou assessoria está <em>deixando na mesa</em> todo mês</h1>
+  <p>Responda 5 perguntas rápidas e veja o seu potencial de receita real.</p>
+</div>
+
+<div class="calc-wrap">
+
+  <!-- PROGRESS -->
+  <div class="progress-wrap">
+    <div class="progress-header">
+      <span class="progress-label">Seu diagnóstico</span>
+      <span class="progress-step" id="progressText">Passo 1 de 5</span>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill" style="width:20%"></div>
+    </div>
+  </div>
+
+  <!-- STEP 1 — TIPO DE NEGÓCIO -->
+  <div class="step-card active" id="step1">
+    <div class="step-num">Passo 1</div>
+    <div class="step-question">Qual é o seu tipo de negócio?</div>
+    <div class="step-hint">Isso ajuda a calcular o potencial do seu mercado.</div>
+    <div class="options-grid cols-2">
+      <div class="option-btn" onclick="selectOption(this,'tipo','ct')">
+        <div class="option-icon">🥋</div>
+        <div class="option-label">CT / Academia</div>
+        <div class="option-sub">Jiu-Jitsu, Judô, MMA</div>
+      </div>
+      <div class="option-btn" onclick="selectOption(this,'tipo','corrida')">
+        <div class="option-icon">🏃</div>
+        <div class="option-label">Assessoria Esportiva</div>
+        <div class="option-sub">Corrida, Triathlon, Ciclismo</div>
+      </div>
+    </div>
+    <div class="step-nav">
+      <button class="btn-next" id="btn1" onclick="goStep(2)" disabled>Próximo →</button>
+    </div>
+  </div>
+
+  <!-- STEP 2 — ALUNOS ATUAIS -->
+  <div class="step-card" id="step2">
+    <div class="step-num">Passo 2</div>
+    <div class="step-question">Quantos alunos ativos você tem hoje?</div>
+    <div class="step-hint">Conte apenas quem está pagando mensalmente.</div>
+    <div class="slider-wrap">
+      <div class="slider-value-display">
+        <div class="big-num" id="val2">40</div>
+        <div class="big-label">alunos ativos</div>
+      </div>
+      <input type="range" id="slider2" min="5" max="300" value="40" step="5"
+             oninput="updateSlider('slider2','val2',null)"/>
+      <div class="slider-minmax"><span>5</span><span>300+</span></div>
+    </div>
+    <div class="step-nav">
+      <button class="btn-back" onclick="goStep(1)">← Voltar</button>
+      <button class="btn-next" onclick="goStep(3)">Próximo →</button>
+    </div>
+  </div>
+
+  <!-- STEP 3 — TICKET MÉDIO -->
+  <div class="step-card" id="step3">
+    <div class="step-num">Passo 3</div>
+    <div class="step-question">Qual é o ticket médio mensal por aluno?</div>
+    <div class="step-hint">Valor que cada aluno paga todo mês.</div>
+    <div class="options-grid cols-2">
+      <div class="option-btn" onclick="selectOption(this,'ticket',100)">
+        <div class="option-icon">💰</div>
+        <div class="option-label">Até R$150</div>
+        <div class="option-sub">Ex: R$100–150/mês</div>
+      </div>
+      <div class="option-btn" onclick="selectOption(this,'ticket',200)">
+        <div class="option-icon">💰</div>
+        <div class="option-label">R$151 a R$250</div>
+        <div class="option-sub">Ex: R$200/mês</div>
+      </div>
+      <div class="option-btn" onclick="selectOption(this,'ticket',320)">
+        <div class="option-icon">💰</div>
+        <div class="option-label">R$251 a R$380</div>
+        <div class="option-sub">Ex: R$300/mês</div>
+      </div>
+      <div class="option-btn" onclick="selectOption(this,'ticket',450)">
+        <div class="option-icon">💰</div>
+        <div class="option-label">R$380 ou mais</div>
+        <div class="option-sub">Ex: R$400+/mês</div>
+      </div>
+    </div>
+    <div class="step-nav">
+      <button class="btn-back" onclick="goStep(2)">← Voltar</button>
+      <button class="btn-next" id="btn3" onclick="goStep(4)" disabled>Próximo →</button>
+    </div>
+  </div>
+
+  <!-- STEP 4 — META DE ALUNOS -->
+  <div class="step-card" id="step4">
+    <div class="step-num">Passo 4</div>
+    <div class="step-question">Quantos alunos você quer ter em 6 meses?</div>
+    <div class="step-hint">Coloque sua meta real — sem medo de ser ambicioso.</div>
+    <div class="slider-wrap">
+      <div class="slider-value-display">
+        <div class="big-num" id="val4">100</div>
+        <div class="big-label">alunos na meta</div>
+      </div>
+      <input type="range" id="slider4" min="20" max="500" value="100" step="10"
+             oninput="updateSlider('slider4','val4',null)"/>
+      <div class="slider-minmax"><span>20</span><span>500</span></div>
+    </div>
+    <div class="step-nav">
+      <button class="btn-back" onclick="goStep(3)">← Voltar</button>
+      <button class="btn-next" onclick="goStep(5)">Próximo →</button>
+    </div>
+  </div>
+
+  <!-- STEP 5 — TRÁFEGO ATUAL -->
+  <div class="step-card" id="step5">
+    <div class="step-num">Passo 5</div>
+    <div class="step-question">Como você capta alunos hoje?</div>
+    <div class="step-hint">Escolha a opção que mais se encaixa na sua realidade.</div>
+    <div class="options-grid">
+      <div class="option-btn" onclick="selectOption(this,'captacao','indicacao')">
+        <div class="option-icon">🗣️</div>
+        <div class="option-label">Só por indicação</div>
+        <div class="option-sub">Espero o boca a boca funcionar</div>
+      </div>
+      <div class="option-btn" onclick="selectOption(this,'captacao','organico')">
+        <div class="option-icon">📱</div>
+        <div class="option-label">Posto no Instagram</div>
+        <div class="option-sub">Conteúdo orgânico, mas sem tráfego pago</div>
+      </div>
+      <div class="option-btn" onclick="selectOption(this,'captacao','trafego')">
+        <div class="option-icon">🎯</div>
+        <div class="option-label">Uso tráfego pago</div>
+        <div class="option-sub">Já invisto em Meta Ads ou Google</div>
+      </div>
+    </div>
+    <div class="step-nav">
+      <button class="btn-back" onclick="goStep(4)">← Voltar</button>
+      <button class="btn-next" id="btn5" onclick="calcular()" disabled>Ver meu resultado →</button>
+    </div>
+  </div>
+
+  <!-- RESULTADO -->
+  <div id="resultado">
+    <div class="resultado-header">
+      <div class="emoji">📊</div>
+      <h2>Seu diagnóstico está pronto</h2>
+      <p>Veja o que os números dizem sobre o seu negócio</p>
+    </div>
+
+    <!-- SITUAÇÃO ATUAL -->
+    <div class="resultado-card">
+      <div class="resultado-section-title">Situação Atual</div>
+      <div class="resultado-rows">
+        <div class="resultado-row">
+          <span class="row-label">Alunos ativos hoje</span>
+          <span class="row-value" id="r_alunos_atual">—</span>
+        </div>
+        <div class="resultado-row">
+          <span class="row-label">Receita mensal atual</span>
+          <span class="row-value teal" id="r_receita_atual">—</span>
+        </div>
+        <div class="resultado-row">
+          <span class="row-label">Receita anual atual</span>
+          <span class="row-value" id="r_receita_anual_atual">—</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- O QUE VOCÊ ESTÁ PERDENDO -->
+    <div class="loss-box">
+      <div class="loss-label">💸 Receita que você está deixando de ganhar todo mês</div>
+      <div class="loss-value" id="r_perda_mensal">—</div>
+      <div class="loss-sub" id="r_perda_sub">comparado com sua meta de alunos</div>
+    </div>
+
+    <!-- META -->
+    <div class="resultado-card">
+      <div class="resultado-section-title">Com sua meta atingida</div>
+      <div class="resultado-rows">
+        <div class="resultado-row">
+          <span class="row-label">Meta de alunos</span>
+          <span class="row-value" id="r_alunos_meta">—</span>
+        </div>
+        <div class="resultado-row">
+          <span class="row-label">Receita mensal na meta</span>
+          <span class="row-value green" id="r_receita_meta">—</span>
+        </div>
+        <div class="resultado-row">
+          <span class="row-label">Receita anual na meta</span>
+          <span class="row-value green" id="r_receita_anual_meta">—</span>
+        </div>
+        <div class="resultado-row">
+          <span class="row-label">Novos alunos necessários</span>
+          <span class="row-value" id="r_novos_alunos">—</span>
+        </div>
+        <div class="resultado-row">
+          <span class="row-label">Custo estimado por matrícula*</span>
+          <span class="row-value teal">R$ 45 – R$ 90</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- POTENCIAL ANUAL -->
+    <div class="potential-box">
+      <div class="pot-label">🚀 Potencial de receita desbloqueado em 12 meses</div>
+      <div class="pot-value" id="r_potencial_anual">—</div>
+      <div class="pot-sub" id="r_potencial_sub">acima do que você fatura hoje</div>
+    </div>
+
+    <!-- INSIGHT DE CAPTAÇÃO -->
+    <div class="resultado-card">
+      <div class="resultado-section-title">Diagnóstico da Captação</div>
+      <div class="resultado-rows">
+        <div class="resultado-row" style="flex-direction:column; align-items:flex-start; gap:8px;">
+          <span class="row-label" id="r_captacao_label" style="font-size:15px; color:var(--white);"></span>
+          <span style="font-size:14px; color:var(--gray); line-height:1.6;" id="r_captacao_detalhe"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- RODAPÉ DO RESULTADO -->
+    <p style="font-size:12px; color:var(--gray); text-align:center; margin-bottom:20px;">
+      * Média baseada em campanhas no Meta Ads para o nicho esportivo no Brasil.
+    </p>
+
+    <!-- CTA -->
+    <div class="cta-box">
+      <h3>Quer transformar esse potencial em realidade?</h3>
+      <p>A gente tem uma reunião estratégica gratuita de 30 minutos onde mostramos exatamente o que fazer para atingir sua meta — baseado no que fizemos para o Art Dojo (de 28 para 200+ alunos).</p>
+      <a href="https://wa.me/5500000000000?text=Fiz+a+calculadora+e+quero+a+reuni%C3%A3o+estrat%C3%A9gica+gratuita" class="btn-cta" target="_blank">
+        QUERO MINHA REUNIÃO ESTRATÉGICA GRATUITA →
+      </a>
+      <p class="cta-urgency">⚠️ Apenas 5 vagas disponíveis este mês</p>
+    </div>
+
+    <button class="btn-recalc" onclick="recalcular()">↩ Recalcular com outros dados</button>
+  </div>
+  <!-- /resultado -->
+
+</div><!-- /calc-wrap -->
+
+<footer>
+  <div class="footer-logo">Mais<span>Alunos</span> Marketing</div>
+  <p>Especialistas em captação para assessorias esportivas e artes marciais</p>
+  <p style="margin-top:6px;"><a href="https://instagram.com/maisalunosmarketing">@maisalunosmarketing</a></p>
+</footer>
+
+<script>
+  // State
+  const state = {
+    tipo: null,
+    alunos: 40,
+    ticket: null,
+    meta: 100,
+    captacao: null,
+    currentStep: 1,
+    totalSteps: 5
+  };
+
+  function selectOption(el, field, value) {
+    const parent = el.parentElement;
+    parent.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+    el.classList.add('selected');
+    state[field] = value;
+
+    // Enable next button on current step
+    if (field === 'tipo') document.getElementById('btn1').disabled = false;
+    if (field === 'ticket') document.getElementById('btn3').disabled = false;
+    if (field === 'captacao') document.getElementById('btn5').disabled = false;
+  }
+
+  function updateSlider(sliderId, displayId, _unused) {
+    const val = parseInt(document.getElementById(sliderId).value);
+    document.getElementById(displayId).textContent = val;
+    if (sliderId === 'slider2') state.alunos = val;
+    if (sliderId === 'slider4') {
+      state.meta = val;
+      // Make sure meta > alunos
+      if (val <= state.alunos) {
+        document.getElementById(displayId).style.color = '#fc8181';
+      } else {
+        document.getElementById(displayId).style.color = 'var(--teal)';
+      }
+    }
+  }
+
+  function goStep(n) {
+    // Hide all
+    for (let i = 1; i <= 5; i++) {
+      document.getElementById('step' + i).classList.remove('active');
+    }
+    document.getElementById('resultado').classList.remove('active');
+    document.getElementById('resultado').style.display = 'none';
+
+    state.currentStep = n;
+    document.getElementById('step' + n).classList.add('active');
+
+    // Update progress
+    document.getElementById('progressText').textContent = `Passo ${n} de 5`;
+    document.getElementById('progressFill').style.width = (n / 5 * 100) + '%';
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function fmt(n) {
+    return 'R$ ' + n.toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+  }
+
+  function calcular() {
+    const alunos   = state.alunos;
+    const ticket   = state.ticket || 200;
+    const meta     = state.meta;
+    const captacao = state.captacao;
+
+    const receitaAtual      = alunos * ticket;
+    const receitaAnualAtual = receitaAtual * 12;
+    const receitaMeta       = meta * ticket;
+    const receitaAnualMeta  = receitaMeta * 12;
+    const novos             = Math.max(0, meta - alunos);
+    const perdaMensal       = Math.max(0, receitaMeta - receitaAtual);
+    const potencialAnual    = Math.max(0, receitaAnualMeta - receitaAnualAtual);
+
+    document.getElementById('r_alunos_atual').textContent      = alunos + ' alunos';
+    document.getElementById('r_receita_atual').textContent     = fmt(receitaAtual) + '/mês';
+    document.getElementById('r_receita_anual_atual').textContent = fmt(receitaAnualAtual) + '/ano';
+    document.getElementById('r_alunos_meta').textContent       = meta + ' alunos';
+    document.getElementById('r_receita_meta').textContent      = fmt(receitaMeta) + '/mês';
+    document.getElementById('r_receita_anual_meta').textContent = fmt(receitaAnualMeta) + '/ano';
+    document.getElementById('r_novos_alunos').textContent      = novos + ' alunos';
+    document.getElementById('r_perda_mensal').textContent      = fmt(perdaMensal) + '/mês';
+    document.getElementById('r_potencial_anual').textContent   = fmt(potencialAnual) + '/ano';
+
+    // Captação insight
+    const insights = {
+      indicacao: {
+        label: '🔴 Captação 100% por indicação — alto risco',
+        detalhe: 'Seu negócio depende de algo que você não controla. Quando as indicações param, as matrículas param. Sem um processo de captação ativo, atingir sua meta de ' + meta + ' alunos pode levar anos — ou nunca acontecer.'
+      },
+      organico: {
+        label: '🟡 Conteúdo orgânico — bom começo, mas incompleto',
+        detalhe: 'Você já entendeu que presença digital importa, mas só o orgânico tem alcance limitado. Para escalar de ' + alunos + ' para ' + meta + ' alunos você precisa de tráfego pago como acelerador. O conteúdo sozinho dificilmente vai te levar à meta.'
+      },
+      trafego: {
+        label: '🟢 Você já usa tráfego pago — vantagem real',
+        detalhe: 'Você está no caminho certo. Agora o que pode estar travando seu crescimento é a qualidade da segmentação, dos criativos ou do funil de conversão. Com a otimização certa, você pode chegar a ' + meta + ' alunos muito mais rápido.'
+      }
+    };
+
+    const ins = insights[captacao] || insights['indicacao'];
+    document.getElementById('r_captacao_label').textContent   = ins.label;
+    document.getElementById('r_captacao_detalhe').textContent = ins.detalhe;
+
+    // Hide steps, show result
+    for (let i = 1; i <= 5; i++) {
+      document.getElementById('step' + i).classList.remove('active');
+    }
+    document.getElementById('progressText').textContent = 'Resultado ✓';
+    document.getElementById('progressFill').style.width = '100%';
+
+    const res = document.getElementById('resultado');
+    res.style.display = 'block';
+    res.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function recalcular() {
+    state.tipo = null;
+    state.ticket = null;
+    state.captacao = null;
+    state.alunos = 40;
+    state.meta = 100;
+
+    document.getElementById('slider2').value = 40;
+    document.getElementById('val2').textContent = 40;
+    document.getElementById('slider4').value = 100;
+    document.getElementById('val4').textContent = 100;
+
+    document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+    document.getElementById('btn1').disabled = true;
+    document.getElementById('btn3').disabled = true;
+    document.getElementById('btn5').disabled = true;
+
+    document.getElementById('resultado').style.display = 'none';
+    document.getElementById('resultado').classList.remove('active');
+    goStep(1);
+  }
+</script>
+</body>
+</html>
