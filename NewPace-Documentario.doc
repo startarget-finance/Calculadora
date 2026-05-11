@@ -1,0 +1,921 @@
+<html xmlns:o="urn:schemas-microsoft-com:office:office"
+      xmlns:w="urn:schemas-microsoft-com:office:word"
+      xmlns="http://www.w3.org/TR/REC-html40">
+<head>
+<meta charset="UTF-8">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<title>Grupo Cheio — Documentário New Pace</title>
+<style>
+  body {
+    font-family: Calibri, Arial, sans-serif;
+    font-size: 11pt;
+    color: #1a1a1a;
+    margin: 2.5cm 3cm;
+    line-height: 1.5;
+  }
+
+  /* Capa */
+  .capa {
+    text-align: center;
+    page-break-after: always;
+    padding: 80px 0 60px;
+  }
+  .capa-tag {
+    font-size: 9pt;
+    font-weight: bold;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #FF6500;
+    margin-bottom: 32px;
+  }
+  .capa-title {
+    font-size: 52pt;
+    font-weight: 900;
+    color: #FF6500;
+    line-height: 1;
+    letter-spacing: -2px;
+    margin-bottom: 8px;
+  }
+  .capa-subtitle {
+    font-size: 18pt;
+    font-weight: bold;
+    color: #1a1a1a;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 24px;
+  }
+  .capa-tagline {
+    font-size: 12pt;
+    color: #555;
+    max-width: 500px;
+    margin: 0 auto 48px;
+    line-height: 1.6;
+    font-style: italic;
+  }
+  .capa-meta-grid {
+    border-top: 2px solid #FF6500;
+    border-bottom: 2px solid #FF6500;
+    padding: 24px 0;
+    margin: 32px auto;
+    max-width: 520px;
+  }
+  .capa-meta-grid table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .capa-meta-grid td {
+    text-align: center;
+    padding: 8px 16px;
+    border-right: 1px solid #ddd;
+  }
+  .capa-meta-grid td:last-child { border-right: none; }
+  .meta-num {
+    font-size: 28pt;
+    font-weight: 900;
+    color: #FF6500;
+    line-height: 1;
+    display: block;
+  }
+  .meta-lbl {
+    font-size: 8pt;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #888;
+    display: block;
+    margin-top: 4px;
+  }
+  .capa-collab {
+    font-size: 10pt;
+    color: #888;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 40px;
+  }
+
+  /* Headings */
+  h1 {
+    font-size: 22pt;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -0.5px;
+    color: #1a1a1a;
+    border-bottom: 3px solid #FF6500;
+    padding-bottom: 8px;
+    margin-top: 36px;
+    margin-bottom: 20px;
+    page-break-after: avoid;
+  }
+  h2 {
+    font-size: 14pt;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #FF6500;
+    margin-top: 28px;
+    margin-bottom: 10px;
+    page-break-after: avoid;
+  }
+  h3 {
+    font-size: 11pt;
+    font-weight: bold;
+    color: #1a1a1a;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 20px;
+    margin-bottom: 8px;
+  }
+
+  /* Section labels */
+  .sec-label {
+    font-size: 8pt;
+    font-weight: bold;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #FF6500;
+    margin-bottom: 6px;
+  }
+
+  p { margin: 0 0 10px; }
+
+  /* Destaque / quote */
+  .destaque {
+    background: #fff8f4;
+    border-left: 4px solid #FF6500;
+    padding: 14px 20px;
+    margin: 16px 0;
+    font-style: italic;
+    font-size: 11pt;
+    color: #333;
+    line-height: 1.6;
+  }
+
+  /* Box de métricas */
+  .metricas {
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-left: 4px solid #FF6500;
+    padding: 16px 20px;
+    margin: 16px 0;
+    font-family: Consolas, monospace;
+    font-size: 10pt;
+    line-height: 2;
+    color: #444;
+  }
+  .metricas .lbl { color: #FF6500; font-weight: bold; }
+
+  /* Tabelas */
+  table.doc-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0 24px;
+    font-size: 10pt;
+  }
+  table.doc-table th {
+    background: #FF6500;
+    color: #fff;
+    font-weight: bold;
+    padding: 10px 14px;
+    text-align: left;
+    font-size: 9pt;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  table.doc-table td {
+    padding: 9px 14px;
+    border-bottom: 1px solid #eee;
+    vertical-align: top;
+  }
+  table.doc-table tr:nth-child(even) td { background: #fafafa; }
+
+  /* Episódio header */
+  .ep-header {
+    background: #1a1a1a;
+    color: #fff;
+    padding: 16px 20px;
+    margin-top: 32px;
+    margin-bottom: 0;
+  }
+  .ep-header .ep-num {
+    font-size: 9pt;
+    font-weight: bold;
+    letter-spacing: 3px;
+    color: #FF6500;
+    text-transform: uppercase;
+  }
+  .ep-header .ep-title {
+    font-size: 18pt;
+    font-weight: 900;
+    text-transform: uppercase;
+    color: #fff;
+    letter-spacing: -0.5px;
+    margin: 4px 0;
+  }
+  .ep-header .ep-theme {
+    font-size: 10pt;
+    color: #aaa;
+  }
+  .ep-body {
+    border: 1px solid #ddd;
+    border-top: none;
+    padding: 20px 24px;
+    margin-bottom: 8px;
+  }
+
+  /* Cenas */
+  .cena {
+    border-bottom: 1px solid #f0f0f0;
+    padding: 14px 0;
+    display: table;
+    width: 100%;
+  }
+  .cena:last-child { border-bottom: none; }
+  .cena-time {
+    display: table-cell;
+    width: 110px;
+    font-size: 9pt;
+    font-weight: bold;
+    color: #FF6500;
+    vertical-align: top;
+    padding-top: 2px;
+  }
+  .cena-content { display: table-cell; vertical-align: top; }
+  .cena-name {
+    font-size: 10pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #1a1a1a;
+    margin-bottom: 4px;
+  }
+  .cena-text {
+    font-size: 10pt;
+    color: #555;
+    line-height: 1.6;
+    margin: 0;
+  }
+  .cena-quote {
+    font-style: italic;
+    color: #FF6500;
+    font-size: 10pt;
+    margin-top: 6px;
+    line-height: 1.5;
+  }
+
+  /* Personagens */
+  .personagem {
+    border: 1px solid #eee;
+    border-top: 3px solid #FF6500;
+    padding: 16px 20px;
+    margin-bottom: 12px;
+    page-break-inside: avoid;
+  }
+  .pers-role {
+    font-size: 8pt;
+    font-weight: bold;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #FF6500;
+    margin-bottom: 6px;
+  }
+  .pers-name {
+    font-size: 14pt;
+    font-weight: 900;
+    text-transform: uppercase;
+    color: #1a1a1a;
+    margin-bottom: 8px;
+  }
+  .pers-desc {
+    font-size: 10pt;
+    color: #555;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* Checklist */
+  .checklist { margin: 12px 0; }
+  .check-item {
+    padding: 6px 0 6px 24px;
+    font-size: 10pt;
+    color: #444;
+    border-bottom: 1px solid #f5f5f5;
+    position: relative;
+  }
+  .check-item::before {
+    content: "☐";
+    position: absolute;
+    left: 0;
+    color: #FF6500;
+    font-size: 12pt;
+  }
+
+  /* Arco narrativo */
+  .arco-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+  .arco-table td {
+    text-align: center;
+    padding: 16px 8px;
+    border: 1px solid #eee;
+    vertical-align: top;
+  }
+  .arco-ep {
+    font-size: 8pt;
+    font-weight: bold;
+    letter-spacing: 2px;
+    color: #FF6500;
+    text-transform: uppercase;
+  }
+  .arco-title {
+    font-size: 10pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #1a1a1a;
+    margin-top: 4px;
+  }
+  .arco-day {
+    font-size: 9pt;
+    color: #aaa;
+    margin-top: 4px;
+  }
+
+  /* Page break */
+  .pg-break { page-break-before: always; }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════
+     CAPA
+══════════════════════════════ -->
+<div class="capa">
+  <div class="capa-tag">Documentário · YouTube · 7 Episódios · 90 Dias</div>
+  <div class="capa-title">GRUPO CHEIO</div>
+  <div class="capa-subtitle">New Pace × Mais Alunos Marketing</div>
+  <div class="capa-tagline">
+    "18 anos crescendo por indicação. Agora, pela primeira vez, a New Pace entra no tráfego pago — e a gente vai documentar tudo."
+  </div>
+
+  <div class="capa-meta-grid">
+    <table>
+      <tr>
+        <td><span class="meta-num">80</span><span class="meta-lbl">Novos alunos</span></td>
+        <td><span class="meta-num">90</span><span class="meta-lbl">Dias</span></td>
+        <td><span class="meta-num">7</span><span class="meta-lbl">Episódios</span></td>
+        <td><span class="meta-num">18</span><span class="meta-lbl">Anos New Pace</span></td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="capa-collab">Uma produção Star Target × New Pace · Maio 2026</div>
+</div>
+
+
+<!-- ══════════════════════════════
+     CONCEITO
+══════════════════════════════ -->
+<div class="sec-label">O Conceito</div>
+<h1>O que é este documentário</h1>
+
+<p>Uma série documental no YouTube que acompanha em tempo real a transformação de uma das assessorias de corrida e triathlon mais experientes de Florianópolis — 18 anos no mercado — ao implementar pela primeira vez uma estratégia de tráfego pago para crescer.</p>
+
+<div class="destaque">
+  "Não é marketing disfarçado de conteúdo. É real. Números reais. Desafios reais. Pessoas reais."
+</div>
+
+<h2>Por que é diferente</h2>
+
+<table class="doc-table">
+  <tr><th>Pilar</th><th>O que significa na prática</th></tr>
+  <tr>
+    <td><strong>Números reais</strong></td>
+    <td>Custo por lead, taxa de conversão, matrículas, churn — tudo publicado ao vivo. Sem omissão de falhas.</td>
+  </tr>
+  <tr>
+    <td><strong>A aposta pública</strong></td>
+    <td>A meta de 80 alunos é declarada no Ep.1. Isso cria tensão real ao longo de toda a série.</td>
+  </tr>
+  <tr>
+    <td><strong>As pessoas</strong></td>
+    <td>Balta, Beatriz, Marcus, Renan, Elisa — cada um com sua história. O negócio é o cenário; as pessoas são o centro.</td>
+  </tr>
+  <tr>
+    <td><strong>O jogo duplo</strong></td>
+    <td>O documentário documenta a Mais Alunos provando que funciona. Se a New Pace chegar em 80 alunos, o documentário se torna o melhor case de vendas do segmento.</td>
+  </tr>
+</table>
+
+<h2>A meta</h2>
+
+<div class="metricas">
+  <span class="lbl">🎯 META DECLARADA:</span> 80 novos alunos em 90 dias<br>
+  <span class="lbl">📊 Alunos atuais:</span> [a definir no Ep.1]<br>
+  <span class="lbl">📥 Leads totais:</span> em andamento<br>
+  <span class="lbl">💰 Custo por lead:</span> em andamento<br>
+  <span class="lbl">✅ Matrículas:</span> em andamento<br>
+  <span class="lbl">⏱ Dias restantes:</span> 90 (a partir do Ep.1)
+</div>
+
+<div class="destaque">
+  "Será possível lotar um grupo de 18 anos sem perder o que o torna especial?"
+</div>
+
+
+<!-- ══════════════════════════════
+     PERSONAGENS
+══════════════════════════════ -->
+<div class="pg-break"></div>
+<div class="sec-label">A Equipe</div>
+<h1>Quem está nessa jornada</h1>
+
+<p>Seis personagens reais, cada um com um papel distinto na história. O documentário os acompanha ao longo dos 90 dias.</p>
+
+<div class="personagem">
+  <div class="pers-role">Fundador · Estratégia</div>
+  <div class="pers-name">Rodrigo Baltazar — "Balta"</div>
+  <p class="pers-desc">Fundou a New Pace há 18 anos. Construiu um negócio de excelência que chegou a 200 alunos antes da pandemia. Agora enfrenta o maior desafio da carreira: crescer sem perder a alma da assessoria. A tensão dele é o coração da série.</p>
+</div>
+
+<div class="personagem">
+  <div class="pers-role">Marketing · Triagem de Leads</div>
+  <div class="pers-name">Beatriz Ferrari</div>
+  <p class="pers-desc">Cuida do marketing orgânico, bastidores e uniformes. Hoje é a "porta de entrada" de todos os leads — faz a triagem e distribui para os treinadores. Com tráfego pago, o volume vai explodir. Ela sabe disso — e está de olho.</p>
+</div>
+
+<div class="personagem">
+  <div class="pers-role">Treinador · Financeiro · Tecnologia</div>
+  <div class="pers-name">Marcus</div>
+  <p class="pers-desc">Treinador e responsável pelo financeiro e pelo site. Voz da razão. Acompanha os números de perto e defende que crescimento precisa ser sustentável antes de ser rápido.</p>
+</div>
+
+<div class="personagem">
+  <div class="pers-role">Treinador · Sul da Ilha</div>
+  <div class="pers-name">Renan Holdschip</div>
+  <p class="pers-desc">Treinador focado no Sul da Ilha e Pedra Branca. Energético, acredita no crescimento. É quem vai encarar mais leads chegando — e quem mais vai mudar com o novo processo de vendas.</p>
+</div>
+
+<div class="personagem">
+  <div class="pers-role">Treinadora · Online · São Paulo</div>
+  <div class="pers-name">Elisa</div>
+  <p class="pers-desc">100% online, atende de São Paulo. Representa o potencial de escala nacional da New Pace. O mercado paulistano ainda não foi explorado — o documentário pode abrir essa porta.</p>
+</div>
+
+<div class="personagem">
+  <div class="pers-role">Agência · Tráfego Pago · Estratégia</div>
+  <div class="pers-name">Star Target — Ji + Bárbara</div>
+  <p class="pers-desc">Trouxeram a estratégia. São os arquitetos do funil, das campanhas no Meta Ads e do processo comercial. Têm 90 dias para provar que funciona — ao vivo, em câmera. A Mais Alunos Marketing em ação.</p>
+</div>
+
+
+<!-- ══════════════════════════════
+     ARCO NARRATIVO
+══════════════════════════════ -->
+<div class="pg-break"></div>
+<div class="sec-label">Narrativa</div>
+<h1>O arco dos 7 episódios</h1>
+
+<p>Cada episódio tem um tema e uma tensão próprios. Juntos, formam uma história de transformação em tempo real.</p>
+
+<table class="arco-table">
+  <tr>
+    <td><div class="arco-ep">EP. 01</div><div class="arco-title">Diagnóstico</div><div class="arco-day">Dia 0</div></td>
+    <td><div class="arco-ep">EP. 02</div><div class="arco-title">Construção</div><div class="arco-day">Dia 15</div></td>
+    <td><div class="arco-ep">EP. 03</div><div class="arco-title">1os Leads</div><div class="arco-day">Dia 30</div></td>
+    <td><div class="arco-ep">EP. 04</div><div class="arco-title">Pressão</div><div class="arco-day">Dia 45</div></td>
+    <td><div class="arco-ep">EP. 05</div><div class="arco-title">Virada</div><div class="arco-day">Dia 60</div></td>
+    <td><div class="arco-ep">EP. 06</div><div class="arco-title">Escala</div><div class="arco-day">Dia 75</div></td>
+    <td><div class="arco-ep">EP. 07</div><div class="arco-title">Resultado</div><div class="arco-day">Dia 90</div></td>
+  </tr>
+</table>
+
+
+<!-- ══════════════════════════════
+     EPISÓDIOS
+══════════════════════════════ -->
+<div class="pg-break"></div>
+<div class="sec-label">Os Episódios</div>
+<h1>7 Episódios — Estrutura Completa</h1>
+
+<!-- EP 1 -->
+<div class="ep-header">
+  <div class="ep-num">Episódio 01 · Dia 0 · 15–18 min</div>
+  <div class="ep-title">"O Diagnóstico"</div>
+  <div class="ep-theme">Apresentação, a história, a meta declarada ao vivo</div>
+</div>
+<div class="ep-body">
+  <div class="cena">
+    <div class="cena-time">0:00 – 1:30</div>
+    <div class="cena-content">
+      <div class="cena-name">Abertura impactante</div>
+      <p class="cena-text">Balta treinando alunos num parque em Florianópolis. Voz em off: "18 anos. Centenas de alunos. Crescimento só por indicação. Isso vai mudar — e a gente vai mostrar tudo."</p>
+    </div>
+  </div>
+  <div class="cena">
+    <div class="cena-time">1:30 – 5:00</div>
+    <div class="cena-content">
+      <div class="cena-name">A história da New Pace</div>
+      <p class="cena-text">Balta conta como fundou a assessoria. O crescimento até 200 alunos antes da pandemia. Como reorganizou. O que diferencia: o atendimento humanizado, a presença real do treinador.</p>
+    </div>
+  </div>
+  <div class="cena">
+    <div class="cena-time">5:00 – 9:00</div>
+    <div class="cena-content">
+      <div class="cena-name">O diagnóstico ao vivo</div>
+      <p class="cena-text">Reunião com Star Target registrada em câmera. As 3 perguntas: quantos alunos, de onde vêm, qual a meta. Revelação dos números atuais com total transparência.</p>
+      <p class="cena-quote">"A meta declarada: 80 novos alunos em 90 dias."</p>
+    </div>
+  </div>
+  <div class="cena">
+    <div class="cena-time">9:00 – 12:00</div>
+    <div class="cena-content">
+      <div class="cena-name">A tensão humana</div>
+      <p class="cena-text">Balta fala sobre o medo real de crescer. Beatriz sobre o volume que vai chegar. Marcus: "Vamos testar e ver."</p>
+      <p class="cena-quote">"Crescer muito rápido pode destruir o que a gente construiu." — Balta</p>
+    </div>
+  </div>
+  <div class="cena">
+    <div class="cena-time">12:00 – 15:00</div>
+    <div class="cena-content">
+      <div class="cena-name">O plano</div>
+      <p class="cena-text">Star Target apresenta a estratégia: tráfego pago + CRM + IA de triagem + padronização comercial. Data de início das campanhas. Teaser do próximo episódio.</p>
+    </div>
+  </div>
+  <div class="metricas" style="margin-top:16px;">
+    <span class="lbl">🎯 META:</span> 80 alunos em 90 dias &nbsp;|&nbsp;
+    <span class="lbl">📊 Alunos atuais:</span> [a definir] &nbsp;|&nbsp;
+    <span class="lbl">⏱ Dias restantes:</span> 90
+  </div>
+</div>
+
+<!-- EP 2 -->
+<div class="ep-header">
+  <div class="ep-num">Episódio 02 · Dia 15 · 15–18 min</div>
+  <div class="ep-title">"A Construção"</div>
+  <div class="ep-theme">Montando o funil, o CRM, a IA e o processo de vendas</div>
+</div>
+<div class="ep-body">
+  <div class="cena">
+    <div class="cena-time">0:00 – 1:00</div>
+    <div class="cena-content">
+      <div class="cena-name">Recap + gancho</div>
+      <p class="cena-text">"Semana passada a meta foi declarada. Agora começa a construção." Flashback rápido do Ep.1.</p>
+    </div>
+  </div>
+  <div class="cena">
+    <div class="cena-time">1:00 – 6:00</div>
+    <div class="cena-content">
+      <div class="cena-name">Construindo o funil</div>
+      <p class="cena-text">Star Target configurando o Gerenciador de Anúncios ao vivo. Criação dos primeiros criativos com a New Pace. Beatriz gravando o FAQ para os destaques do Instagram.</p>
+    </div>
+  </div>
+  <div class="cena">
+    <div class="cena-time">6:00 – 9:00</div>
+    <div class="cena-content">
+      <div class="cena-name">O CRM</div>
+      <p class="cena-text">Decisão de qual CRM usar — conversa real entre a equipe. Marcus configurando. Mapeamento do funil: lead → agendamento → experimental → matrícula.</p>
+    </div>
+  </div>
+  <div class="cena">
+    <div class="cena-time">9:00 – 12:00</div>
+    <div class="cena-content">
+      <div class="cena-name">A IA de triagem</div>
+      <p class="cena-text">Configuração do chatbot para WhatsApp. Teste ao vivo: o que acontece quando alguém manda mensagem agora? Processo antigo vs. processo novo.</p>
+    </div>
+  </div>
+  <div class="cena">
+    <div class="cena-time">12:00 – 15:00</div>
+    <div class="cena-content">
+      <div class="cena-name">Treinamento de vendas</div>
+      <p class="cena-text">Treinadores fazendo roleplay com o novo script de vendas. Renan tentando falar o preço sem travar.</p>
+      <p class="cena-quote">"A gente nunca precisou disso. Agora precisa." — Balta</p>
+    </div>
+  </div>
+</div>
+
+<!-- EP 3 -->
+<div class="ep-header">
+  <div class="ep-num">Episódio 03 · Dia 30 · 15–20 min</div>
+  <div class="ep-title">"Os Primeiros Leads"</div>
+  <div class="ep-theme">Campanhas no ar. A realidade bate. Primeiros dados reais.</div>
+</div>
+<div class="ep-body">
+  <div class="cena">
+    <div class="cena-time">0:00 – 2:00</div>
+    <div class="cena-content">
+      <div class="cena-name">Ao vivo — campanha ativada</div>
+      <p class="cena-text">Tela do Gerenciador sendo ativada. Beatriz aguardando o primeiro lead chegar. O momento acontece ao vivo.</p>
+      <p class="cena-quote">"A gente está ao vivo."</p>
+    </div>
+  </div>
+  <div class="cena">
+    <div class="cena-time">2:00 – 6:00</div>
+    <div class="cena-content">
+      <div class="cena-name">Os primeiros dados</div>
+      <p class="cena-text">Primeiras horas: impressões, cliques, primeiros leads no WhatsApp. Reação real da equipe. Primeiro erro ou ajuste necessário — documentado sem corte.</p>
+    </div>
+  </div>
+  <div class="cena">
+    <div class="cena-time">6:00 – 10:00</div>
+    <div class="cena-content">
+      <div class="cena-name">A jornada de um lead</div>
+      <p class="cena-text">Câmera acompanha um lead desde o clique no anúncio até o treino experimental: WhatsApp → triagem pela IA → contato humano → agendamento → chegou no treino.</p>
+    </div>
+  </div>
+  <div class="cena">
+    <div class="cena-time">10:00 – 15:00</div>
+    <div class="cena-content">
+      <div class="cena-name">Relatório da 1ª semana</div>
+      <p class="cena-text">Reunião ao vivo com Star Target. Custo por lead real. Taxa de resposta ao primeiro contato. Agendamentos e matrículas. O que não foi como esperado.</p>
+    </div>
+  </div>
+  <div class="metricas" style="margin-top:16px;">
+    <span class="lbl">📥 Leads (1ª semana):</span> [dados reais] &nbsp;|&nbsp;
+    <span class="lbl">💰 Custo por lead:</span> R$ [dados reais] &nbsp;|&nbsp;
+    <span class="lbl">✅ Matrículas:</span> [dados reais]
+  </div>
+</div>
+
+<!-- EP 4 -->
+<div class="ep-header">
+  <div class="ep-num">Episódio 04 · Dia 45 · 15–20 min</div>
+  <div class="ep-title">"A Pressão"</div>
+  <div class="ep-theme">Metade do caminho. Volume chegando. Algo vai errar.</div>
+</div>
+<div class="ep-body">
+  <div class="cena">
+    <div class="cena-time">0:00 – 1:30</div>
+    <div class="cena-content">
+      <div class="cena-name">Metade do caminho</div>
+      <p class="cena-text">"45 dias. Estamos na metade. A meta é 80. Estamos em [X]. O que está acontecendo?" — dados comparativos com o esperado.</p>
+    </div>
+  </div>
+  <div class="cena">
+    <div class="cena-time">1:30 – 6:00</div>
+    <div class="cena-content">
+      <div class="cena-name">O volume e o caos real</div>
+      <p class="cena-text">Beatriz gerenciando mais leads do que antes. A IA respondendo de madrugada. Algum lead que quase se perdeu no processo — documentado sem edição.</p>
+    </div>
+  </div>
+  <div class="cena">
+    <div class="cena-time">6:00 – 9:00</div>
+    <div class="cena-content">
+      <div class="cena-name">O follow-up ao vivo</div>
+      <p class="cena-text">Um lead que foi para o experimental mas não fechou. Renan fazendo o follow-up com câmera presente (com permissão). Fechou ou não fechou — o momento é mostrado.</p>
+    </div>
+  </div>
+  <div class="cena">
+    <div class="cena-time">9:00 – 12:00</div>
+    <div class="cena-content">
+      <div class="cena-name">Conversas difíceis</div>
+      <p class="cena-text">Marcus: "O custo por lead está mais alto do que projetado." Star Target ajustando as campanhas ao vivo.</p>
+      <p class="cena-quote">"Estamos comprometidos. Mas precisamos ajustar." — Balta</p>
+    </div>
+  </div>
+  <div class="cena">
+    <div class="cena-time">12:00 – fim</div>
+    <div class="cena-content">
+      <div class="cena-name">A correção de rota</div>
+      <p class="cena-text">O que foi ajustado e por quê. Novo direcionamento para a segunda metade. Dados atualizados com honestidade total.</p>
+    </div>
+  </div>
+</div>
+
+<!-- EP 5 -->
+<div class="ep-header">
+  <div class="ep-num">Episódio 05 · Dia 60 · 15–20 min</div>
+  <div class="ep-title">"A Virada"</div>
+  <div class="ep-theme">Um momento muda o jogo. O ponto de inflexão da série.</div>
+</div>
+<div class="ep-body">
+  <div class="cena">
+    <div class="cena-time">0:00 – 3:00</div>
+    <div class="cena-content">
+      <div class="cena-name">Setup da virada</div>
+      <p class="cena-text">Contexto do que mudou após os ajustes do Ep.4. O que foi diferente nesse período.</p>
+    </div>
+  </div>
+  <div class="cena">
+    <div class="cena-time">3:00 – 9:00</div>
+    <div class="cena-content">
+      <div class="cena-name">O momento decisivo</div>
+      <p class="cena-text">Pode ser um evento de corrida com dezenas de leads chegando. Pode ser a semana com menor custo por lead. Pode ser o depoimento de um aluno que entrou pelo anúncio. O que a realidade trouxer — vai para a câmera.</p>
+    </div>
+  </div>
+  <div class="cena">
+    <div class="cena-time">9:00 – 13:00</div>
+    <div class="cena-content">
+      <div class="cena-name">O impacto humano</div>
+      <p class="cena-text">Balta refletindo sobre o que mudou. Depoimento de um aluno novo que veio pelo anúncio.</p>
+      <p class="cena-quote">"Esse mês foi diferente. A gente sentiu." — Balta</p>
+    </div>
+  </div>
+  <div class="cena">
+    <div class="cena-time">13:00 – fim</div>
+    <div class="cena-content">
+      <div class="cena-name">A lição da virada</div>
+      <p class="cena-text">Qual ajuste específico gerou a mudança. Lição concreta e replicável. O que vem no Ep.6.</p>
+    </div>
+  </div>
+</div>
+
+<!-- EP 6 -->
+<div class="ep-header">
+  <div class="ep-num">Episódio 06 · Dia 75 · 15–18 min</div>
+  <div class="ep-title">"A Escala"</div>
+  <div class="ep-theme">O que funciona está sendo amplificado. A máquina rodando.</div>
+</div>
+<div class="ep-body">
+  <div class="cena">
+    <div class="cena-time">0:00 – 2:00</div>
+    <div class="cena-content">
+      <div class="cena-name">Retrospecto da jornada</div>
+      <p class="cena-text">"75 dias. Aqui está tudo o que aconteceu." Montagem rápida dos 5 episódios anteriores com os números evoluindo em tela.</p>
+    </div>
+  </div>
+  <div class="cena">
+    <div class="cena-time">2:00 – 7:00</div>
+    <div class="cena-content">
+      <div class="cena-name">A máquina funcionando</div>
+      <p class="cena-text">CRM com leads em todas as etapas. Reels que geraram leads orgânicos além do tráfego pago. Treinadores confiantes no processo de vendas.</p>
+    </div>
+  </div>
+  <div class="cena">
+    <div class="cena-time">7:00 – 10:00</div>
+    <div class="cena-content">
+      <div class="cena-name">O novo desafio: capacidade</div>
+      <p class="cena-text">Com mais alunos chegando, o que precisa mudar na operação? Qual o limite real de cada treinador? A decisão: expandir equipe ou aumentar preços?</p>
+    </div>
+  </div>
+  <div class="cena">
+    <div class="cena-time">10:00 – fim</div>
+    <div class="cena-content">
+      <div class="cena-name">Projeção para o final</div>
+      <p class="cena-text">Quantos alunos faltam para a meta. O que está planejado para os últimos 15 dias. Star Target projeta o resultado final.</p>
+    </div>
+  </div>
+</div>
+
+<!-- EP 7 -->
+<div class="ep-header">
+  <div class="ep-num">Episódio 07 · Dia 90 · 18–20 min</div>
+  <div class="ep-title">"O Resultado"</div>
+  <div class="ep-theme">O momento da verdade. A meta foi batida?</div>
+</div>
+<div class="ep-body">
+  <div class="cena">
+    <div class="cena-time">0:00 – 2:00</div>
+    <div class="cena-content">
+      <div class="cena-name">A abertura final</div>
+      <p class="cena-text">"90 dias atrás, a New Pace declarou uma meta impossível. Hoje a gente abre os números." Flashback do Ep.1: Balta declarando a meta de 80 alunos.</p>
+    </div>
+  </div>
+  <div class="cena">
+    <div class="cena-time">2:00 – 6:00</div>
+    <div class="cena-content">
+      <div class="cena-name">A revelação ao vivo</div>
+      <p class="cena-text">Tela com os dados finais. Total de leads. Custo por lead. Total de experimentais. Total de matrículas. Comparativo com a meta de 80. O número aparece.</p>
+    </div>
+  </div>
+  <div class="cena">
+    <div class="cena-time">6:00 – 11:00</div>
+    <div class="cena-content">
+      <div class="cena-name">As histórias dos alunos</div>
+      <p class="cena-text">Depoimentos de 2–3 alunos que entraram pelo tráfego pago. "O que você não teria feito se não fosse o anúncio?" Balta acompanhando um aluno novo no treino.</p>
+    </div>
+  </div>
+  <div class="cena">
+    <div class="cena-time">11:00 – 14:00</div>
+    <div class="cena-content">
+      <div class="cena-name">O aprendizado real</div>
+      <p class="cena-text">O que funcionou. O que não funcionou. O que a New Pace vai mudar para sempre. A pergunta respondida: "Valeu a pena manter o humanizado?"</p>
+    </div>
+  </div>
+  <div class="cena">
+    <div class="cena-time">14:00 – fim</div>
+    <div class="cena-content">
+      <div class="cena-name">O próximo passo</div>
+      <p class="cena-text">A New Pace anuncia o que vem depois. Star Target apresenta a continuação. CTA: "Se você tem uma assessoria e quer esse resultado, fala com a Mais Alunos."</p>
+    </div>
+  </div>
+  <div class="metricas" style="margin-top:16px;">
+    <span class="lbl">🎯 META:</span> 80 alunos em 90 dias<br>
+    <span class="lbl">📊 Resultado final:</span> [dados reais do dia]<br>
+    <span class="lbl">📥 Total de leads:</span> [dados reais]<br>
+    <span class="lbl">💰 Custo médio por lead:</span> R$ [dados reais]<br>
+    <span class="lbl">📅 Experimentais realizados:</span> [dados reais]<br>
+    <span class="lbl">✅ Matrículas fechadas:</span> [dados reais]<br>
+    <span class="lbl">💸 Receita recorrente nova:</span> R$ [dados reais]/mês
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════
+     PRODUÇÃO
+══════════════════════════════ -->
+<div class="pg-break"></div>
+<div class="sec-label">Produção</div>
+<h1>Guia de Gravação</h1>
+
+<h2>Equipamentos recomendados</h2>
+<table class="doc-table">
+  <tr><th>Item</th><th>Recomendação</th><th>Observação</th></tr>
+  <tr><td><strong>Câmera</strong></td><td>iPhone recente ou Samsung / Sony mirrorless</td><td>Com estabilizador (gimbal)</td></tr>
+  <tr><td><strong>Áudio</strong></td><td>Rode Wireless GO II</td><td>Item mais importante — sem áudio ruim</td></tr>
+  <tr><td><strong>Luz</strong></td><td>Anel portátil LED</td><td>Para entrevistas em ambiente fechado</td></tr>
+  <tr><td><strong>Suporte</strong></td><td>Tripé + grip flexível</td><td>Para variar ângulos em campo</td></tr>
+</table>
+
+<h2>Tom e estilo</h2>
+<table class="doc-table">
+  <tr><th>Princípio</th><th>Na prática</th></tr>
+  <tr><td><strong>Naturalista</strong></td><td>Câmera solta, não precisa ser perfeito. Evitar estética de publicidade.</td></tr>
+  <tr><td><strong>Corte rápido</strong></td><td>Sem silêncios longos nas entrevistas. Ritmo dinâmico.</td></tr>
+  <tr><td><strong>Legendas</strong></td><td>Obrigatório em todos os vídeos — 85% dos brasileiros assistem sem som.</td></tr>
+  <tr><td><strong>Dados em tela</strong></td><td>Sempre que falar de números, colocar em tela.</td></tr>
+  <tr><td><strong>Sem filtros</strong></td><td>Não esconder os problemas. A autenticidade é o diferencial.</td></tr>
+</table>
+
+<h2>Checklist de cenas por episódio</h2>
+<div class="checklist">
+  <div class="check-item">Entrevista com Balta (fora do treino, olhando para câmera)</div>
+  <div class="check-item">B-roll do treino em campo (running ou triathlon em Floripa)</div>
+  <div class="check-item">Tela do Gerenciador de Anúncios com dados reais</div>
+  <div class="check-item">Tela do WhatsApp com leads chegando (blur nos nomes)</div>
+  <div class="check-item">Atualização do quadro de métricas ao fim do episódio</div>
+  <div class="check-item">Pelo menos um momento espontâneo não planejado</div>
+  <div class="check-item">Teaser do próximo episódio</div>
+</div>
+
+
+<!-- ══════════════════════════════
+     CALENDÁRIO
+══════════════════════════════ -->
+<div class="pg-break"></div>
+<div class="sec-label">Calendário</div>
+<h1>Cronograma de Gravações</h1>
+
+<table class="doc-table">
+  <tr>
+    <th>Episódio</th>
+    <th>Título</th>
+    <th>Data sugerida</th>
+    <th>Dia da jornada</th>
+    <th>O que acontece antes</th>
+  </tr>
+  <tr>
+    <td><strong>Ep. 01</strong></td>
+    <td>O Diagnóstico</td>
+    <td>1ª quinzena Mai/2026</td>
+    <td>Dia 0</td>
+    <td>Reunião de diagnóstico (já realizada)</td>
+  </tr>
+  <tr>
+    <td><strong>Ep. 02</strong></td>
+    <td>A Construção</td>
+    <td>2ª quinzena Mai/2026</td>
+    <td>Dia 15</td>
+    <td>Montagem do funil, CRM e IA</td>
+  </tr>
+  <tr>
+    <td><strong>Ep. 03</strong></td>
+    <td>Os Primeiros Leads</td>
+    <td>1ª quinzena Jun/2026</td>
+    <td>Dia 30</td>
+    <td>Campanhas no ar, primeiros leads</td>
+  </tr>
+  <tr>
+    <td><strong>Ep. 04</strong></td>
+    <td>A Pressão</td>
+    <td>2ª quinzena Jun/2026</td>
+    <td>Dia 45</td>
+    <td>45 dias de dados reais acumulados</td>
+  </tr>
+  <tr>
+    <td><strong>Ep. 05</strong></td>
+    <td>A Virada</td>
+    <td>1ª quinzena Jul/2026</td>
+    <td>Dia 60</td>
+    <td>Evento de corrida ou ponto de inflexão</td>
+  </tr>
+  <tr>
+    <td><strong>Ep. 06</strong></td>
+    <td>A Escala</td>
+    <td>2ª quinzena Jul/2026</td>
+    <td>Dia 75</td>
+    <td>75 dias de otimização e escala</td>
+  </tr>
+  <tr>
+    <td><strong>Ep. 07</strong></td>
+    <td>O Resultado</td>
+    <td>1ª quinzena Ago/2026</td>
+    <td>Dia 90</td>
+    <td>Fechamento dos 90 dias — revelação final</td>
+  </tr>
+</table>
+
+<br><br>
+<div style="text-align:center; color:#aaa; font-size:9pt; border-top:1px solid #eee; padding-top:20px; margin-top:40px;">
+  Mais Alunos Marketing · Documentário "Grupo Cheio" · New Pace × Star Target · Versão 1.0 · Maio 2026
+</div>
+
+</body>
+</html>
