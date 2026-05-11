@@ -1,0 +1,1752 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grupo Cheio — Documentário New Pace × Mais Alunos</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --orange: #FF6500;
+  --orange-dark: #CC5000;
+  --orange-dim: rgba(255,101,0,0.15);
+  --black: #000000;
+  --gray-dark: #0a0a0a;
+  --gray-mid: #111111;
+  --gray-line: rgba(255,255,255,0.07);
+  --white: #ffffff;
+  --white-dim: rgba(255,255,255,0.6);
+  --white-faint: rgba(255,255,255,0.08);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: var(--black);
+  color: var(--white);
+  overflow-x: hidden;
+}
+
+/* ─── NAV ─── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 60px;
+  background: rgba(0,0,0,0.94);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255,101,0,0.12);
+}
+
+.nav-logo {
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--orange);
+}
+
+.nav-links {
+  display: flex;
+  gap: 36px;
+  list-style: none;
+}
+
+.nav-links a {
+  color: var(--white-dim);
+  text-decoration: none;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover { color: var(--orange); }
+
+.nav-tag {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--orange);
+  border: 1px solid rgba(255,101,0,0.4);
+  padding: 6px 16px;
+  border-radius: 2px;
+}
+
+/* ─── HERO ─── */
+#hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 140px 60px 100px;
+  position: relative;
+  overflow: hidden;
+  background: #000;
+}
+
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(0deg, transparent, transparent 79px, rgba(255,101,0,0.03) 80px),
+    repeating-linear-gradient(90deg, transparent, transparent 79px, rgba(255,101,0,0.03) 80px);
+  z-index: 0;
+}
+
+.hero-glow {
+  position: absolute;
+  top: -300px;
+  left: -200px;
+  width: 900px;
+  height: 900px;
+  background: radial-gradient(circle, rgba(255,101,0,0.09) 0%, transparent 65%);
+  z-index: 0;
+}
+
+.hero-glow-right {
+  position: absolute;
+  bottom: -200px;
+  right: -100px;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(255,101,0,0.05) 0%, transparent 65%);
+  z-index: 0;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 1000px;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255,101,0,0.1);
+  border: 1px solid rgba(255,101,0,0.35);
+  color: var(--orange);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 9px 20px;
+  border-radius: 2px;
+  margin-bottom: 40px;
+}
+
+.hero-badge-dot {
+  width: 7px; height: 7px;
+  background: var(--orange);
+  border-radius: 50%;
+  animation: blink 2s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.2; }
+}
+
+.hero-eyebrow {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--white-dim);
+  margin-bottom: 20px;
+}
+
+.hero-title {
+  font-size: clamp(64px, 10vw, 130px);
+  font-weight: 900;
+  line-height: 0.9;
+  text-transform: uppercase;
+  letter-spacing: -3px;
+  margin-bottom: 36px;
+}
+
+.hero-title .orange { color: var(--orange); }
+.hero-title .outline {
+  -webkit-text-stroke: 2px rgba(255,255,255,0.2);
+  color: transparent;
+}
+
+.hero-subtitle {
+  font-size: 18px;
+  color: var(--white-dim);
+  max-width: 600px;
+  line-height: 1.7;
+  margin-bottom: 60px;
+  font-weight: 400;
+}
+
+.hero-meta {
+  display: flex;
+  gap: 48px;
+  padding-top: 48px;
+  border-top: 1px solid var(--gray-line);
+}
+
+.hero-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.hero-meta-label {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--orange);
+}
+
+.hero-meta-value {
+  font-size: 28px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.hero-meta-sub {
+  font-size: 12px;
+  color: var(--white-dim);
+  font-weight: 400;
+}
+
+/* ─── SECTIONS ─── */
+section { padding: 120px 60px; }
+
+.section-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 20px;
+}
+
+.section-badge::before {
+  content: '';
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--orange);
+}
+
+.section-title {
+  font-size: clamp(36px, 5vw, 60px);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+  line-height: 1;
+  margin-bottom: 24px;
+}
+
+.section-lead {
+  font-size: 18px;
+  color: var(--white-dim);
+  max-width: 640px;
+  line-height: 1.7;
+  margin-bottom: 72px;
+}
+
+/* ─── CONCEITO ─── */
+#conceito {
+  background: var(--gray-dark);
+  border-top: 1px solid var(--gray-line);
+  border-bottom: 1px solid var(--gray-line);
+}
+
+.conceito-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  margin-top: 64px;
+}
+
+.conceito-item {
+  background: var(--black);
+  padding: 48px;
+  border: 1px solid var(--gray-line);
+  transition: border-color 0.3s;
+}
+
+.conceito-item:hover { border-color: rgba(255,101,0,0.3); }
+
+.conceito-num {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  color: var(--orange);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.conceito-item h3 {
+  font-size: 22px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.5px;
+  margin-bottom: 16px;
+}
+
+.conceito-item p {
+  font-size: 15px;
+  color: var(--white-dim);
+  line-height: 1.7;
+}
+
+.conceito-item blockquote {
+  font-size: 16px;
+  font-style: italic;
+  color: var(--orange);
+  border-left: 3px solid var(--orange);
+  padding-left: 20px;
+  margin-top: 20px;
+  line-height: 1.6;
+}
+
+/* ─── META ─── */
+#meta {
+  text-align: center;
+  background: var(--black);
+  position: relative;
+  overflow: hidden;
+}
+
+.meta-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 800px;
+  height: 400px;
+  background: radial-gradient(ellipse, rgba(255,101,0,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.meta-number {
+  font-size: clamp(100px, 20vw, 200px);
+  font-weight: 900;
+  line-height: 1;
+  color: var(--orange);
+  letter-spacing: -8px;
+  position: relative;
+  z-index: 1;
+}
+
+.meta-label {
+  font-size: clamp(20px, 3vw, 36px);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  color: var(--white);
+  margin-bottom: 24px;
+  position: relative;
+  z-index: 1;
+}
+
+.meta-sub {
+  font-size: 16px;
+  color: var(--white-dim);
+  max-width: 480px;
+  margin: 0 auto;
+  line-height: 1.7;
+  position: relative;
+  z-index: 1;
+}
+
+.meta-tracker {
+  display: flex;
+  justify-content: center;
+  gap: 0;
+  margin-top: 72px;
+  border: 1px solid var(--gray-line);
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  z-index: 1;
+}
+
+.tracker-item {
+  flex: 1;
+  padding: 36px 24px;
+  border-right: 1px solid var(--gray-line);
+  text-align: center;
+}
+
+.tracker-item:last-child { border-right: none; }
+
+.tracker-label {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 12px;
+}
+
+.tracker-val {
+  font-size: 32px;
+  font-weight: 900;
+  line-height: 1;
+  color: var(--white);
+}
+
+.tracker-val.pending { color: rgba(255,255,255,0.2); }
+
+.tracker-sub {
+  font-size: 11px;
+  color: var(--white-dim);
+  margin-top: 6px;
+}
+
+/* ─── PERSONAGENS ─── */
+#personagens {
+  background: var(--gray-dark);
+  border-top: 1px solid var(--gray-line);
+}
+
+.cast-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  margin-top: 64px;
+}
+
+.cast-card {
+  background: var(--black);
+  padding: 48px 40px;
+  border: 1px solid var(--gray-line);
+  transition: border-color 0.3s, transform 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.cast-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--orange);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s;
+}
+
+.cast-card:hover::before { transform: scaleX(1); }
+.cast-card:hover { border-color: rgba(255,101,0,0.25); }
+
+.cast-role {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 14px;
+}
+
+.cast-name {
+  font-size: 22px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.5px;
+  margin-bottom: 16px;
+  line-height: 1.1;
+}
+
+.cast-desc {
+  font-size: 14px;
+  color: var(--white-dim);
+  line-height: 1.7;
+}
+
+.cast-card.star-target {
+  grid-column: span 3;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 48px;
+  align-items: center;
+}
+
+.cast-star-tag {
+  font-size: 48px;
+  font-weight: 900;
+  color: var(--orange);
+  text-transform: uppercase;
+  letter-spacing: -2px;
+  line-height: 1;
+}
+
+/* ─── ARCO ─── */
+#arco {
+  background: var(--black);
+}
+
+.arco-line {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin: 64px 0 80px;
+  position: relative;
+}
+
+.arco-line::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--orange), transparent);
+  z-index: 0;
+  transform: translateY(-50%);
+}
+
+.arco-node {
+  flex: 1;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.arco-dot {
+  width: 16px;
+  height: 16px;
+  background: var(--orange);
+  border-radius: 50%;
+  margin: 0 auto 12px;
+  border: 3px solid var(--black);
+  box-shadow: 0 0 0 2px var(--orange);
+}
+
+.arco-ep {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: var(--orange);
+  text-transform: uppercase;
+}
+
+.arco-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--white);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 4px;
+}
+
+.arco-tension {
+  background: rgba(255,101,0,0.06);
+  border: 1px solid rgba(255,101,0,0.2);
+  border-left: 4px solid var(--orange);
+  padding: 28px 36px;
+  margin-top: 0;
+}
+
+.arco-tension p {
+  font-size: 17px;
+  font-style: italic;
+  color: var(--white);
+  line-height: 1.6;
+}
+
+/* ─── EPISÓDIOS ─── */
+#episodios {
+  background: var(--gray-dark);
+  border-top: 1px solid var(--gray-line);
+}
+
+.ep-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 64px;
+}
+
+.ep-card {
+  background: var(--black);
+  border: 1px solid var(--gray-line);
+  overflow: hidden;
+  transition: border-color 0.3s;
+}
+
+.ep-card:hover { border-color: rgba(255,101,0,0.3); }
+
+.ep-header {
+  display: grid;
+  grid-template-columns: 100px 1fr auto;
+  align-items: center;
+  gap: 40px;
+  padding: 40px 48px;
+  cursor: pointer;
+}
+
+.ep-num {
+  font-size: 52px;
+  font-weight: 900;
+  color: rgba(255,101,0,0.25);
+  line-height: 1;
+  letter-spacing: -2px;
+}
+
+.ep-info {}
+
+.ep-day {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  color: var(--orange);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.ep-name {
+  font-size: 28px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.5px;
+  line-height: 1.1;
+}
+
+.ep-theme {
+  font-size: 14px;
+  color: var(--white-dim);
+  margin-top: 8px;
+}
+
+.ep-dur {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--white-dim);
+  letter-spacing: 1px;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.ep-dur span {
+  display: block;
+  font-size: 11px;
+  color: rgba(255,255,255,0.3);
+  margin-top: 4px;
+  font-weight: 400;
+}
+
+.ep-body {
+  border-top: 1px solid var(--gray-line);
+  padding: 0 48px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease, padding 0.3s ease;
+}
+
+.ep-body.open {
+  max-height: 1000px;
+  padding: 40px 48px;
+}
+
+.ep-structure {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.ep-scene {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 24px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--gray-line);
+  align-items: start;
+}
+
+.ep-scene:last-child { border-bottom: none; }
+
+.ep-time {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--orange);
+  letter-spacing: 1px;
+  padding-top: 2px;
+}
+
+.ep-scene-title {
+  font-size: 15px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.ep-scene-text {
+  font-size: 14px;
+  color: var(--white-dim);
+  line-height: 1.7;
+}
+
+.ep-scene-quote {
+  font-style: italic;
+  color: rgba(255,101,0,0.9);
+  font-size: 14px;
+  margin-top: 10px;
+  line-height: 1.5;
+}
+
+.ep-metrics {
+  margin-top: 32px;
+  background: rgba(255,101,0,0.04);
+  border: 1px solid rgba(255,101,0,0.15);
+  padding: 24px 32px;
+  font-family: monospace;
+  font-size: 13px;
+  line-height: 1.9;
+  color: var(--white-dim);
+}
+
+.ep-metrics .label { color: var(--orange); }
+
+.ep-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--orange);
+  cursor: pointer;
+  padding: 0 48px 32px;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+}
+
+.ep-toggle-arrow {
+  width: 20px;
+  height: 20px;
+  border: 1px solid rgba(255,101,0,0.4);
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  transition: transform 0.3s;
+}
+
+.ep-card.open .ep-toggle-arrow { transform: rotate(45deg); }
+
+/* ─── PERSONAGENS DA HISTÓRIA ─── */
+#producao {
+  background: var(--black);
+  border-top: 1px solid var(--gray-line);
+}
+
+.producao-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  margin-top: 64px;
+}
+
+.prod-block {
+  background: var(--gray-dark);
+  border: 1px solid var(--gray-line);
+  padding: 48px;
+}
+
+.prod-block h3 {
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 28px;
+}
+
+.prod-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.prod-list li {
+  font-size: 14px;
+  color: var(--white-dim);
+  line-height: 1.6;
+  padding-left: 20px;
+  position: relative;
+}
+
+.prod-list li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--orange);
+  font-size: 12px;
+}
+
+.prod-block.full {
+  grid-column: span 2;
+}
+
+.checklist {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 40px;
+}
+
+.check-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 14px;
+  color: var(--white-dim);
+  line-height: 1.5;
+}
+
+.check-box {
+  width: 18px;
+  height: 18px;
+  border: 1px solid rgba(255,101,0,0.4);
+  border-radius: 2px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* ─── CALENDÁRIO ─── */
+#calendario {
+  background: var(--gray-dark);
+  border-top: 1px solid var(--gray-line);
+}
+
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+  margin-top: 64px;
+}
+
+.cal-ep {
+  background: var(--black);
+  border: 1px solid var(--gray-line);
+  padding: 32px 24px;
+  text-align: center;
+  transition: border-color 0.3s;
+}
+
+.cal-ep:hover { border-color: rgba(255,101,0,0.4); }
+
+.cal-ep-num {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 12px;
+}
+
+.cal-ep-name {
+  font-size: 14px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+
+.cal-ep-date {
+  font-size: 12px;
+  color: var(--white-dim);
+  line-height: 1.6;
+}
+
+.cal-ep-day {
+  font-size: 22px;
+  font-weight: 900;
+  color: rgba(255,101,0,0.35);
+  margin-top: 16px;
+  letter-spacing: -1px;
+}
+
+/* ─── FOOTER ─── */
+footer {
+  padding: 80px 60px 48px;
+  background: var(--black);
+  border-top: 1px solid var(--gray-line);
+}
+
+.footer-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 64px;
+}
+
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.footer-logo {
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--orange);
+}
+
+.footer-tagline {
+  font-size: 14px;
+  color: var(--white-dim);
+  max-width: 340px;
+  line-height: 1.6;
+}
+
+.footer-collab {
+  text-align: right;
+}
+
+.footer-collab-label {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  color: var(--orange);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.footer-collab-brands {
+  font-size: 20px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 32px;
+  border-top: 1px solid var(--gray-line);
+}
+
+.footer-copy {
+  font-size: 12px;
+  color: rgba(255,255,255,0.25);
+  letter-spacing: 1px;
+}
+
+.footer-version {
+  font-size: 11px;
+  color: rgba(255,255,255,0.2);
+  letter-spacing: 2px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 900px) {
+  nav { padding: 16px 24px; }
+  .nav-links { display: none; }
+  section { padding: 80px 24px; }
+  #hero { padding: 120px 24px 80px; }
+  .conceito-grid { grid-template-columns: 1fr; }
+  .cast-grid { grid-template-columns: 1fr; }
+  .cast-card.star-target { grid-column: span 1; grid-template-columns: 1fr; }
+  .arco-line { display: none; }
+  .ep-header { grid-template-columns: 60px 1fr; gap: 20px; padding: 28px 24px; }
+  .ep-body { padding: 0 24px; }
+  .ep-body.open { padding: 28px 24px; }
+  .ep-toggle { padding: 0 24px 24px; }
+  .ep-scene { grid-template-columns: 1fr; gap: 8px; }
+  .producao-grid { grid-template-columns: 1fr; }
+  .prod-block.full { grid-column: span 1; }
+  .checklist { grid-template-columns: 1fr; }
+  .cal-grid { grid-template-columns: 1fr; }
+  .footer-top { flex-direction: column; gap: 40px; }
+  .footer-collab { text-align: left; }
+  .hero-meta { flex-direction: column; gap: 24px; }
+  .meta-tracker { flex-direction: column; }
+  .tracker-item { border-right: none; border-bottom: 1px solid var(--gray-line); }
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Mais Alunos × New Pace</div>
+  <ul class="nav-links">
+    <li><a href="#conceito">Conceito</a></li>
+    <li><a href="#personagens">Equipe</a></li>
+    <li><a href="#episodios">Episódios</a></li>
+    <li><a href="#calendario">Calendário</a></li>
+  </ul>
+  <div class="nav-tag">Documentário · 2026</div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-glow-right"></div>
+  <div class="hero-content">
+    <div class="hero-badge">
+      <div class="hero-badge-dot"></div>
+      Documentário Real · YouTube · 7 Episódios
+    </div>
+    <div class="hero-eyebrow">New Pace × Mais Alunos Marketing</div>
+    <h1 class="hero-title">
+      Grupo<br>
+      <span class="orange">Cheio</span>
+    </h1>
+    <p class="hero-subtitle">
+      18 anos crescendo por indicação. Agora, pela primeira vez, a New Pace entra no tráfego pago — e a gente vai documentar tudo. Resultados reais. Desafios reais. 90 dias de jornada.
+    </p>
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <div class="hero-meta-label">Meta</div>
+        <div class="hero-meta-value">80</div>
+        <div class="hero-meta-sub">novos alunos</div>
+      </div>
+      <div class="hero-meta-item">
+        <div class="hero-meta-label">Prazo</div>
+        <div class="hero-meta-value">90</div>
+        <div class="hero-meta-sub">dias documentados</div>
+      </div>
+      <div class="hero-meta-item">
+        <div class="hero-meta-label">Episódios</div>
+        <div class="hero-meta-value">7</div>
+        <div class="hero-meta-sub">a cada 15 dias</div>
+      </div>
+      <div class="hero-meta-item">
+        <div class="hero-meta-label">Experiência</div>
+        <div class="hero-meta-value">18</div>
+        <div class="hero-meta-sub">anos de New Pace</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- META -->
+<section id="meta">
+  <div class="meta-glow"></div>
+  <div class="section-badge">A Missão</div>
+  <div class="meta-label">A meta declarada</div>
+  <div class="meta-number">80</div>
+  <div class="meta-label" style="margin-top:16px;">Novos Alunos em 90 Dias</div>
+  <p class="meta-sub">
+    A meta é declarada publicamente no primeiro episódio. A partir daí, cada decisão, cada ajuste e cada resultado é mostrado sem filtro.
+  </p>
+  <div class="meta-tracker">
+    <div class="tracker-item">
+      <div class="tracker-label">Meta</div>
+      <div class="tracker-val">80</div>
+      <div class="tracker-sub">novos alunos</div>
+    </div>
+    <div class="tracker-item">
+      <div class="tracker-label">Total de Leads</div>
+      <div class="tracker-val pending">—</div>
+      <div class="tracker-sub">em andamento</div>
+    </div>
+    <div class="tracker-item">
+      <div class="tracker-label">Custo por Lead</div>
+      <div class="tracker-val pending">—</div>
+      <div class="tracker-sub">em andamento</div>
+    </div>
+    <div class="tracker-item">
+      <div class="tracker-label">Matrículas</div>
+      <div class="tracker-val pending">—</div>
+      <div class="tracker-sub">em andamento</div>
+    </div>
+    <div class="tracker-item">
+      <div class="tracker-label">Dias Restantes</div>
+      <div class="tracker-val">90</div>
+      <div class="tracker-sub">a partir do ep. 1</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONCEITO -->
+<section id="conceito">
+  <div class="section-badge">O Conceito</div>
+  <h2 class="section-title">Por que isso<br>é diferente</h2>
+  <p class="section-lead">
+    Não é um vídeo de marketing. É uma documentação real de uma assessoria esportiva que decidiu sair da zona de conforto depois de 18 anos.
+  </p>
+  <div class="conceito-grid">
+    <div class="conceito-item">
+      <div class="conceito-num">01 — Autenticidade</div>
+      <h3>Números Reais</h3>
+      <p>Custo por lead, taxa de conversão, matrículas fechadas, churn — tudo publicado ao vivo. Sem omissão de falhas. Sem edição do que não funcionou.</p>
+    </div>
+    <div class="conceito-item">
+      <div class="conceito-num">02 — Tensão</div>
+      <h3>A Aposta</h3>
+      <p>A meta de 80 alunos é declarada em público no episódio 1. Isso cria tensão real ao longo de toda a série — o espectador torce pelo resultado.</p>
+      <blockquote>"80 alunos em 90 dias. Estamos colocando tudo isso em câmera."</blockquote>
+    </div>
+    <div class="conceito-item">
+      <div class="conceito-num">03 — Humanidade</div>
+      <h3>As Pessoas</h3>
+      <p>Balta, Beatriz, Marcus, Renan, Elisa — cada um com sua história, seus medos e sua visão do que a New Pace pode se tornar. O negócio é o cenário. As pessoas são o centro.</p>
+    </div>
+    <div class="conceito-item">
+      <div class="conceito-num">04 — Propósito</div>
+      <h3>O Jogo Duplo</h3>
+      <p>O documentário documenta a Mais Alunos provando que funciona. Se a New Pace chegar em 80 alunos, o documentário se torna o melhor case de vendas já produzido no segmento esportivo.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PERSONAGENS -->
+<section id="personagens">
+  <div class="section-badge">A Equipe</div>
+  <h2 class="section-title">Quem está<br>nessa jornada</h2>
+  <p class="section-lead">
+    Seis personagens reais, cada um com um papel distinto na história. O documentário os acompanha ao longo dos 90 dias.
+  </p>
+  <div class="cast-grid">
+    <div class="cast-card">
+      <div class="cast-role">Fundador · Estratégia</div>
+      <div class="cast-name">Rodrigo Baltazar<br><span style="color:var(--orange)">Balta</span></div>
+      <p class="cast-desc">Fundou a New Pace há 18 anos. Construiu um negócio de excelência. Agora enfrenta o maior desafio da carreira: crescer sem perder a alma da assessoria. A tensão dele é o coração da série.</p>
+    </div>
+    <div class="cast-card">
+      <div class="cast-role">Marketing · Triagem de Leads</div>
+      <div class="cast-name">Beatriz<br><span style="color:var(--orange)">Ferrari</span></div>
+      <p class="cast-desc">Cuida do orgânico, dos bastidores, dos uniformes. Hoje é a "porta de entrada" de todos os leads. Com tráfego pago, o volume vai explodir. Ela sabe disso — e está de olho.</p>
+    </div>
+    <div class="cast-card">
+      <div class="cast-role">Treinador · Financeiro</div>
+      <div class="cast-name">Marcus<br><span style="color:var(--orange)">Ribeiro</span></div>
+      <p class="cast-desc">Treinador e responsável pelo financeiro e pelo site. Voz da razão. Acompanha os números de perto. Defende que crescimento precisa ser sustentável antes de ser rápido.</p>
+    </div>
+    <div class="cast-card">
+      <div class="cast-role">Treinador · Sul da Ilha</div>
+      <div class="cast-name">Renan<br><span style="color:var(--orange)">Holdschip</span></div>
+      <p class="cast-desc">Treinador focado no Sul da Ilha e Pedra Branca. Energético, acredita no crescimento. É quem vai encarar mais leads chegando — e quem mais vai mudar com o processo de vendas.</p>
+    </div>
+    <div class="cast-card">
+      <div class="cast-role">Treinadora · Online · São Paulo</div>
+      <div class="cast-name">Elisa<br><span style="color:var(--orange)">São Paulo</span></div>
+      <p class="cast-desc">100% online. Representa o potencial de escala nacional da New Pace. O mercado de São Paulo ainda não foi explorado — e o documentário pode abrir essa porta.</p>
+    </div>
+    <div class="cast-card star-target">
+      <div class="cast-star-tag">Star<br>Target</div>
+      <div>
+        <div class="cast-role">Agência · Tráfego Pago · Estratégia</div>
+        <div class="cast-name" style="font-size:18px">Ji + Bárbara · Equipe Star Target</div>
+        <p class="cast-desc">Trouxeram a estratégia. São os arquitetos do funil, das campanhas no Meta Ads e do processo comercial. Têm 90 dias para provar que funciona — ao vivo, em câmera. A Mais Alunos Marketing em ação.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ARCO -->
+<section id="arco">
+  <div class="section-badge">Narrativa</div>
+  <h2 class="section-title">O arco dos<br>7 episódios</h2>
+  <p class="section-lead">
+    Cada episódio tem um tema e uma tensão próprios. Juntos, formam uma história de transformação em tempo real.
+  </p>
+  <div class="arco-line">
+    <div class="arco-node">
+      <div class="arco-dot"></div>
+      <div class="arco-ep">EP. 1</div>
+      <div class="arco-title">Diagnóstico</div>
+    </div>
+    <div class="arco-node">
+      <div class="arco-dot"></div>
+      <div class="arco-ep">EP. 2</div>
+      <div class="arco-title">Construção</div>
+    </div>
+    <div class="arco-node">
+      <div class="arco-dot"></div>
+      <div class="arco-ep">EP. 3</div>
+      <div class="arco-title">1os Leads</div>
+    </div>
+    <div class="arco-node">
+      <div class="arco-dot"></div>
+      <div class="arco-ep">EP. 4</div>
+      <div class="arco-title">Pressão</div>
+    </div>
+    <div class="arco-node">
+      <div class="arco-dot"></div>
+      <div class="arco-ep">EP. 5</div>
+      <div class="arco-title">Virada</div>
+    </div>
+    <div class="arco-node">
+      <div class="arco-dot"></div>
+      <div class="arco-ep">EP. 6</div>
+      <div class="arco-title">Escala</div>
+    </div>
+    <div class="arco-node">
+      <div class="arco-dot"></div>
+      <div class="arco-ep">EP. 7</div>
+      <div class="arco-title">Resultado</div>
+    </div>
+  </div>
+  <div class="arco-tension">
+    <p>"Será possível lotar um grupo de 18 anos sem perder o que o torna especial?"</p>
+  </div>
+</section>
+
+<!-- EPISÓDIOS -->
+<section id="episodios">
+  <div class="section-badge">Os Episódios</div>
+  <h2 class="section-title">7 Episódios.<br>90 Dias. Tudo Real.</h2>
+  <p class="section-lead">
+    Gravados a cada 15 dias. Cada episódio: 15 a 20 minutos. Clique para ver a estrutura de cada um.
+  </p>
+
+  <div class="ep-list">
+
+    <!-- EP 1 -->
+    <div class="ep-card" id="ep1">
+      <div class="ep-header" onclick="toggleEp('ep1')">
+        <div class="ep-num">01</div>
+        <div class="ep-info">
+          <div class="ep-day">Dia 0</div>
+          <div class="ep-name">"O Diagnóstico"</div>
+          <div class="ep-theme">Apresentação, a história, a meta declarada ao vivo</div>
+        </div>
+        <div class="ep-dur">15–18 min<span>Episódio de abertura</span></div>
+      </div>
+      <button class="ep-toggle" onclick="toggleEp('ep1')">
+        <div class="ep-toggle-arrow">+</div>
+        Ver estrutura do episódio
+      </button>
+      <div class="ep-body" id="ep1-body">
+        <div class="ep-structure">
+          <div class="ep-scene">
+            <div class="ep-time">0:00 – 1:30</div>
+            <div>
+              <div class="ep-scene-title">Abertura</div>
+              <p class="ep-scene-text">Balta treinando alunos num parque em Florianópolis. Voz em off: "18 anos. Centenas de alunos. Crescimento só por indicação. Isso vai mudar — e a gente vai mostrar tudo."</p>
+            </div>
+          </div>
+          <div class="ep-scene">
+            <div class="ep-time">1:30 – 5:00</div>
+            <div>
+              <div class="ep-scene-title">A história da New Pace</div>
+              <p class="ep-scene-text">Balta conta como fundou a assessoria. O crescimento até 200 alunos antes da pandemia. Como reorganizou. O que diferencia: o atendimento humanizado, a presença real do treinador.</p>
+            </div>
+          </div>
+          <div class="ep-scene">
+            <div class="ep-time">5:00 – 9:00</div>
+            <div>
+              <div class="ep-scene-title">O diagnóstico ao vivo</div>
+              <p class="ep-scene-text">Reunião com Star Target registrada em câmera. As 3 perguntas: quantos alunos, de onde vêm, qual a meta. Revelação dos números atuais com total transparência.</p>
+              <p class="ep-scene-quote">"A meta declarada: 80 novos alunos em 90 dias."</p>
+            </div>
+          </div>
+          <div class="ep-scene">
+            <div class="ep-time">9:00 – 12:00</div>
+            <div>
+              <div class="ep-scene-title">A tensão humana</div>
+              <p class="ep-scene-text">Balta fala sobre o medo real de crescer. Beatriz sobre o volume que vai chegar. Marcus: "Vamos testar e ver."</p>
+              <p class="ep-scene-quote">"Crescer muito rápido pode destruir o que a gente construiu." — Balta</p>
+            </div>
+          </div>
+          <div class="ep-scene">
+            <div class="ep-time">12:00 – 15:00</div>
+            <div>
+              <div class="ep-scene-title">O plano</div>
+              <p class="ep-scene-text">Star Target apresenta a estratégia: tráfego pago + CRM + IA de triagem + padronização comercial. Data de início das campanhas. Teaser do próximo episódio.</p>
+            </div>
+          </div>
+        </div>
+        <div class="ep-metrics">
+          <span class="label">🎯 META:</span> 80 alunos em 90 dias<br>
+          <span class="label">📊 Alunos atuais:</span> [a definir]<br>
+          <span class="label">📥 Leads:</span> 0 — campanhas ainda não no ar<br>
+          <span class="label">⏱ Dias restantes:</span> 90
+        </div>
+      </div>
+    </div>
+
+    <!-- EP 2 -->
+    <div class="ep-card" id="ep2">
+      <div class="ep-header" onclick="toggleEp('ep2')">
+        <div class="ep-num">02</div>
+        <div class="ep-info">
+          <div class="ep-day">Dia 15</div>
+          <div class="ep-name">"A Construção"</div>
+          <div class="ep-theme">Montando o funil, o CRM, a IA e o processo de vendas</div>
+        </div>
+        <div class="ep-dur">15–18 min<span>Bastidores técnicos</span></div>
+      </div>
+      <button class="ep-toggle" onclick="toggleEp('ep2')">
+        <div class="ep-toggle-arrow">+</div>
+        Ver estrutura do episódio
+      </button>
+      <div class="ep-body" id="ep2-body">
+        <div class="ep-structure">
+          <div class="ep-scene">
+            <div class="ep-time">0:00 – 1:00</div>
+            <div>
+              <div class="ep-scene-title">Recap + gancho</div>
+              <p class="ep-scene-text">"Semana passada a meta foi declarada. Agora começa a construção." Flashback rápido do Ep.1.</p>
+            </div>
+          </div>
+          <div class="ep-scene">
+            <div class="ep-time">1:00 – 6:00</div>
+            <div>
+              <div class="ep-scene-title">Construindo o funil</div>
+              <p class="ep-scene-text">Star Target configurando o Gerenciador de Anúncios ao vivo (tela real). Criação dos primeiros criativos com a New Pace. Beatriz gravando o FAQ para os destaques do Instagram.</p>
+            </div>
+          </div>
+          <div class="ep-scene">
+            <div class="ep-time">6:00 – 9:00</div>
+            <div>
+              <div class="ep-scene-title">O CRM</div>
+              <p class="ep-scene-text">Decisão de qual CRM usar — conversa real entre a equipe. Marcus configurando. Mapeamento do funil: lead → agendamento → experimental → matrícula.</p>
+            </div>
+          </div>
+          <div class="ep-scene">
+            <div class="ep-time">9:00 – 12:00</div>
+            <div>
+              <div class="ep-scene-title">A IA de triagem</div>
+              <p class="ep-scene-text">Configuração do chatbot para WhatsApp. Teste ao vivo: o que acontece quando alguém manda mensagem agora? Comparando o processo antigo vs. o novo.</p>
+            </div>
+          </div>
+          <div class="ep-scene">
+            <div class="ep-time">12:00 – 15:00</div>
+            <div>
+              <div class="ep-scene-title">Treinamento de vendas</div>
+              <p class="ep-scene-text">Treinadores fazendo roleplay com o novo script de vendas. Renan tentando falar o preço sem travar.</p>
+              <p class="ep-scene-quote">"A gente nunca precisou disso. Agora precisa." — Balta</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EP 3 -->
+    <div class="ep-card" id="ep3">
+      <div class="ep-header" onclick="toggleEp('ep3')">
+        <div class="ep-num">03</div>
+        <div class="ep-info">
+          <div class="ep-day">Dia 30</div>
+          <div class="ep-name">"Os Primeiros Leads"</div>
+          <div class="ep-theme">Campanhas no ar. A realidade bate. Primeiros dados reais.</div>
+        </div>
+        <div class="ep-dur">15–20 min<span>Momento de verdade</span></div>
+      </div>
+      <button class="ep-toggle" onclick="toggleEp('ep3')">
+        <div class="ep-toggle-arrow">+</div>
+        Ver estrutura do episódio
+      </button>
+      <div class="ep-body" id="ep3-body">
+        <div class="ep-structure">
+          <div class="ep-scene">
+            <div class="ep-time">0:00 – 2:00</div>
+            <div>
+              <div class="ep-scene-title">Ao vivo — campanha ativada</div>
+              <p class="ep-scene-text">Tela do Gerenciador sendo ativada. Beatriz olhando o celular aguardar o primeiro lead. O momento acontece.</p>
+              <p class="ep-scene-quote">"A gente está ao vivo."</p>
+            </div>
+          </div>
+          <div class="ep-scene">
+            <div class="ep-time">2:00 – 6:00</div>
+            <div>
+              <div class="ep-scene-title">Os primeiros dados</div>
+              <p class="ep-scene-text">Primeiras horas: impressões, cliques, primeiros leads chegando no WhatsApp. Reação real da equipe. Primeiro erro ou ajuste necessário — documentado sem corte.</p>
+            </div>
+          </div>
+          <div class="ep-scene">
+            <div class="ep-time">6:00 – 10:00</div>
+            <div>
+              <div class="ep-scene-title">A jornada de um lead</div>
+              <p class="ep-scene-text">Câmera acompanha um lead do clique no anúncio até o treino experimental. Do WhatsApp → triagem pela IA → contato humano → agendamento → chegou no treino.</p>
+            </div>
+          </div>
+          <div class="ep-scene">
+            <div class="ep-time">10:00 – 15:00</div>
+            <div>
+              <div class="ep-scene-title">Relatório da 1ª semana</div>
+              <p class="ep-scene-text">Reunião ao vivo com Star Target. Custo por lead real. Taxa de resposta ao primeiro contato. Quantos agendamentos, quantas matrículas. O que não foi como esperado.</p>
+            </div>
+          </div>
+        </div>
+        <div class="ep-metrics">
+          <span class="label">📥 Leads (1ª semana):</span> [dados reais]<br>
+          <span class="label">💰 Custo por lead:</span> R$ [dados reais]<br>
+          <span class="label">📅 Experimentais agendados:</span> [dados reais]<br>
+          <span class="label">✅ Matrículas até aqui:</span> [dados reais]
+        </div>
+      </div>
+    </div>
+
+    <!-- EP 4 -->
+    <div class="ep-card" id="ep4">
+      <div class="ep-header" onclick="toggleEp('ep4')">
+        <div class="ep-num">04</div>
+        <div class="ep-info">
+          <div class="ep-day">Dia 45</div>
+          <div class="ep-name">"A Pressão"</div>
+          <div class="ep-theme">Metade do caminho. Volume chegando. Algo vai errar.</div>
+        </div>
+        <div class="ep-dur">15–20 min<span>O ponto crítico</span></div>
+      </div>
+      <button class="ep-toggle" onclick="toggleEp('ep4')">
+        <div class="ep-toggle-arrow">+</div>
+        Ver estrutura do episódio
+      </button>
+      <div class="ep-body" id="ep4-body">
+        <div class="ep-structure">
+          <div class="ep-scene">
+            <div class="ep-time">0:00 – 1:30</div>
+            <div>
+              <div class="ep-scene-title">Metade do caminho</div>
+              <p class="ep-scene-text">"45 dias. Estamos na metade. A meta é 80. Estamos em [X]. O que está acontecendo?" — dados comparativos com o esperado.</p>
+            </div>
+          </div>
+          <div class="ep-scene">
+            <div class="ep-time">1:30 – 6:00</div>
+            <div>
+              <div class="ep-scene-title">O volume e o caos real</div>
+              <p class="ep-scene-text">Beatriz gerenciando mais leads do que antes. A IA respondendo de madrugada — mostrar isso. Algum lead que quase se perdeu no processo.</p>
+            </div>
+          </div>
+          <div class="ep-scene">
+            <div class="ep-time">6:00 – 9:00</div>
+            <div>
+              <div class="ep-scene-title">O follow-up ao vivo</div>
+              <p class="ep-scene-text">Um lead que foi para o experimental mas não fechou. Renan fazendo o follow-up com câmera presente (com permissão). Fechou ou não fechou? O momento é mostrado.</p>
+            </div>
+          </div>
+          <div class="ep-scene">
+            <div class="ep-time">9:00 – 12:00</div>
+            <div>
+              <div class="ep-scene-title">Conversas difíceis</div>
+              <p class="ep-scene-text">Marcus: "O custo por lead está mais alto do que projetado." Star Target ajustando as campanhas ao vivo. Balta acompanhando os números.</p>
+              <p class="ep-scene-quote">"Estamos comprometidos. Mas precisamos ajustar." — Balta</p>
+            </div>
+          </div>
+          <div class="ep-scene">
+            <div class="ep-time">12:00 – fim</div>
+            <div>
+              <div class="ep-scene-title">A correção de rota</div>
+              <p class="ep-scene-text">O que foi ajustado e por quê. Novo direcionamento para a segunda metade da jornada. Dados atualizados com honestidade total.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EP 5 -->
+    <div class="ep-card" id="ep5">
+      <div class="ep-header" onclick="toggleEp('ep5')">
+        <div class="ep-num">05</div>
+        <div class="ep-info">
+          <div class="ep-day">Dia 60</div>
+          <div class="ep-name">"A Virada"</div>
+          <div class="ep-theme">Um momento muda o jogo. Evento, resultado ou depoimento que vira o arco.</div>
+        </div>
+        <div class="ep-dur">15–20 min<span>O ponto de inflexão</span></div>
+      </div>
+      <button class="ep-toggle" onclick="toggleEp('ep5')">
+        <div class="ep-toggle-arrow">+</div>
+        Ver estrutura do episódio
+      </button>
+      <div class="ep-body" id="ep5-body">
+        <div class="ep-structure">
+          <div class="ep-scene">
+            <div class="ep-time">0:00 – 3:00</div>
+            <div>
+              <div class="ep-scene-title">Setup da virada</div>
+              <p class="ep-scene-text">Contexto do que mudou após os ajustes do Ep.4. O que foi diferente nesse período.</p>
+            </div>
+          </div>
+          <div class="ep-scene">
+            <div class="ep-time">3:00 – 9:00</div>
+            <div>
+              <div class="ep-scene-title">O momento decisivo</div>
+              <p class="ep-scene-text">Pode ser um evento de corrida com dezenas de leads chegando de uma vez. Pode ser a semana com menor custo por lead. Pode ser o depoimento de um aluno que entrou pelo anúncio. O que a realidade trouxer — é o que vai para a câmera.</p>
+            </div>
+          </div>
+          <div class="ep-scene">
+            <div class="ep-time">9:00 – 13:00</div>
+            <div>
+              <div class="ep-scene-title">O impacto humano</div>
+              <p class="ep-scene-text">Balta refletindo sobre o que mudou. Depoimento de um aluno novo que veio pelo anúncio — o que ele viu, por que entrou, o que sentiu no primeiro treino.</p>
+              <p class="ep-scene-quote">"Esse mês foi diferente. A gente sentiu." — Balta</p>
+            </div>
+          </div>
+          <div class="ep-scene">
+            <div class="ep-time">13:00 – fim</div>
+            <div>
+              <div class="ep-scene-title">A lição da virada</div>
+              <p class="ep-scene-text">Qual ajuste específico gerou a mudança. Lição concreta e replicável. O que vem no Ep.6.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EP 6 -->
+    <div class="ep-card" id="ep6">
+      <div class="ep-header" onclick="toggleEp('ep6')">
+        <div class="ep-num">06</div>
+        <div class="ep-info">
+          <div class="ep-day">Dia 75</div>
+          <div class="ep-name">"A Escala"</div>
+          <div class="ep-theme">O que funciona está sendo amplificado. A máquina rodando.</div>
+        </div>
+        <div class="ep-dur">15–18 min<span>Aceleração final</span></div>
+      </div>
+      <button class="ep-toggle" onclick="toggleEp('ep6')">
+        <div class="ep-toggle-arrow">+</div>
+        Ver estrutura do episódio
+      </button>
+      <div class="ep-body" id="ep6-body">
+        <div class="ep-structure">
+          <div class="ep-scene">
+            <div class="ep-time">0:00 – 2:00</div>
+            <div>
+              <div class="ep-scene-title">Retrospecto da jornada</div>
+              <p class="ep-scene-text">"75 dias. Aqui está tudo o que aconteceu até agora." Montagem rápida dos 5 episódios anteriores com os números evoluindo em tela.</p>
+            </div>
+          </div>
+          <div class="ep-scene">
+            <div class="ep-time">2:00 – 7:00</div>
+            <div>
+              <div class="ep-scene-title">A máquina funcionando</div>
+              <p class="ep-scene-text">CRM com leads em todas as etapas. Reels que geraram leads orgânicos além do tráfego pago. Destaques do Instagram sendo consumidos antes do experimental. Treinadores confiantes no processo de vendas.</p>
+            </div>
+          </div>
+          <div class="ep-scene">
+            <div class="ep-time">7:00 – 10:00</div>
+            <div>
+              <div class="ep-scene-title">O novo desafio: capacidade</div>
+              <p class="ep-scene-text">Com mais alunos chegando, o que precisa mudar na operação? Qual o limite real de cada treinador? A decisão: expandir equipe? Aumentar preços?</p>
+            </div>
+          </div>
+          <div class="ep-scene">
+            <div class="ep-time">10:00 – fim</div>
+            <div>
+              <div class="ep-scene-title">Projeção para o final</div>
+              <p class="ep-scene-text">Quantos alunos faltam para a meta. O que está planejado para os últimos 15 dias. Star Target projeta o resultado final.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EP 7 -->
+    <div class="ep-card" id="ep7">
+      <div class="ep-header" onclick="toggleEp('ep7')">
+        <div class="ep-num">07</div>
+        <div class="ep-info">
+          <div class="ep-day">Dia 90</div>
+          <div class="ep-name">"O Resultado"</div>
+          <div class="ep-theme">O momento da verdade. A meta foi batida?</div>
+        </div>
+        <div class="ep-dur">18–20 min<span>Episódio final</span></div>
+      </div>
+      <button class="ep-toggle" onclick="toggleEp('ep7')">
+        <div class="ep-toggle-arrow">+</div>
+        Ver estrutura do episódio
+      </button>
+      <div class="ep-body" id="ep7-body">
+        <div class="ep-structure">
+          <div class="ep-scene">
+            <div class="ep-time">0:00 – 2:00</div>
+            <div>
+              <div class="ep-scene-title">A abertura final</div>
+              <p class="ep-scene-text">"90 dias atrás, a New Pace declarou uma meta impossível. Hoje a gente abre os números." Flashback do Ep.1: Balta declarando a meta de 80 alunos.</p>
+            </div>
+          </div>
+          <div class="ep-scene">
+            <div class="ep-time">2:00 – 6:00</div>
+            <div>
+              <div class="ep-scene-title">A revelação ao vivo</div>
+              <p class="ep-scene-text">Tela com os dados finais. Total de leads gerados. Custo por lead. Total de experimentais. Total de matrículas. Comparativo com a meta de 80. O número aparece.</p>
+            </div>
+          </div>
+          <div class="ep-scene">
+            <div class="ep-time">6:00 – 11:00</div>
+            <div>
+              <div class="ep-scene-title">As histórias dos alunos</div>
+              <p class="ep-scene-text">Depoimentos de 2–3 alunos que entraram pelo tráfego pago. "O que você não teria feito se não fosse o anúncio?" Balta acompanhando um aluno novo no treino.</p>
+            </div>
+          </div>
+          <div class="ep-scene">
+            <div class="ep-time">11:00 – 14:00</div>
+            <div>
+              <div class="ep-scene-title">O aprendizado real</div>
+              <p class="ep-scene-text">O que funcionou. O que não funcionou. O que a New Pace vai mudar para sempre. A pergunta de Balta respondida: "Valeu a pena manter o humanizado?"</p>
+            </div>
+          </div>
+          <div class="ep-scene">
+            <div class="ep-time">14:00 – fim</div>
+            <div>
+              <div class="ep-scene-title">O próximo passo</div>
+              <p class="ep-scene-text">A New Pace anuncia o que vem depois. Star Target apresenta a continuação. CTA: "Se você tem uma assessoria e quer esse resultado, fala com a Mais Alunos."</p>
+            </div>
+          </div>
+        </div>
+        <div class="ep-metrics">
+          <span class="label">🎯 META:</span> 80 alunos em 90 dias<br>
+          <span class="label">📊 Resultado final:</span> [dados reais do dia]<br>
+          <span class="label">📥 Total de leads:</span> [dados reais]<br>
+          <span class="label">💰 Custo médio por lead:</span> R$ [dados reais]<br>
+          <span class="label">📅 Experimentais:</span> [dados reais]<br>
+          <span class="label">✅ Matrículas:</span> [dados reais]<br>
+          <span class="label">💸 Receita recorrente nova:</span> R$ [dados reais]/mês
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PRODUÇÃO -->
+<section id="producao">
+  <div class="section-badge">Produção</div>
+  <h2 class="section-title">Como gravar<br>cada episódio</h2>
+  <p class="section-lead">
+    Guia prático para toda a equipe. O objetivo é naturalismo — não publicidade.
+  </p>
+  <div class="producao-grid">
+    <div class="prod-block">
+      <h3>Equipamentos</h3>
+      <ul class="prod-list">
+        <li>Câmera: celular recente (iPhone / Samsung) com estabilizador — OU câmera mirrorless Sony/Fuji</li>
+        <li>Áudio: lapela bluetooth (Rode Wireless GO II) — é o item mais importante</li>
+        <li>Luz: anel portátil para entrevistas em ambiente fechado</li>
+        <li>Tripé + grip para variar os ângulos em campo</li>
+      </ul>
+    </div>
+    <div class="prod-block">
+      <h3>Tom e estilo</h3>
+      <ul class="prod-list">
+        <li>Naturalista, não publicitário — câmera solta, não precisa ser perfeito</li>
+        <li>Cortes rápidos nas entrevistas — sem silêncios longos</li>
+        <li>Legendas em todos os vídeos — 85% dos brasileiros assistem sem som</li>
+        <li>Números sempre em tela quando falar de dados</li>
+        <li>Não esconder os problemas — a autenticidade é o diferencial</li>
+      </ul>
+    </div>
+    <div class="prod-block full">
+      <h3>Cenas obrigatórias por episódio</h3>
+      <div class="checklist">
+        <div class="check-item"><div class="check-box"></div>Entrevista com Balta (fora do treino, olhando para câmera)</div>
+        <div class="check-item"><div class="check-box"></div>B-roll do treino em campo (running em Floripa)</div>
+        <div class="check-item"><div class="check-box"></div>Tela do Gerenciador de Anúncios com dados reais</div>
+        <div class="check-item"><div class="check-box"></div>Tela do WhatsApp com leads chegando (blur nos nomes)</div>
+        <div class="check-item"><div class="check-box"></div>Atualização do quadro de métricas no fim do episódio</div>
+        <div class="check-item"><div class="check-box"></div>Pelo menos um momento espontâneo não planejado</div>
+        <div class="check-item"><div class="check-box"></div>Teaser do próximo episódio</div>
+        <div class="check-item"><div class="check-box"></div>Shorts / clipes identificados durante a edição</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CALENDÁRIO -->
+<section id="calendario">
+  <div class="section-badge">Calendário</div>
+  <h2 class="section-title">7 gravações.<br>3,5 meses.</h2>
+  <p class="section-lead">
+    Uma gravação a cada 15 dias, partindo da reunião de diagnóstico.
+  </p>
+  <div class="cal-grid">
+    <div class="cal-ep">
+      <div class="cal-ep-num">Ep. 01</div>
+      <div class="cal-ep-name">O Diagnóstico</div>
+      <div class="cal-ep-date">1ª quinzena<br>Maio 2026</div>
+      <div class="cal-ep-day">D0</div>
+    </div>
+    <div class="cal-ep">
+      <div class="cal-ep-num">Ep. 02</div>
+      <div class="cal-ep-name">A Construção</div>
+      <div class="cal-ep-date">2ª quinzena<br>Maio 2026</div>
+      <div class="cal-ep-day">D15</div>
+    </div>
+    <div class="cal-ep">
+      <div class="cal-ep-num">Ep. 03</div>
+      <div class="cal-ep-name">Os Primeiros Leads</div>
+      <div class="cal-ep-date">1ª quinzena<br>Junho 2026</div>
+      <div class="cal-ep-day">D30</div>
+    </div>
+    <div class="cal-ep">
+      <div class="cal-ep-num">Ep. 04</div>
+      <div class="cal-ep-name">A Pressão</div>
+      <div class="cal-ep-date">2ª quinzena<br>Junho 2026</div>
+      <div class="cal-ep-day">D45</div>
+    </div>
+    <div class="cal-ep">
+      <div class="cal-ep-num">Ep. 05</div>
+      <div class="cal-ep-name">A Virada</div>
+      <div class="cal-ep-date">1ª quinzena<br>Julho 2026</div>
+      <div class="cal-ep-day">D60</div>
+    </div>
+    <div class="cal-ep">
+      <div class="cal-ep-num">Ep. 06</div>
+      <div class="cal-ep-name">A Escala</div>
+      <div class="cal-ep-date">2ª quinzena<br>Julho 2026</div>
+      <div class="cal-ep-day">D75</div>
+    </div>
+    <div class="cal-ep">
+      <div class="cal-ep-num">Ep. 07</div>
+      <div class="cal-ep-name">O Resultado</div>
+      <div class="cal-ep-date">1ª quinzena<br>Agosto 2026</div>
+      <div class="cal-ep-day">D90</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="footer-logo">Mais Alunos Marketing</div>
+      <p class="footer-tagline">
+        Especialistas em captação de alunos para assessorias de corrida, triathlon e CTs de jiu-jitsu no Brasil.
+      </p>
+    </div>
+    <div class="footer-collab">
+      <div class="footer-collab-label">Uma produção</div>
+      <div class="footer-collab-brands">
+        Star Target<br>
+        <span style="color:var(--orange)">× New Pace</span>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2026 Mais Alunos Marketing. Documentário "Grupo Cheio".</div>
+    <div class="footer-version">Versão 1.0 · Maio 2026</div>
+  </div>
+</footer>
+
+<script>
+function toggleEp(id) {
+  const card = document.getElementById(id);
+  const body = document.getElementById(id + '-body');
+  const isOpen = card.classList.contains('open');
+  card.classList.toggle('open', !isOpen);
+  body.classList.toggle('open', !isOpen);
+}
+</script>
+
+</body>
+</html>
