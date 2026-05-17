@@ -6,16 +6,18 @@
   <title>Calculadora de Alunos — MaisAlunos Marketing</title>
   <style>
     :root {
-      --teal: #00b4a6;
-      --teal-dark: #008f84;
-      --teal-glow: rgba(0,180,166,0.12);
-      --dark: #0A0A0A;
-      --dark2: #0d1b2a;
-      --dark3: #111c2a;
-      --dark4: #162030;
+      --orange: #FF6500;
+      --orange-dark: #CC5000;
+      --teal: #FF6500;
+      --teal-dark: #CC5000;
+      --teal-glow: rgba(255,101,0,0.10);
+      --dark: #000000;
+      --dark2: #0a0a0a;
+      --dark3: #111111;
+      --dark4: #1a1a1a;
       --white: #ffffff;
-      --gray: #8899aa;
-      --light: #e2e8f0;
+      --gray: rgba(255,255,255,0.55);
+      --light: rgba(255,255,255,0.85);
       --red: #e53e3e;
       --green: #38a169;
       --yellow: #d69e2e;
@@ -31,31 +33,40 @@
 
     /* HEADER */
     header {
-      background: var(--dark2);
-      border-bottom: 1px solid rgba(0,180,166,0.2);
-      padding: 16px 24px;
-      text-align: center;
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 999;
+      background: rgba(0,0,0,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,101,0,0.15);
+      padding: 14px 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
-    .logo { font-size: 20px; font-weight: 800; }
-    .logo span { color: var(--teal); }
+    .logo { font-size: 14px; font-weight: 900; letter-spacing: 3px; text-transform: uppercase; }
+    .logo span { color: var(--orange); }
 
     /* HERO */
     .hero {
-      background: linear-gradient(160deg, var(--dark2), var(--dark3));
-      padding: 56px 24px 48px;
+      background: var(--dark);
+      padding: 100px 24px 64px;
       text-align: center;
+      border-bottom: 1px solid rgba(255,101,0,0.12);
     }
     .hero-badge {
-      display: inline-block;
-      background: var(--teal-glow);
-      border: 1px solid rgba(0,180,166,0.35);
-      color: var(--teal);
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 1.5px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,101,0,0.10);
+      border: 1px solid rgba(255,101,0,0.35);
+      color: var(--orange);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 2px;
       text-transform: uppercase;
       padding: 6px 18px;
-      border-radius: 100px;
+      border-radius: 4px;
       margin-bottom: 20px;
     }
     .hero h1 {
@@ -103,23 +114,24 @@
       font-weight: 700;
     }
     .progress-bar {
-      height: 4px;
+      height: 3px;
       background: rgba(255,255,255,0.08);
-      border-radius: 100px;
+      border-radius: 0;
       overflow: hidden;
     }
     .progress-fill {
       height: 100%;
-      background: var(--teal);
-      border-radius: 100px;
+      background: var(--orange);
+      border-radius: 0;
       transition: width 0.4s ease;
     }
 
     /* STEP CARD */
     .step-card {
-      background: var(--dark2);
+      background: var(--dark3);
       border: 1px solid rgba(255,255,255,0.07);
-      border-radius: 16px;
+      border-radius: 0;
+      border-top: 2px solid var(--orange);
       padding: 36px 32px;
       display: none;
       animation: fadeIn 0.35s ease;
@@ -160,9 +172,9 @@
     .options-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
 
     .option-btn {
-      background: rgba(255,255,255,0.04);
-      border: 2px solid rgba(255,255,255,0.08);
-      border-radius: 12px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 4px;
       padding: 18px 16px;
       cursor: pointer;
       text-align: center;
@@ -170,12 +182,12 @@
       color: var(--white);
     }
     .option-btn:hover {
-      border-color: rgba(0,180,166,0.5);
-      background: var(--teal-glow);
+      border-color: rgba(255,101,0,0.5);
+      background: rgba(255,101,0,0.08);
     }
     .option-btn.selected {
-      border-color: var(--teal);
-      background: var(--teal-glow);
+      border-color: var(--orange);
+      background: rgba(255,101,0,0.10);
     }
     .option-icon { font-size: 26px; margin-bottom: 8px; }
     .option-label { font-size: 14px; font-weight: 700; }
@@ -236,12 +248,14 @@
     }
     .btn-back {
       padding: 14px 24px;
-      border-radius: 8px;
-      border: 2px solid rgba(255,255,255,0.12);
+      border-radius: 4px;
+      border: 1px solid rgba(255,255,255,0.12);
       background: transparent;
       color: var(--gray);
-      font-size: 15px;
-      font-weight: 600;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
       cursor: pointer;
       transition: all 0.18s;
     }
@@ -249,17 +263,18 @@
     .btn-next {
       flex: 1;
       padding: 16px;
-      border-radius: 8px;
+      border-radius: 4px;
       border: none;
-      background: var(--teal);
-      color: var(--dark);
-      font-size: 16px;
-      font-weight: 800;
+      background: var(--orange);
+      color: #000;
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      text-transform: uppercase;
       cursor: pointer;
       transition: all 0.18s;
-      letter-spacing: 0.3px;
     }
-    .btn-next:hover { background: var(--teal-dark); transform: translateY(-1px); }
+    .btn-next:hover { background: var(--orange-dark); color: #fff; transform: translateY(-1px); }
     .btn-next:disabled {
       opacity: 0.4;
       cursor: not-allowed;
@@ -284,21 +299,21 @@
     .resultado-header p { font-size: 15px; color: var(--gray); }
 
     .resultado-card {
-      background: var(--dark2);
+      background: var(--dark3);
       border: 1px solid rgba(255,255,255,0.07);
-      border-radius: 16px;
+      border-radius: 0;
       overflow: hidden;
-      margin-bottom: 16px;
+      margin-bottom: 2px;
     }
     .resultado-section-title {
-      background: rgba(0,180,166,0.08);
-      border-bottom: 1px solid rgba(0,180,166,0.15);
+      background: rgba(255,101,0,0.08);
+      border-bottom: 1px solid rgba(255,101,0,0.15);
       padding: 14px 24px;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 1.5px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 2px;
       text-transform: uppercase;
-      color: var(--teal);
+      color: var(--orange);
     }
     .resultado-rows { padding: 8px 0; }
     .resultado-row {
@@ -347,25 +362,26 @@
 
     /* POTENTIAL BOX */
     .potential-box {
-      background: linear-gradient(135deg, rgba(0,180,166,0.12), rgba(0,180,166,0.06));
-      border: 1px solid rgba(0,180,166,0.3);
-      border-radius: 14px;
+      background: rgba(255,101,0,0.08);
+      border: 1px solid rgba(255,101,0,0.3);
+      border-top: 3px solid var(--orange);
+      border-radius: 0;
       padding: 28px;
       text-align: center;
-      margin-bottom: 24px;
+      margin-bottom: 2px;
     }
     .potential-box .pot-label {
-      font-size: 13px;
-      color: var(--teal);
-      font-weight: 700;
-      letter-spacing: 1px;
+      font-size: 11px;
+      color: var(--orange);
+      font-weight: 800;
+      letter-spacing: 2px;
       text-transform: uppercase;
       margin-bottom: 8px;
     }
     .potential-box .pot-value {
       font-size: 48px;
       font-weight: 900;
-      color: var(--teal);
+      color: var(--orange);
       line-height: 1;
       margin-bottom: 6px;
     }
@@ -373,48 +389,49 @@
 
     /* CTA SECTION */
     .cta-box {
-      background: linear-gradient(135deg, var(--dark3), var(--dark4));
-      border: 1px solid rgba(0,180,166,0.25);
-      border-radius: 16px;
-      padding: 36px 28px;
+      background: var(--orange);
+      color: #000;
+      border-radius: 0;
+      padding: 40px 32px;
       text-align: center;
-      margin-top: 8px;
+      margin-top: 2px;
     }
     .cta-box h3 {
       font-size: 22px;
       font-weight: 900;
-      line-height: 1.3;
+      text-transform: uppercase;
+      line-height: 1.2;
       margin-bottom: 10px;
+      color: #000;
     }
     .cta-box p {
       font-size: 15px;
-      color: var(--gray);
-      margin-bottom: 24px;
+      color: rgba(0,0,0,0.65);
+      margin-bottom: 28px;
       line-height: 1.6;
     }
     .btn-cta {
       display: inline-block;
-      background: var(--teal);
-      color: var(--dark);
-      font-size: 17px;
+      background: #000;
+      color: var(--orange);
+      font-size: 13px;
       font-weight: 900;
+      letter-spacing: 2px;
+      text-transform: uppercase;
       padding: 18px 40px;
-      border-radius: 10px;
+      border-radius: 4px;
       text-decoration: none;
-      transition: all 0.2s;
-      box-shadow: 0 0 30px rgba(0,180,166,0.3);
+      transition: background 0.2s;
       width: 100%;
     }
-    .btn-cta:hover {
-      background: var(--teal-dark);
-      transform: translateY(-2px);
-      box-shadow: 0 0 50px rgba(0,180,166,0.5);
-    }
+    .btn-cta:hover { background: #111; }
     .cta-urgency {
       margin-top: 14px;
-      font-size: 13px;
-      color: #fc8181;
-      font-weight: 600;
+      font-size: 11px;
+      color: rgba(0,0,0,0.55);
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
     }
 
     /* RECALCULAR */
@@ -423,29 +440,34 @@
       width: 100%;
       margin-top: 16px;
       padding: 14px;
-      border-radius: 8px;
-      border: 2px solid rgba(255,255,255,0.1);
+      border-radius: 4px;
+      border: 1px solid rgba(255,255,255,0.1);
       background: transparent;
       color: var(--gray);
-      font-size: 14px;
-      font-weight: 600;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
       cursor: pointer;
       transition: all 0.18s;
       text-align: center;
+      font-family: inherit;
     }
     .btn-recalc:hover { border-color: rgba(255,255,255,0.25); color: var(--white); }
 
     /* FOOTER */
     footer {
-      background: var(--dark2);
-      border-top: 1px solid rgba(255,255,255,0.05);
-      padding: 28px 24px;
-      text-align: center;
+      background: #000;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 32px 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
-    footer p { font-size: 13px; color: var(--gray); }
-    footer a { color: var(--teal); text-decoration: none; }
-    .footer-logo { font-size: 16px; font-weight: 800; margin-bottom: 6px; }
-    .footer-logo span { color: var(--teal); }
+    footer p { font-size: 12px; color: rgba(255,255,255,0.3); }
+    footer a { color: var(--orange); text-decoration: none; }
+    .footer-logo { font-size: 13px; font-weight: 900; letter-spacing: 3px; text-transform: uppercase; color: var(--orange); }
+    @media (max-width: 640px) { footer { flex-direction: column; gap: 8px; text-align: center; padding: 28px 24px; } }
 
     @media (max-width: 480px) {
       .options-grid.cols-2 { grid-template-columns: 1fr 1fr; }
@@ -458,6 +480,7 @@
 
 <header>
   <div class="logo">Mais<span>Alunos</span> Marketing</div>
+  <div style="font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;background:rgba(255,101,0,0.1);border:1px solid rgba(255,101,0,0.3);color:var(--orange);padding:6px 14px;border-radius:4px;">Calculadora Gratuita</div>
 </header>
 
 <div class="hero">
@@ -703,9 +726,8 @@
 </div><!-- /calc-wrap -->
 
 <footer>
-  <div class="footer-logo">Mais<span>Alunos</span> Marketing</div>
-  <p>Especialistas em captação para assessorias esportivas e artes marciais</p>
-  <p style="margin-top:6px;"><a href="https://instagram.com/maisalunosmarketing">@maisalunosmarketing</a></p>
+  <div class="footer-logo">MaisAlunos Marketing</div>
+  <p>Especialistas em captação para assessorias esportivas · <a href="https://instagram.com/maisalunosmarketing">@maisalunosmarketing</a></p>
 </footer>
 
 <script>
