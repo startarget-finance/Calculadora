@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>MaisAlunos — Script de Ligação + Cadência SDR</title>
+<style>
+:root {
+  --orange: #FF6500;
+  --orange-dark: #CC5000;
+  --black: #000000;
+  --gray-dark: #0a0a0a;
+  --gray-mid: #111111;
+  --gray-light: #1a1a1a;
+  --white: #ffffff;
+  --white-dim: rgba(255,255,255,0.65);
+  --white-faint: rgba(255,255,255,0.08);
+  --green: #22c55e;
+  --red: #ef4444;
+  --yellow: #f59e0b;
+  --blue: #3b82f6;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--black); color: var(--white); min-height: 100vh; }
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 999;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 60px;
+  background: rgba(0,0,0,0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255,101,0,0.2);
+}
+.nav-logo { font-size: 15px; font-weight: 900; letter-spacing: 3px; text-transform: uppercase; color: var(--orange); }
+.nav-tag {
+  font-size: 10px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
+  background: rgba(255,101,0,0.12); border: 1px solid rgba(255,101,0,0.3);
+  color: var(--orange); padding: 6px 16px; border-radius: 4px;
+}
+
+/* HERO */
+.hero {
+  min-height: 38vh;
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 120px 60px 60px;
+  position: relative; overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0; z-index: 0;
+  background-image:
+    repeating-linear-gradient(0deg, transparent, transparent 79px, rgba(255,101,0,0.04) 80px),
+    repeating-linear-gradient(90deg, transparent, transparent 79px, rgba(255,101,0,0.04) 80px);
+}
+.hero-glow {
+  position: absolute; top: -100px; left: -100px;
+  width: 500px; height: 500px; z-index: 0;
+  background: radial-gradient(circle, rgba(255,101,0,0.12) 0%, transparent 70%);
+}
+.hero-content { position: relative; z-index: 1; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 11px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--orange); margin-bottom: 20px;
+}
+.hero-badge::before {
+  content: ''; width: 8px; height: 8px; border-radius: 50%;
+  background: var(--orange);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.3); }
+}
+.hero-title {
+  font-size: 48px; font-weight: 900; text-transform: uppercase;
+  letter-spacing: -1px; line-height: 1.05; margin-bottom: 16px;
+}
+.hero-title span { color: var(--orange); }
+.hero-sub { font-size: 16px; color: var(--white-dim); max-width: 560px; line-height: 1.6; }
+
+/* PAGE */
+.page { max-width: 900px; margin: 0 auto; padding: 0 60px 100px; }
+
+/* SECTION LABEL */
+.section-label {
+  font-size: 11px; font-weight: 800; letter-spacing: 4px; text-transform: uppercase;
+  color: var(--orange); margin-bottom: 14px;
+  display: flex; align-items: center; gap: 12px;
+}
+.section-label::after { content: ''; flex: 0 0 60px; height: 2px; background: var(--orange); }
+.section-title { font-size: 26px; font-weight: 900; text-transform: uppercase; letter-spacing: -0.5px; margin-bottom: 32px; }
+
+/* CHAPTER DIVIDER */
+.chapter {
+  border-top: 2px solid var(--orange);
+  margin: 60px 0 40px;
+  padding-top: 40px;
+}
+.chapter-num {
+  font-size: 11px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--orange); margin-bottom: 8px;
+}
+.chapter-title { font-size: 22px; font-weight: 900; text-transform: uppercase; letter-spacing: -0.3px; margin-bottom: 24px; }
+
+/* BLOCKS */
+.block {
+  background: var(--gray-mid);
+  border-left: 3px solid var(--orange);
+  padding: 24px 28px;
+  margin-bottom: 16px;
+}
+.block-title {
+  font-size: 13px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--orange); margin-bottom: 12px;
+}
+.block p { font-size: 14px; color: var(--white-dim); line-height: 1.7; margin-bottom: 10px; }
+.block p:last-child { margin-bottom: 0; }
+.block strong { color: var(--white); }
+.block ul { padding-left: 18px; margin-top: 8px; }
+.block ul li { font-size: 14px; color: var(--white-dim); line-height: 1.7; margin-bottom: 6px; }
+.block ul li strong { color: var(--white); }
+
+/* ACTION CARD */
+.action-card {
+  background: var(--gray-light);
+  border-top: 2px solid transparent;
+  padding: 24px 28px;
+  margin-bottom: 3px;
+  transition: border-top-color 0.2s;
+}
+.action-card:hover { border-top-color: var(--orange); }
+.action-header { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 14px; }
+.action-num {
+  background: var(--orange); color: #000;
+  font-size: 11px; font-weight: 900; letter-spacing: 1px;
+  padding: 4px 10px; border-radius: 4px; white-space: nowrap; flex-shrink: 0;
+}
+.action-title { font-size: 15px; font-weight: 800; text-transform: uppercase; letter-spacing: -0.2px; }
+.action-meta { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--orange); margin-bottom: 8px; }
+.action-body p { font-size: 14px; color: var(--white-dim); line-height: 1.7; margin-bottom: 8px; }
+.action-body p:last-child { margin-bottom: 0; }
+.action-body strong { color: var(--white); }
+
+/* QUOTE */
+.msg-box {
+  background: rgba(255,101,0,0.06);
+  border: 1px solid rgba(255,101,0,0.2);
+  border-radius: 0;
+  padding: 18px 22px;
+  margin: 12px 0;
+  font-size: 14px; color: var(--white-dim); line-height: 1.7; font-style: italic;
+}
+.msg-box strong { color: var(--white); font-style: normal; }
+
+/* NEGOTIATION */
+.neg-card {
+  background: var(--gray-mid);
+  border-top: 3px solid var(--orange);
+  padding: 32px;
+  margin-bottom: 4px;
+}
+.neg-header { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
+.neg-num {
+  font-size: 32px; font-weight: 900; color: var(--orange); line-height: 1;
+}
+.neg-info {}
+.neg-name { font-size: 18px; font-weight: 900; text-transform: uppercase; letter-spacing: -0.3px; }
+.neg-price {
+  font-size: 24px; font-weight: 900; color: var(--orange); margin: 8px 0 4px;
+}
+.neg-price .old { text-decoration: line-through; color: rgba(255,255,255,0.35); font-size: 16px; margin-right: 8px; }
+.neg-desc { font-size: 13px; color: var(--white-dim); }
+
+.path-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 3px; margin-top: 20px; }
+.path {
+  padding: 18px 20px;
+  border-top: 2px solid;
+}
+.path-yes { border-color: var(--green); background: rgba(34,197,94,0.05); }
+.path-neutral { border-color: var(--yellow); background: rgba(245,158,11,0.05); }
+.path-no { border-color: var(--red); background: rgba(239,68,68,0.05); }
+.path-label { font-size: 10px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+.path-yes .path-label { color: var(--green); }
+.path-neutral .path-label { color: var(--yellow); }
+.path-no .path-label { color: var(--red); }
+.path p { font-size: 13px; color: var(--white-dim); line-height: 1.6; }
+.path p strong { color: var(--white); }
+
+/* LEAD CLASSIFICATION */
+.lead-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 3px; margin-bottom: 20px; }
+.lead-card { padding: 24px; }
+.lead-frio { background: rgba(59,130,246,0.08); border-top: 3px solid var(--blue); }
+.lead-morno { background: rgba(245,158,11,0.08); border-top: 3px solid var(--yellow); }
+.lead-quente { background: rgba(239,68,68,0.08); border-top: 3px solid var(--red); }
+.lead-badge { font-size: 10px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
+.lead-frio .lead-badge { color: var(--blue); }
+.lead-morno .lead-badge { color: var(--yellow); }
+.lead-quente .lead-badge { color: var(--red); }
+.lead-card h4 { font-size: 16px; font-weight: 900; text-transform: uppercase; margin-bottom: 12px; }
+.lead-card p { font-size: 13px; color: var(--white-dim); line-height: 1.6; margin-bottom: 8px; }
+.lead-card ul { padding-left: 16px; }
+.lead-card ul li { font-size: 13px; color: var(--white-dim); line-height: 1.6; margin-bottom: 4px; }
+.lead-card .action-tag {
+  display: inline-block; margin-top: 12px;
+  font-size: 10px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;
+  background: rgba(255,101,0,0.1); border: 1px solid rgba(255,101,0,0.25);
+  color: var(--orange); padding: 4px 10px; border-radius: 4px;
+}
+
+/* BANT */
+.bant-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 3px; margin-bottom: 20px; }
+.bant-item { background: var(--gray-light); padding: 22px; }
+.bant-letter { font-size: 36px; font-weight: 900; color: var(--orange); line-height: 1; margin-bottom: 4px; }
+.bant-name { font-size: 11px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: var(--white-dim); margin-bottom: 12px; }
+.bant-item ul { padding-left: 16px; }
+.bant-item ul li { font-size: 13px; color: var(--white-dim); line-height: 1.6; margin-bottom: 6px; }
+
+/* INFO BOX */
+.info-box {
+  background: rgba(255,101,0,0.08);
+  border: 1px solid rgba(255,101,0,0.2);
+  padding: 20px 24px; margin: 20px 0;
+}
+.info-box p { font-size: 13px; color: var(--white-dim); line-height: 1.7; }
+.info-box strong { color: var(--orange); }
+
+/* PILLARS */
+.pillars { background: var(--orange); color: #000; padding: 36px; margin-top: 40px; }
+.pillars h3 { font-size: 18px; font-weight: 900; text-transform: uppercase; letter-spacing: -0.3px; margin-bottom: 20px; }
+.pillar-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+.pillar-list li {
+  display: flex; align-items: flex-start; gap: 12px;
+  font-size: 14px; font-weight: 600; line-height: 1.5;
+}
+.pillar-list li::before {
+  content: '▶'; font-size: 10px; flex-shrink: 0; margin-top: 4px;
+}
+
+/* DAY DIVIDER */
+.day-label {
+  background: var(--gray-mid);
+  border-left: 4px solid var(--orange);
+  padding: 12px 20px;
+  font-size: 13px; font-weight: 900; text-transform: uppercase; letter-spacing: 2px;
+  color: var(--orange); margin: 32px 0 20px;
+}
+
+/* DIVIDER */
+hr.divider { border: none; border-top: 1px solid rgba(255,255,255,0.06); margin: 48px 0; }
+
+/* FOOTER */
+footer {
+  background: var(--black); border-top: 1px solid rgba(255,255,255,0.06);
+  padding: 32px 60px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.footer-logo { font-size: 13px; font-weight: 900; letter-spacing: 3px; text-transform: uppercase; color: var(--orange); }
+.footer-copy { font-size: 12px; color: rgba(255,255,255,0.3); }
+.footer-copy a { color: var(--orange); text-decoration: none; }
+
+/* TOC */
+.toc { background: var(--gray-mid); padding: 28px 32px; margin-bottom: 48px; }
+.toc-title { font-size: 11px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase; color: var(--orange); margin-bottom: 16px; }
+.toc-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.toc-list li { display: flex; align-items: center; gap: 12px; }
+.toc-list a { font-size: 14px; color: var(--white-dim); text-decoration: none; transition: color 0.2s; }
+.toc-list a:hover { color: var(--orange); }
+.toc-num { font-size: 11px; font-weight: 800; color: var(--orange); width: 20px; flex-shrink: 0; }
+
+@media (max-width: 900px) {
+  nav { padding: 16px 24px; }
+  .hero { padding: 100px 24px 48px; }
+  .hero-title { font-size: 32px; }
+  .page { padding: 0 24px 80px; }
+  .bant-grid { grid-template-columns: 1fr; }
+  .path-grid { grid-template-columns: 1fr; }
+  footer { flex-direction: column; gap: 12px; text-align: center; padding: 28px 24px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">MaisAlunos Marketing</div>
+  <div class="nav-tag">Script SDR + Cadência</div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Processo Comercial · SDR</div>
+    <h1 class="hero-title">Script de <span>Ligação</span><br>+ Cadência SDR</h1>
+    <p class="hero-sub">Roteiro completo de prospecção ativa, qualificação BANT, linhas de negociação e protocolo de comparecimento para academias e negócios esportivos.</p>
+  </div>
+</div>
+
+<!-- PAGE -->
+<div class="page">
+
+  <!-- TOC -->
+  <div class="toc">
+    <div class="toc-title">Índice</div>
+    <ul class="toc-list">
+      <li><span class="toc-num">01</span><a href="#agendamento">Script de Agendamento — Cadência 3 Dias</a></li>
+      <li><span class="toc-num">02</span><a href="#ligacao">Script de Ligação BANT</a></li>
+      <li><span class="toc-num">03</span><a href="#comparecimento">Script de Comparecimento</a></li>
+      <li><span class="toc-num">04</span><a href="#recuperacao">Recuperação de Base</a></li>
+      <li><span class="toc-num">05</span><a href="#negociacao">Linhas de Negociação + Fechamento</a></li>
+    </ul>
+  </div>
+
+  <!-- ===== CAP 1: AGENDAMENTO ===== -->
+  <div class="chapter" id="agendamento">
+    <div class="chapter-num">Capítulo 01</div>
+    <div class="chapter-title">Script de Agendamento — Cadência 3 Dias</div>
+
+    <div class="block" style="margin-bottom:28px;">
+      <div class="block-title">Objetivo da Cadência</div>
+      <p>Transformar o lead que preencheu um formulário ou demonstrou interesse em uma reunião de diagnóstico confirmada. Cada ação tem um objetivo específico — siga a sequência rigorosamente. <strong>Personalize sempre</strong> com o nome do lead e o nome da academia.</p>
+    </div>
+
+    <!-- DIA 1 -->
+    <div class="day-label">Primeiro Dia — Primeiro Contato</div>
+
+    <div class="action-card">
+      <div class="action-header">
+        <div class="action-num">1ª AÇÃO · 1º DIA</div>
+        <div>
+          <div class="action-title">Apresentação + Primeiro Contato</div>
+          <div class="action-meta">WhatsApp texto + Ligação imediata</div>
+        </div>
+      </div>
+      <div class="action-body">
+        <p><strong>Objetivo:</strong> Se apresentar e gerar o primeiro ponto de contato. Velocidade é tudo — contate em até 5 minutos após o lead chegar.</p>
+        <div class="msg-box">
+          "Opa, tudo bem? Me chamo [Nome], sou especialista de marketing da MaisAlunos. Vi que você demonstrou interesse em entender como podemos encher sua academia de alunos com tráfego pago. Podemos falar agora?"
+        </div>
+      </div>
+    </div>
+
+    <div class="action-card">
+      <div class="action-header">
+        <div class="action-num">2ª AÇÃO · ATÉ 30 MIN</div>
+        <div>
+          <div class="action-title">Reforço — Se Não Atendeu</div>
+          <div class="action-meta">Áudio no WhatsApp + Nova Ligação</div>
+        </div>
+      </div>
+      <div class="action-body">
+        <p><strong>Objetivo:</strong> Reforçar a importância da conversa com tom próximo e humano.</p>
+        <div class="msg-box">
+          "Oi, tudo certo? Aqui é [Nome] da MaisAlunos, tentei te ligar agora. Sei que tá corrido, mas preciso de só dois minutinhos para entender o momento da sua academia e ver se consigo te ajudar. Qual o melhor horário para eu te ligar?"
+        </div>
+      </div>
+    </div>
+
+    <div class="action-card">
+      <div class="action-header">
+        <div class="action-num">3ª AÇÃO · 1–2H DEPOIS</div>
+        <div>
+          <div class="action-title">Social Selling no Instagram</div>
+          <div class="action-meta">Instagram: curtir 3 posts + comentar 1 + DM</div>
+        </div>
+      </div>
+      <div class="action-body">
+        <p><strong>Objetivo:</strong> Ser visto e lembrado. Humaniza o contato antes da abordagem direta.</p>
+        <div class="msg-box">
+          "[Nome da academia], você entrou em contato com a MaisAlunos hoje, lembra? Vim te chamar aqui porque fizemos uma análise rápida da sua região e percebemos que você pode aumentar em até 40% o número de alunos nos próximos 60 dias. Me responde aqui ou no WhatsApp que já te envio a análise."
+        </div>
+      </div>
+    </div>
+
+    <div class="action-card">
+      <div class="action-header">
+        <div class="action-num">4ª AÇÃO · 30–60 MIN DEPOIS</div>
+        <div>
+          <div class="action-title">Urgência + Concorrência Local</div>
+          <div class="action-meta">Mensagem + Ligação</div>
+        </div>
+      </div>
+      <div class="action-body">
+        <p><strong>Objetivo:</strong> Criar senso de urgência usando o argumento da concorrência regional.</p>
+        <div class="msg-box">
+          "[Lead], posso te enviar a análise que preparamos. Levantamos que academias na sua região já estão rodando tráfego pago e capturando os alunos que poderiam ser seus — você não pode ficar pra trás. 💪"
+        </div>
+      </div>
+    </div>
+
+    <!-- DIA 2 -->
+    <div class="day-label">Segundo Dia — Follow-ups</div>
+
+    <div class="action-card">
+      <div class="action-header">
+        <div class="action-num">FOLLOW UP 1 · DIA 2</div>
+        <div>
+          <div class="action-title">Coleta de Informações Antecipada</div>
+          <div class="action-meta">Mensagem + Ligação</div>
+        </div>
+      </div>
+      <div class="action-body">
+        <p><strong>Objetivo:</strong> Coletar dados do negócio para personalizar a abordagem e agilizar o diagnóstico.</p>
+        <div class="msg-box">
+          "Imagino que esteja com a academia correndo, então vou adiantar algumas perguntas para agilizar seu atendimento e acelerar os resultados.<br><br>
+          Me conta um pouco sobre sua academia:<br>
+          • Quantos alunos você tem hoje?<br>
+          • Qual modalidade você oferece?<br>
+          • Você já fez algum tráfego pago antes?"
+        </div>
+      </div>
+    </div>
+
+    <div class="action-card">
+      <div class="action-header">
+        <div class="action-num">FOLLOW UP 2 · DIA 2</div>
+        <div>
+          <div class="action-title">Prova Social — Case Art Dojo</div>
+          <div class="action-meta">Vídeo PGM ou imagem de resultado + Mensagem curta</div>
+        </div>
+      </div>
+      <div class="action-body">
+        <p><strong>Objetivo:</strong> Criar curiosidade com resultado concreto e próximo da realidade do lead.</p>
+        <p><strong>Conteúdo do vídeo:</strong></p>
+        <div class="msg-box">
+          "Opa [nome], esse é o resultado de um cliente nosso — Academia Art Dojo. Quando chegaram na MaisAlunos tinham 28 alunos. Em menos de 90 dias chegaram a 200+. E conseguimos fazer o mesmo com a sua [nome da academia]. Consegue me atender?"
+        </div>
+        <div class="msg-box">
+          <strong>Mensagem texto:</strong> "Academia que saiu de 28 para 200+ alunos em 90 dias com o nosso método. Você está a um passo de ter esse resultado também. Consegue atender agora?"
+        </div>
+      </div>
+    </div>
+
+    <div class="action-card">
+      <div class="action-header">
+        <div class="action-num">FOLLOW UP 3 · DIA 2</div>
+        <div>
+          <div class="action-title">Urgência e Escassez</div>
+          <div class="action-meta">Mensagem + Ligação</div>
+        </div>
+      </div>
+      <div class="action-body">
+        <div class="msg-box">
+          "Opa! Vi que você demonstrou interesse no nosso diagnóstico gratuito, mas ainda não conseguimos conversar. Quero saber se ainda faz sentido pra você — estamos com poucos horários disponíveis essa semana e quero reservar um para a sua academia. Consegue me dar um ok?"
+        </div>
+      </div>
+    </div>
+
+    <!-- DIA 3 -->
+    <div class="day-label">Terceiro Dia — Tentativas Finais</div>
+
+    <div class="action-card">
+      <div class="action-header">
+        <div class="action-num">FOLLOW UP 4 · DIA 3</div>
+        <div>
+          <div class="action-title">Tom Emocional + Impacto Real</div>
+          <div class="action-meta">Depoimento de cliente + Mensagem</div>
+        </div>
+      </div>
+      <div class="action-body">
+        <div class="msg-box">
+          "[Lead], preciso que você entenda uma coisa...<br><br>
+          Perdoe se estou sendo insistente. Se não tiver interesse, pode me falar e encerro o contato. Mas é que essa academia saiu de academia vazia pra lista de espera em 3 meses — e sei que você gostaria de saber como. Me atende, por favor?"
+        </div>
+      </div>
+    </div>
+
+    <div class="action-card">
+      <div class="action-header">
+        <div class="action-num">FOLLOW UP 5 · DIA 3</div>
+        <div>
+          <div class="action-title">Última Tentativa — Despedida</div>
+          <div class="action-meta">Mensagem final + prova social</div>
+        </div>
+      </div>
+      <div class="action-body">
+        <div class="msg-box">
+          "Querido(a) [nome], fiquei um pouco chateado com a nossa conversa. Havia identificado muito potencial na sua academia e tenho plena certeza de que nosso trabalho traria grandes resultados.<br><br>
+          Como já tentei várias vezes sem retorno, vou considerar que você não deseja seguir adiante. Desejo muito sucesso pra sua academia e prometo não aborrecê-lo mais. 🥺"
+        </div>
+        <p style="margin-top:12px; font-size:13px;"><strong>Dica:</strong> Essa mensagem frequentemente provoca resposta. Mantenha o tom genuíno — não forçado.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider"/>
+
+  <!-- ===== CAP 2: LIGAÇÃO BANT ===== -->
+  <div class="chapter" id="ligacao">
+    <div class="chapter-num">Capítulo 02</div>
+    <div class="chapter-title">Script de Ligação BANT</div>
+
+    <div class="block" style="margin-bottom:28px;">
+      <div class="block-title">⚠️ Importante</div>
+      <p>O script é o esqueleto — não o texto decorado. <strong>Rapport e personalização são sua responsabilidade.</strong> Sempre coloque seu toque pessoal. Soe como um parceiro estratégico, não como um vendedor de produto.</p>
+    </div>
+
+    <!-- ABERTURA -->
+    <div class="section-label" style="margin-top:32px;">Abertura</div>
+    <div class="block">
+      <div class="block-title">Quebra de gelo + Apresentação</div>
+      <p>Uma abertura leve gera agendamento. Soe como parceiro, não como vendedor.</p>
+      <div class="msg-box">
+        "Oi, aqui é o [Nome], especialista em marketing esportivo da MaisAlunos. Vi que você demonstrou interesse em entender como podemos ajudar sua academia a atrair mais alunos e encher a agenda das modalidades.<br><br>
+        Estou ligando rapidinho só para conhecer melhor seu momento e, se fizer sentido, agendarmos um diagnóstico gratuito personalizado. Pode ser?"
+      </div>
+    </div>
+
+    <!-- INTERESSE -->
+    <div class="section-label" style="margin-top:32px;">Tratamento de Interesse</div>
+
+    <div class="block">
+      <div class="block-title">Se disser "Não posso falar agora"</div>
+      <ul>
+        <li>"Você realmente não tem <strong>2 minutinhos</strong> para agendarmos? Prometo ser bem breve."</li>
+        <li>"Encher sua academia de alunos nesse momento é uma prioridade pra você? (Se sim → conclui rápido ou agenda retorno)."</li>
+      </ul>
+    </div>
+
+    <div class="block">
+      <div class="block-title">Se disser "Sim, pode falar"</div>
+      <p>"Você já conhece a MaisAlunos ou foi a primeira vez que viu nosso trabalho?"</p>
+      <p style="margin-top:10px;"><strong>Caso não conheça:</strong></p>
+      <div class="msg-box">
+        "Então, a MaisAlunos é especialista em marketing para academias e negócios esportivos. Trabalhamos com um método chamado MMA — Mercado, Mensagem e Ação — que une tráfego pago, conteúdo e gestão de leads em um único sistema. Nosso case mais conhecido é o Art Dojo: saiu de 28 para 200+ alunos em menos de 90 dias.<br><br>
+        Se você me permitir, quero fazer 3 perguntinhas sobre o seu cenário para preparar algo personalizado. Pode ser?"
+      </div>
+    </div>
+
+    <!-- BANT -->
+    <div class="section-label" style="margin-top:32px;">Qualificação — BANT</div>
+
+    <div class="bant-grid">
+      <div class="bant-item">
+        <div class="bant-letter">B</div>
+        <div class="bant-name">Budget — Orçamento</div>
+        <ul>
+          <li>"Quantos alunos você tem hoje e qual sua mensalidade média?"</li>
+          <li>"Você já investiu em tráfego pago antes? Quanto por mês?"</li>
+          <li>"Tem verba separada para marketing ou ainda não?"</li>
+        </ul>
+      </div>
+      <div class="bant-item">
+        <div class="bant-letter">A</div>
+        <div class="bant-name">Authority — Decisão</div>
+        <ul>
+          <li>"Além de você, alguém mais participa das decisões de investimento na academia?"</li>
+          <li>"Quando decidem por algo estratégico, como funciona esse processo?"</li>
+        </ul>
+      </div>
+      <div class="bant-item">
+        <div class="bant-letter">N</div>
+        <div class="bant-name">Need — Necessidade</div>
+        <ul>
+          <li>"Hoje qual é o maior desafio: atrair novos alunos, reter os que já tem ou converter os que chegam?"</li>
+          <li>"Se pudesse resolver um problema rápido, qual seria?"</li>
+          <li>"Tem meta de alunos para esse semestre?"</li>
+        </ul>
+      </div>
+      <div class="bant-item">
+        <div class="bant-letter">T</div>
+        <div class="bant-name">Timeline — Prazo</div>
+        <ul>
+          <li>"Você já tinha em mente começar uma estratégia de marketing nos próximos meses?"</li>
+          <li>"Se mostrarmos um plano que faça sentido, quando gostaria de começar a ver resultados?"</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- AGENDAMENTO -->
+    <div class="section-label" style="margin-top:32px;">Agendamento</div>
+
+    <div class="info-box">
+      <p>⚡ <strong>Lembrete:</strong> Um lead vai para a reunião por 3 motivos: nível de consciência, nível de interesse e tamanho do negócio. Se o negócio for pequeno mas houver interesse genuíno, pode agendar com bom senso.</p>
+    </div>
+
+    <div class="block">
+      <div class="block-title">Academia com 30+ alunos OU potencial claro de crescimento</div>
+      <div class="msg-box">
+        "Perfeito, [nome]. Vai ser um prazer te apresentar em detalhes como podemos acelerar o crescimento da sua academia. Para nossa conversa, fica melhor amanhã de manhã ou à tarde?"
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-title">Academia muito pequena ou orçamento limitado</div>
+      <div class="msg-box">
+        "Entendi seu cenário. Olha, temos um plano de entrada que foi desenhado exatamente pra quem está no começo da jornada — com investimento mais acessível e foco em resultado rápido. Não tem como eu detalhar aqui, mas na reunião o especialista já entrega um diagnóstico completo da sua academia. Vale muito a pena. Consegue amanhã?"
+      </div>
+    </div>
+
+    <!-- FINALIZAÇÃO -->
+    <div class="section-label" style="margin-top:32px;">Finalização da Ligação</div>
+    <div class="block">
+      <div class="msg-box">
+        "[Nome], foi ótimo nosso bate-papo. Vou criar um grupo no WhatsApp com você e o especialista que vai conduzir o diagnóstico — esse será nosso canal oficial.<br><br>
+        E reforçando: a MaisAlunos tem uma missão clara — transformar academias e negócios esportivos que acreditam em crescimento. É muito bom ter você com a gente nesse movimento."
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider"/>
+
+  <!-- ===== CAP 3: COMPARECIMENTO ===== -->
+  <div class="chapter" id="comparecimento">
+    <div class="chapter-num">Capítulo 03</div>
+    <div class="chapter-title">Script de Comparecimento</div>
+
+    <!-- GRUPO -->
+    <div class="section-label">Reunião Agendada — Grupo WhatsApp</div>
+
+    <div class="block">
+      <div class="block-title">Ação 1 · Criação do Grupo</div>
+      <p>O link do grupo deve ser enviado <strong>durante a ligação</strong>, ou em até 1 minuto após.</p>
+      <p><strong>Justificativa para o lead:</strong></p>
+      <div class="msg-box">
+        "Vou criar um grupo para te colocar em contato com o especialista que vai te atender — e no grupo vou te enviar um material exclusivo sobre como outras academias estão crescendo com a MaisAlunos. Para que a reunião aconteça, preciso que você acesse o grupo, pois o link da call vai chegar por lá. Posso contar com seu comprometimento?"
+      </div>
+      <ul style="margin-top:14px;">
+        <li>O grupo deve conter: <strong>SDR + Closer responsável + Lead</strong></li>
+        <li>Nome do grupo: <strong>Diagnóstico MaisAlunos · [Nome da Academia] · [Data]</strong></li>
+        <li>Imagem de capa padrão da MaisAlunos</li>
+      </ul>
+    </div>
+
+    <div class="block">
+      <div class="block-title">Ação 2 · Saudação + Vídeo do Closer</div>
+      <div class="msg-box">
+        "Opa @[lead], seja muito bem-vindo ao grupo! Nossa reunião ficou agendada para [data/hora] com nosso especialista [@Closer].<br><br>
+        *Link da reunião: [link do Google Meet]*<br><br>
+        Lembre de estar num ambiente silencioso e, se possível, com o sócio ou gestor. Importante: temos lista de espera para os diagnósticos — caso precise remarcar, avise com 2 horas de antecedência. Qualquer dúvida, estou aqui! ✅"
+      </div>
+      <p><em>📌 FIXE ESSA MENSAGEM NO GRUPO</em></p>
+    </div>
+
+    <div class="block">
+      <div class="block-title">Ação 3 · Conteúdo de Aquecimento</div>
+      <div class="msg-box">
+        "Opa @[lead], tudo certo? Enquanto nossa reunião não chega, separei um conteúdo exclusivo para você que está comprometido com os resultados da sua academia:<br><br>
+        📊 Case completo Art Dojo — de 28 a 200+ alunos em 90 dias → [link]"
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-title">Ação 4 · Dia da Reunião — Confirmação Final</div>
+      <p><strong>4 horas antes:</strong></p>
+      <div class="msg-box">
+        "Passando para confirmar nossa reunião hoje às [hora]. Preparamos algo bem exclusivo e personalizado para a sua academia. Tudo certo para conversarmos? Reage aqui por favor. 🙏"
+      </div>
+      <p style="margin-top:12px;"><strong>1 hora antes (se respondeu):</strong></p>
+      <div class="msg-box">
+        "@[lead], em uma hora estarei online te esperando nesse link: [link]. Até daqui a pouco!"
+      </div>
+      <p style="margin-top:12px;"><strong>1 hora antes (se não respondeu):</strong> Ligação + contato privado pelo WhatsApp do Closer e do SDR.</p>
+      <p style="margin-top:12px;"><strong>No horário (se não aparecer):</strong> 2 ligações via WhatsApp + 1 ligação via discador.</p>
+    </div>
+  </div>
+
+  <hr class="divider"/>
+
+  <!-- ===== CAP 4: RECUPERAÇÃO ===== -->
+  <div class="chapter" id="recuperacao">
+    <div class="chapter-num">Capítulo 04</div>
+    <div class="chapter-title">Classificação de Leads — Recuperação de Base</div>
+
+    <div class="lead-grid">
+      <div class="lead-card lead-frio">
+        <div class="lead-badge">🔵 Leads Frios</div>
+        <h4>Sem Resposta</h4>
+        <p><strong>Definição:</strong> Leads que entraram na base mas não responderam aos 3 dias de cadência. Perfil ICP incerto.</p>
+        <ul>
+          <li>Nunca interagiram com nenhum contato</li>
+          <li>Ou interagiram brevemente e o ICP estava muito abaixo</li>
+        </ul>
+        <p><strong>Exemplo:</strong> Preencheu formulário, recebeu as tentativas, mas nunca respondeu.</p>
+        <p><strong>Ação:</strong> Fluxo de nutrição passiva — conteúdo, remarketing, campanhas de reengajamento a cada 15 dias.</p>
+        <div class="action-tag">Nutrição Passiva</div>
+      </div>
+      <div class="lead-card lead-morno">
+        <div class="lead-badge">🟡 Leads Mornos</div>
+        <h4>Interesse Mínimo</h4>
+        <p><strong>Definição:</strong> Tiveram mínimo contato, possuem bom perfil ICP, mas não avançaram para agendamento.</p>
+        <ul>
+          <li>Responderam mensagem ou pediram informações</li>
+          <li>Travaram na fase de marcar a call</li>
+          <li>Sumiram antes da reunião</li>
+        </ul>
+        <p><strong>Exemplo:</strong> Respondeu, mostrou interesse mas desapareceu depois.</p>
+        <p><strong>Ação:</strong> Follow-ups periódicos a cada <strong>10 dias</strong> com prova social, cases e CTA de agendamento.</p>
+        <div class="action-tag">Follow-up 10/10 dias</div>
+      </div>
+      <div class="lead-card lead-quente">
+        <div class="lead-badge">🔴 Leads Quentes</div>
+        <h4>Avançaram, Não Fecharam</h4>
+        <p><strong>Definição:</strong> Avançaram no funil mas não converteram. ICP já validado, dor confirmada.</p>
+        <ul>
+          <li>Agendaram mas não compareceram (no-show)</li>
+          <li>Fizeram a reunião, receberam proposta mas não fecharam</li>
+          <li>ICP acima da média</li>
+        </ul>
+        <p><strong>Exemplo:</strong> Fez o diagnóstico, gostou, pediu tempo e sumiu.</p>
+        <p><strong>Ação:</strong> Follow-up intenso a cada <strong>3 dias</strong> com gatilhos de urgência, escassez e máxima personalização.</p>
+        <div class="action-tag">Cadência 3/3 dias</div>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-title">✅ Resumo para o Time</div>
+      <ul>
+        <li><strong>Frios →</strong> 3 dias sem resposta, ICP incerto → Nutrição passiva 15 em 15 dias</li>
+        <li><strong>Mornos →</strong> Contato mínimo, ICP bom, não avançaram → Follow-up 10 em 10 dias</li>
+        <li><strong>Quentes →</strong> Avançaram (reunião, proposta), mas não fecharam → Cadência intensa 3 em 3 dias</li>
+      </ul>
+    </div>
+  </div>
+
+  <hr class="divider"/>
+
+  <!-- ===== CAP 5: NEGOCIAÇÃO ===== -->
+  <div class="chapter" id="negociacao">
+    <div class="chapter-num">Capítulo 05</div>
+    <div class="chapter-title">Roteiro de Fechamento — Linhas de Negociação</div>
+
+    <div class="block" style="margin-bottom:32px;">
+      <div class="block-title">Como Funcionam as Linhas</div>
+      <p>As <strong>Linhas de Negociação</strong> são os degraus estratégicos do fechamento comercial. Cada linha representa uma proposta diferente com narrativa, valor e condições específicas.</p>
+      <p style="margin-top:10px;">👉 A lógica: começamos sempre pela <strong>linha mais alta (valor cheio)</strong> e, se o cliente apresentar objeção de preço, descemos para a linha seguinte — nunca antes de isolar a objeção.</p>
+    </div>
+
+    <!-- PRÉ-LINHA -->
+    <div class="block" style="margin-bottom:24px;">
+      <div class="block-title">Pré-Linha — Antes de Apresentar Qualquer Valor</div>
+      <p>Reitere todos os entregáveis e pergunte:</p>
+      <div class="msg-box">
+        "Tudo ficou claro até aqui? Tem alguma dúvida sobre o que entregamos ou como funciona o processo?<br><br>
+        O que apresentei até agora parece útil para a sua academia hoje? Como você se sente em relação ao que viu?"
+      </div>
+      <p>👉 <strong>Objetivo:</strong> isolar objeções de entendimento antes de falar de preço.</p>
+    </div>
+
+    <!-- LINHA 1 -->
+    <div class="neg-card">
+      <div class="neg-header">
+        <div class="neg-num">L1</div>
+        <div class="neg-info">
+          <div class="neg-name">Plano Completo — Com Setup</div>
+          <div class="neg-price">R$ 2.497/mês <span style="font-size:14px; color:var(--white-dim);">+ R$ 990 setup</span></div>
+          <div class="neg-desc">Plano completo: tráfego pago, gestão de conteúdo, gestão de leads, relatório semanal e reunião mensal estratégica.</div>
+        </div>
+      </div>
+      <div class="path-grid">
+        <div class="path path-yes">
+          <div class="path-label">✓ Fechamento Imediato</div>
+          <p>Cliente aceita na hora. Acionar <strong>Protocolo 24h</strong>: "Perfeito, já vamos criar o grupo de boas-vindas. A assinatura acontece em até 24h porque trabalhamos com lista de espera."</p>
+        </div>
+        <div class="path path-neutral">
+          <div class="path-label">⏸ Objeção ≠ Preço</div>
+          <p>Precisa de tempo / alinhar sócio / pensar. Marcar <strong>re-call em até 8–12h</strong>. Aplicar <strong>Protocolo 8/24</strong>: "Essa proposta se mantém válida por 8h — a assinatura acontece em até 24h."</p>
+        </div>
+        <div class="path path-no">
+          <div class="path-label">↓ Objeção = Preço</div>
+          <p>Cliente pede desconto. <strong>Seguir para Linha 2.</strong> Nunca queimar a linha sem isolar se a objeção é mesmo preço.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- LINHA 2 -->
+    <div class="neg-card">
+      <div class="neg-header">
+        <div class="neg-num">L2</div>
+        <div class="neg-info">
+          <div class="neg-name">Plano Completo — Sem Setup</div>
+          <div class="neg-price">R$ 2.497/mês <span style="font-size:14px; color:var(--white-dim);">zero setup</span></div>
+          <div class="neg-desc">Contrato 12 meses com cláusula PGM: possibilidade de saída no 3º mês com aviso de 30 dias, caso as metas não sejam atingidas.</div>
+        </div>
+      </div>
+      <div class="path-grid">
+        <div class="path path-yes">
+          <div class="path-label">✓ Fechamento Imediato</div>
+          <p>Cliente aceita. Acionar <strong>Protocolo 24h</strong>.</p>
+        </div>
+        <div class="path path-neutral">
+          <div class="path-label">⏸ Objeção ≠ Preço</div>
+          <p>Precisa validar com sócio / revisar orçamento. Marcar <strong>re-call em até 8–12h</strong>. Aplicar <strong>Protocolo 8/24</strong>.</p>
+        </div>
+        <div class="path path-no">
+          <div class="path-label">↓ Objeção = Preço</div>
+          <p>Quer reduzir valor. Perguntar: <em>"Qual investimento seria viável hoje para iniciarmos? Preciso entender pra brigar com meu diretor."</em> Se valor for viável → Linha 3. Se muito abaixo → Linha 3 protagonista.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- LINHA 3 -->
+    <div class="neg-card">
+      <div class="neg-header">
+        <div class="neg-num">L3</div>
+        <div class="neg-info">
+          <div class="neg-name">Oferta Protagonista</div>
+          <div class="neg-price"><span class="old">R$ 2.497</span> R$ 1.797/mês <span style="font-size:14px; color:var(--white-dim);">zero setup</span></div>
+          <div class="neg-desc">Investimento Especial de Entrada — MaisAlunos abre mão de parte do lucro no 1º ano para construir resultados junto com o cliente e uma parceria de longo prazo.</div>
+        </div>
+      </div>
+      <div class="msg-box" style="margin: 16px 0;">
+        "Só trabalhamos no nosso ticket base acima de R$ 2.000. Só que temos uma estratégia de penetração de mercado — uma condição especial para academias que estão iniciando conosco. Essa proposta encerrou na semana passada, mas vou arrumar briga com meu diretor pra estender pra você…"
+      </div>
+      <div class="path-grid">
+        <div class="path path-yes">
+          <div class="path-label">✓ Fechamento Imediato</div>
+          <p>Cliente aceita. Fechar com <strong>Protocolo 24h</strong>.</p>
+        </div>
+        <div class="path path-neutral">
+          <div class="path-label">⏸ Objeção ≠ Preço</div>
+          <p>Precisa pensar / alinhar. Marcar <strong>re-call em até 8–12h</strong>. Aplicar <strong>Protocolo 8/24</strong>. Reforçar que a oferta expira.</p>
+        </div>
+        <div class="path path-no">
+          <div class="path-label">↓ Objeção = Preço</div>
+          <p>Quer abaixo de R$ 1.797. <strong>Seguir para Linha 4 — última cartada.</strong></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- LINHA 4 -->
+    <div class="neg-card" style="border-color: var(--red);">
+      <div class="neg-header">
+        <div class="neg-num" style="color:var(--red);">L4</div>
+        <div class="neg-info">
+          <div class="neg-name">Regulamento Interno — Última Cartada</div>
+          <div class="neg-price" style="color:var(--red);"><span class="old">R$ 1.797</span> R$ 1.497/mês</div>
+          <div class="neg-desc">Condição interna disponível para 30% dos contratos. Só pode ser fechada na própria reunião — não pode ser enviada por WhatsApp. Ative o regulamento físico.</div>
+        </div>
+      </div>
+      <div class="msg-box" style="margin: 16px 0;">
+        "Dentro do nosso regulamento, tenho uma condição especial para 30% dos meus contratos. Deixa eu te mostrar — não é mentira. [abre regulamento].<br><br>
+        Consigo esse valor de R$ 1.497 pra você, mas tem 2 critérios:<br>
+        1) Só pode ser fechado aqui na reunião — não posso nem enviar por WhatsApp.<br>
+        2) Já fechei X contratos esse mês, tenho apenas Y vagas nessa condição. Você seria o último.<br><br>
+        Isso é sorte, [nome]. E você sabe: a sorte é o encontro da <strong>oportunidade com a preparação</strong>."
+      </div>
+      <div class="path-grid">
+        <div class="path path-yes">
+          <div class="path-label">✓ Fechamento Imediato</div>
+          <p>Cliente aceita. Fechar com <strong>Protocolo 8h</strong> (não 24h — condição mais curta).</p>
+        </div>
+        <div class="path path-neutral">
+          <div class="path-label">⏸ Objeção ≠ Preço</div>
+          <p>Precisa alinhar. <strong>Re-call imediato em até 8h.</strong> A condição expira — não há prorrogação.</p>
+        </div>
+        <div class="path path-no">
+          <div class="path-label">✗ Abaixo de R$ 1.497</div>
+          <p>Encerrar com clareza: <em>"O não é tão importante quanto o sim. Se não faz sentido agora, podemos encerrar por aqui. Mas se faz sentido, essa é a última condição possível."</em></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PILARES -->
+    <div class="pillars">
+      <h3>🔑 Pilares-Chave para o Vendedor</h3>
+      <ul class="pillar-list">
+        <li>Sempre 3 caminhos em cada linha: fechamento, objeção ≠ preço (re-call 8–12h) e objeção = preço (próxima linha)</li>
+        <li>Nunca queimar a linha seguinte sem isolar a objeção primeiro</li>
+        <li>Sempre agendar o re-call dentro da própria reunião — nunca deixar em aberto</li>
+        <li>Reforçar que cada proposta expira: 8h nas linhas mais baixas, 24h nas mais altas</li>
+        <li>Quanto mais avança nas linhas, mais pressão no reagendamento — a oferta vai expirar</li>
+        <li>Fechamento fora da reunião é vetado nas Linhas 3 e 4 — use isso como argumento de escassez</li>
+      </ul>
+    </div>
+
+  </div>
+
+</div><!-- /page -->
+
+<footer>
+  <div class="footer-logo">MaisAlunos Marketing</div>
+  <div class="footer-copy">
+    Uso interno · Processo comercial SDR ·
+    <a href="https://instagram.com/maisalunosmarketing">@maisalunosmarketing</a>
+  </div>
+</footer>
+
+</body>
+</html>
