@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Raio-X MaisAlunos — Diagnóstico Completo</title>
+<style>
+:root {
+  --orange: #FF6500;
+  --orange-dark: #CC5000;
+  --orange-faint: rgba(255,101,0,0.08);
+  --black: #000000;
+  --gray-dark: #0a0a0a;
+  --gray-mid: #111111;
+  --gray-light: #1a1a1a;
+  --gray-input: #161616;
+  --white: #ffffff;
+  --white-dim: rgba(255,255,255,0.65);
+  --white-faint: rgba(255,255,255,0.06);
+  --border: rgba(255,255,255,0.1);
+  --border-focus: rgba(255,101,0,0.6);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: var(--black);
+  color: var(--white);
+  min-height: 100vh;
+}
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 999;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 60px;
+  background: rgba(0,0,0,0.96);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255,101,0,0.15);
+}
+.nav-logo { font-size: 14px; font-weight: 900; letter-spacing: 3px; text-transform: uppercase; color: var(--orange); }
+.nav-tag {
+  font-size: 10px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
+  background: rgba(255,101,0,0.1); border: 1px solid rgba(255,101,0,0.3);
+  color: var(--orange); padding: 5px 14px; border-radius: 4px;
+}
+
+/* PROGRESS BAR */
+.progress-bar-wrap {
+  position: fixed; top: 57px; left: 0; right: 0; z-index: 998;
+  height: 3px; background: rgba(255,255,255,0.06);
+}
+.progress-bar-fill {
+  height: 100%; background: var(--orange);
+  transition: width 0.4s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* HERO */
+.hero {
+  min-height: 44vh;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 120px 60px 56px;
+  position: relative; overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background-image:
+    repeating-linear-gradient(0deg, transparent, transparent 79px, rgba(255,101,0,0.035) 80px),
+    repeating-linear-gradient(90deg, transparent, transparent 79px, rgba(255,101,0,0.035) 80px);
+}
+.hero-glow {
+  position: absolute; bottom: -80px; right: -80px;
+  width: 480px; height: 480px;
+  background: radial-gradient(circle, rgba(255,101,0,0.1) 0%, transparent 70%);
+}
+.hero-content { position: relative; z-index: 1; max-width: 680px; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 11px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--orange); margin-bottom: 16px;
+}
+.hero-badge::before {
+  content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--orange);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%,100%{opacity:1;transform:scale(1);}50%{opacity:.5;transform:scale(1.4);}
+}
+.hero-title {
+  font-size: 52px; font-weight: 900; text-transform: uppercase;
+  letter-spacing: -1.5px; line-height: 1; margin-bottom: 8px;
+}
+.hero-title span { color: var(--orange); }
+.hero-sub { font-size: 16px; color: var(--white-dim); line-height: 1.6; margin-bottom: 28px; }
+.hero-stats {
+  display: flex; gap: 32px; flex-wrap: wrap;
+}
+.hero-stat { }
+.hero-stat-num { font-size: 22px; font-weight: 900; color: var(--orange); }
+.hero-stat-label { font-size: 11px; color: var(--white-dim); text-transform: uppercase; letter-spacing: 1px; }
+
+/* FORM WRAP */
+.form-wrap { max-width: 780px; margin: 0 auto; padding: 0 60px 100px; }
+
+/* STEP INDICATOR */
+.steps-nav {
+  display: flex; gap: 0; margin-bottom: 48px; overflow-x: auto;
+  border-bottom: 1px solid var(--white-faint);
+}
+.step-tab {
+  flex: 1; min-width: 80px; padding: 16px 8px;
+  text-align: center; cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: border-color 0.2s, color 0.2s;
+  font-size: 11px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+  white-space: nowrap;
+}
+.step-tab.active { border-bottom-color: var(--orange); color: var(--orange); }
+.step-tab.done { color: rgba(255,255,255,0.5); }
+.step-tab .step-num {
+  display: block; font-size: 18px; font-weight: 900; margin-bottom: 4px;
+  color: inherit;
+}
+
+/* SECTIONS */
+.form-section { display: none; }
+.form-section.active { display: block; animation: fadeIn 0.35s ease; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);} }
+
+.section-header { margin-bottom: 36px; }
+.section-num {
+  font-size: 11px; font-weight: 800; letter-spacing: 4px; text-transform: uppercase;
+  color: var(--orange); margin-bottom: 8px;
+  display: flex; align-items: center; gap: 10px;
+}
+.section-num::after { content:''; flex:0 0 48px; height:2px; background:var(--orange); }
+.section-title { font-size: 26px; font-weight: 900; text-transform: uppercase; letter-spacing: -0.5px; }
+.section-desc { font-size: 14px; color: var(--white-dim); margin-top: 6px; line-height: 1.6; }
+
+/* FIELDS */
+.field-group { margin-bottom: 28px; }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.field-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+
+label {
+  display: block;
+  font-size: 12px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--white-dim); margin-bottom: 8px;
+}
+label .req { color: var(--orange); }
+label .hint {
+  display: block; font-size: 11px; font-weight: 400; letter-spacing: 0;
+  text-transform: none; color: rgba(255,255,255,0.35); margin-top: 3px;
+}
+
+input[type="text"],
+input[type="tel"],
+input[type="email"],
+input[type="number"],
+input[type="date"],
+select,
+textarea {
+  width: 100%;
+  background: var(--gray-input);
+  border: 1px solid var(--border);
+  color: var(--white);
+  padding: 14px 16px;
+  font-size: 15px;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  border-radius: 0;
+  outline: none;
+  transition: border-color 0.2s, background 0.2s;
+  -webkit-appearance: none;
+}
+input[type="text"]:focus,
+input[type="tel"]:focus,
+input[type="email"]:focus,
+input[type="number"]:focus,
+input[type="date"]:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--border-focus);
+  background: #1a0f00;
+}
+input::placeholder, textarea::placeholder { color: rgba(255,255,255,0.2); }
+textarea { resize: vertical; min-height: 100px; line-height: 1.6; }
+select {
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23FF6500' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 40px;
+}
+select option { background: #111; color: #fff; }
+
+/* CHECKBOXES / RADIO GROUPS */
+.option-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px;
+}
+.option-item {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--gray-input); border: 1px solid var(--border);
+  padding: 12px 14px; cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  user-select: none;
+}
+.option-item:hover { border-color: rgba(255,101,0,0.3); background: #1a0f00; }
+.option-item input[type="checkbox"],
+.option-item input[type="radio"] {
+  width: 16px; height: 16px; flex-shrink: 0;
+  accent-color: var(--orange);
+}
+.option-item span { font-size: 13px; color: var(--white-dim); line-height: 1.4; }
+.option-item:has(input:checked) {
+  border-color: var(--orange);
+  background: rgba(255,101,0,0.08);
+}
+.option-item:has(input:checked) span { color: var(--white); }
+
+/* RANGE */
+.range-wrap { position: relative; }
+input[type="range"] {
+  -webkit-appearance: none; width: 100%; height: 4px;
+  background: rgba(255,255,255,0.1); border: none; padding: 0;
+  border-radius: 2px; outline: none; cursor: pointer;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 20px; height: 20px;
+  border-radius: 50%; background: var(--orange); cursor: pointer;
+  box-shadow: 0 0 0 3px rgba(255,101,0,0.2);
+}
+.range-value {
+  text-align: right; font-size: 20px; font-weight: 900; color: var(--orange);
+  margin-top: 8px;
+}
+
+/* DIVIDER */
+.field-divider { border: none; border-top: 1px solid var(--white-faint); margin: 32px 0; }
+
+/* NAV BUTTONS */
+.form-nav {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: 48px; gap: 16px;
+}
+.btn {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  font-size: 12px; font-weight: 900; letter-spacing: 2px; text-transform: uppercase;
+  padding: 16px 36px; cursor: pointer;
+  border: none; border-radius: 4px;
+  transition: all 0.2s;
+}
+.btn-primary { background: var(--orange); color: #000; }
+.btn-primary:hover { background: var(--orange-dark); }
+.btn-secondary {
+  background: transparent; color: var(--white-dim);
+  border: 1px solid var(--border);
+}
+.btn-secondary:hover { border-color: rgba(255,255,255,0.3); color: var(--white); }
+.btn-submit {
+  background: var(--orange); color: #000;
+  font-size: 13px; padding: 18px 48px;
+}
+.btn-submit:hover { background: var(--orange-dark); transform: translateY(-1px); }
+.step-counter { font-size: 13px; color: var(--white-dim); }
+.step-counter span { color: var(--orange); font-weight: 900; }
+
+/* SUCCESS */
+.success-screen {
+  display: none;
+  flex-direction: column; align-items: center; justify-content: center;
+  min-height: 60vh; text-align: center; padding: 60px;
+  animation: fadeIn 0.5s ease;
+}
+.success-screen.active { display: flex; }
+.success-icon { font-size: 64px; margin-bottom: 24px; }
+.success-title { font-size: 36px; font-weight: 900; text-transform: uppercase; letter-spacing: -0.5px; margin-bottom: 12px; }
+.success-title span { color: var(--orange); }
+.success-desc { font-size: 16px; color: var(--white-dim); max-width: 480px; line-height: 1.7; }
+
+/* FOOTER */
+footer {
+  background: var(--black);
+  border-top: 1px solid var(--white-faint);
+  padding: 28px 60px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.footer-logo { font-size: 12px; font-weight: 900; letter-spacing: 3px; text-transform: uppercase; color: var(--orange); }
+.footer-copy { font-size: 11px; color: rgba(255,255,255,0.3); }
+
+/* MOBILE */
+@media (max-width: 768px) {
+  nav { padding: 14px 20px; }
+  .hero { padding: 90px 24px 40px; }
+  .hero-title { font-size: 34px; }
+  .form-wrap { padding: 0 24px 80px; }
+  .field-row, .field-row-3 { grid-template-columns: 1fr; }
+  .option-grid { grid-template-columns: 1fr 1fr; }
+  .steps-nav { gap: 0; }
+  .step-tab { padding: 12px 4px; font-size: 9px; }
+  footer { flex-direction: column; gap: 8px; text-align: center; padding: 20px 24px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">MaisAlunos Marketing</div>
+  <div class="nav-tag">Raio-X · Diagnóstico</div>
+</nav>
+
+<div class="progress-bar-wrap">
+  <div class="progress-bar-fill" id="progressFill" style="width:20%"></div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Diagnóstico Completo</div>
+    <h1 class="hero-title">Raio-X<br><span>MaisAlunos</span></h1>
+    <p class="hero-sub">Preencha o formulário abaixo com atenção. Essas informações são a base do nosso trabalho — quanto mais completo, mais rápido e preciso será o seu resultado.</p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-num">5</div>
+        <div class="hero-stat-label">Blocos</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">27</div>
+        <div class="hero-stat-label">Perguntas</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">~8 min</div>
+        <div class="hero-stat-label">Para preencher</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FORM -->
+<div class="form-wrap">
+
+  <!-- STEP TABS -->
+  <div class="steps-nav">
+    <div class="step-tab active" onclick="goTo(1)" id="tab1">
+      <span class="step-num">01</span>Negócio
+    </div>
+    <div class="step-tab" onclick="goTo(2)" id="tab2">
+      <span class="step-num">02</span>Situação
+    </div>
+    <div class="step-tab" onclick="goTo(3)" id="tab3">
+      <span class="step-num">03</span>Marketing
+    </div>
+    <div class="step-tab" onclick="goTo(4)" id="tab4">
+      <span class="step-num">04</span>Desafios
+    </div>
+    <div class="step-tab" onclick="goTo(5)" id="tab5">
+      <span class="step-num">05</span>Metas
+    </div>
+  </div>
+
+  <form id="raiox-form" onsubmit="handleSubmit(event)">
+
+    <!-- ── BLOCO 1 ─────────────────────────────────────────── -->
+    <div class="form-section active" id="section1">
+      <div class="section-header">
+        <div class="section-num">Bloco 01</div>
+        <div class="section-title">Sobre seu Negócio</div>
+        <div class="section-desc">Dados básicos da academia e da cidade. Essas informações alimentam os materiais de divulgação e a estratégia local.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-row">
+          <div>
+            <label>Nome da Academia / Negócio <span class="req">*</span></label>
+            <input type="text" name="nome_academia" placeholder="Ex: Art Dojo Academia" required/>
+          </div>
+          <div>
+            <label>Nome do Responsável <span class="req">*</span></label>
+            <input type="text" name="nome_responsavel" placeholder="Seu nome completo" required/>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-row">
+          <div>
+            <label>WhatsApp <span class="req">*</span></label>
+            <input type="tel" name="whatsapp" placeholder="(XX) 9XXXX-XXXX" required/>
+          </div>
+          <div>
+            <label>E-mail <span class="req">*</span></label>
+            <input type="email" name="email" placeholder="seu@email.com.br" required/>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-row">
+          <div>
+            <label>Instagram
+              <span class="hint">Perfil principal do negócio</span>
+            </label>
+            <input type="text" name="instagram" placeholder="@suaacademia"/>
+          </div>
+          <div>
+            <label>Site (se tiver)</label>
+            <input type="text" name="site" placeholder="www.suaacademia.com.br"/>
+          </div>
+        </div>
+      </div>
+
+      <hr class="field-divider"/>
+
+      <div class="field-group">
+        <label>Modalidade(s) oferecida(s) <span class="req">*</span>
+          <span class="hint">Selecione todas que se aplicam</span>
+        </label>
+        <div class="option-grid">
+          <label class="option-item"><input type="checkbox" name="modalidade" value="Jiu-Jitsu"/><span>Jiu-Jitsu / BJJ</span></label>
+          <label class="option-item"><input type="checkbox" name="modalidade" value="Muay Thai"/><span>Muay Thai / Boxe</span></label>
+          <label class="option-item"><input type="checkbox" name="modalidade" value="Musculação"/><span>Musculação</span></label>
+          <label class="option-item"><input type="checkbox" name="modalidade" value="CrossFit"/><span>CrossFit / Funcional</span></label>
+          <label class="option-item"><input type="checkbox" name="modalidade" value="Corrida"/><span>Assessoria de Corrida</span></label>
+          <label class="option-item"><input type="checkbox" name="modalidade" value="Personal"/><span>Personal Trainer</span></label>
+          <label class="option-item"><input type="checkbox" name="modalidade" value="Yoga"/><span>Yoga / Pilates</span></label>
+          <label class="option-item"><input type="checkbox" name="modalidade" value="Natação"/><span>Natação</span></label>
+          <label class="option-item"><input type="checkbox" name="modalidade" value="Judô/Karatê"/><span>Judô / Karatê</span></label>
+          <label class="option-item"><input type="checkbox" name="modalidade" value="Outra"/><span>Outra</span></label>
+        </div>
+      </div>
+
+      <hr class="field-divider"/>
+
+      <div class="field-group">
+        <label>Endereço Completo <span class="req">*</span>
+          <span class="hint">Rua, número, bairro, cidade — UF</span>
+        </label>
+        <input type="text" name="endereco" placeholder="Ex: Rua das Palmeiras, 450, Centro — São Paulo - SP" required/>
+      </div>
+
+      <div class="field-group">
+        <div class="field-row">
+          <div>
+            <label>Número de Habitantes da Cidade <span class="req">*</span>
+              <span class="hint">Aproximado. Ex: 120.000 hab.</span>
+            </label>
+            <input type="text" name="habitantes" placeholder="Ex: 120.000 habitantes"/>
+          </div>
+          <div>
+            <label>Data de Aniversário da Empresa
+              <span class="hint">Fundação ou abertura oficial</span>
+            </label>
+            <input type="date" name="aniversario_empresa"/>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label>Pontos Turísticos da Cidade e/ou Bairro <span class="req">*</span>
+          <span class="hint">Muito importante — será usado em anúncios patrocinados. Liste praças, monumentos, parques, avenidas conhecidas, eventos locais, etc.</span>
+        </label>
+        <textarea name="pontos_turisticos" rows="5" placeholder="Ex: Praça da Independência, Parque Municipal, Lago das Garças, Feira da Cidade todos os sábados, Igreja Matriz do bairro Centro…" required></textarea>
+      </div>
+
+      <div class="field-group">
+        <label>Conte-nos um Pouco da História da sua Empresa <span class="req">*</span>
+          <span class="hint">Como surgiu, motivação, trajetória até hoje, conquistas marcantes</span>
+        </label>
+        <textarea name="historia" rows="6" placeholder="Ex: A academia nasceu em 2018 quando o professor João, após 10 anos competindo em jiu-jitsu, decidiu abrir um espaço no bairro onde cresceu…" required></textarea>
+      </div>
+
+      <div class="form-nav">
+        <div class="step-counter">Bloco <span>1</span> de <span>5</span></div>
+        <button type="button" class="btn btn-primary" onclick="nextStep(1)">Próximo bloco →</button>
+      </div>
+    </div>
+
+    <!-- ── BLOCO 2 ─────────────────────────────────────────── -->
+    <div class="form-section" id="section2">
+      <div class="section-header">
+        <div class="section-num">Bloco 02</div>
+        <div class="section-title">Situação Atual</div>
+        <div class="section-desc">Números reais do seu negócio hoje. Essas métricas são o ponto de partida do diagnóstico e da projeção de crescimento.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-row">
+          <div>
+            <label>Quantos alunos você tem hoje? <span class="req">*</span></label>
+            <input type="number" name="alunos_atual" placeholder="Ex: 45" min="0" required/>
+          </div>
+          <div>
+            <label>Capacidade máxima do espaço
+              <span class="hint">Total de vagas disponíveis</span>
+            </label>
+            <input type="number" name="capacidade_maxima" placeholder="Ex: 120" min="0"/>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-row">
+          <div>
+            <label>Mensalidade média cobrada <span class="req">*</span>
+              <span class="hint">Valor médio por aluno/mês</span>
+            </label>
+            <input type="text" name="mensalidade_media" placeholder="Ex: R$ 180,00" required/>
+          </div>
+          <div>
+            <label>Faturamento médio mensal atual
+              <span class="hint">Receita bruta média nos últimos 3 meses</span>
+            </label>
+            <input type="text" name="faturamento_atual" placeholder="Ex: R$ 8.500,00"/>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label>Há quanto tempo seu negócio existe? <span class="req">*</span></label>
+        <div class="option-grid" style="grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));">
+          <label class="option-item"><input type="radio" name="tempo_negocio" value="Menos de 1 ano"/><span>Menos de 1 ano</span></label>
+          <label class="option-item"><input type="radio" name="tempo_negocio" value="1 a 2 anos"/><span>1 a 2 anos</span></label>
+          <label class="option-item"><input type="radio" name="tempo_negocio" value="2 a 5 anos"/><span>2 a 5 anos</span></label>
+          <label class="option-item"><input type="radio" name="tempo_negocio" value="5 a 10 anos"/><span>5 a 10 anos</span></label>
+          <label class="option-item"><input type="radio" name="tempo_negocio" value="Mais de 10 anos"/><span>Mais de 10 anos</span></label>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label>Quantos colaboradores / professores você tem?</label>
+        <div class="option-grid" style="grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));">
+          <label class="option-item"><input type="radio" name="colaboradores" value="Só eu"/><span>Só eu</span></label>
+          <label class="option-item"><input type="radio" name="colaboradores" value="2 a 3"/><span>2 a 3</span></label>
+          <label class="option-item"><input type="radio" name="colaboradores" value="4 a 6"/><span>4 a 6</span></label>
+          <label class="option-item"><input type="radio" name="colaboradores" value="7 a 10"/><span>7 a 10</span></label>
+          <label class="option-item"><input type="radio" name="colaboradores" value="Mais de 10"/><span>Mais de 10</span></label>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label>Você usa algum sistema de gestão?
+          <span class="hint">ERP, app de academia, planilha, etc.</span>
+        </label>
+        <input type="text" name="sistema_gestao" placeholder="Ex: Evo, GymManager, Planilha Excel, Não uso"/>
+      </div>
+
+      <div class="form-nav">
+        <button type="button" class="btn btn-secondary" onclick="prevStep(2)">← Voltar</button>
+        <div class="step-counter">Bloco <span>2</span> de <span>5</span></div>
+        <button type="button" class="btn btn-primary" onclick="nextStep(2)">Próximo bloco →</button>
+      </div>
+    </div>
+
+    <!-- ── BLOCO 3 ─────────────────────────────────────────── -->
+    <div class="form-section" id="section3">
+      <div class="section-header">
+        <div class="section-num">Bloco 03</div>
+        <div class="section-title">Marketing e Captação</div>
+        <div class="section-desc">Como você está atraindo e atendendo novos alunos hoje. Essas informações definem o ponto de partida da estratégia.</div>
+      </div>
+
+      <div class="field-group">
+        <label>Como você capta alunos hoje? <span class="req">*</span>
+          <span class="hint">Selecione todos que se aplicam</span>
+        </label>
+        <div class="option-grid">
+          <label class="option-item"><input type="checkbox" name="captacao" value="Indicação"/><span>Indicação de alunos</span></label>
+          <label class="option-item"><input type="checkbox" name="captacao" value="Instagram orgânico"/><span>Instagram orgânico</span></label>
+          <label class="option-item"><input type="checkbox" name="captacao" value="Tráfego pago"/><span>Tráfego pago</span></label>
+          <label class="option-item"><input type="checkbox" name="captacao" value="Google"/><span>Google / Maps</span></label>
+          <label class="option-item"><input type="checkbox" name="captacao" value="Panfleto"/><span>Panfleto / Outdoor</span></label>
+          <label class="option-item"><input type="checkbox" name="captacao" value="Parceria"/><span>Parcerias locais</span></label>
+          <label class="option-item"><input type="checkbox" name="captacao" value="Evento"/><span>Eventos / Campeonatos</span></label>
+          <label class="option-item"><input type="checkbox" name="captacao" value="Não faço nada"/><span>Não faço nada ainda</span></label>
+        </div>
+      </div>
+
+      <hr class="field-divider"/>
+
+      <div class="field-group">
+        <label>Você já investe em tráfego pago (Meta Ads / Google Ads)? <span class="req">*</span></label>
+        <div class="option-grid" style="grid-template-columns: repeat(3, 1fr);">
+          <label class="option-item"><input type="radio" name="trafego_pago" value="Sim, atualmente"/><span>Sim, atualmente</span></label>
+          <label class="option-item"><input type="radio" name="trafego_pago" value="Já investi, parei"/><span>Já investi, parei</span></label>
+          <label class="option-item"><input type="radio" name="trafego_pago" value="Nunca investi"/><span>Nunca investi</span></label>
+        </div>
+      </div>
+
+      <div class="field-group" id="campo_verba" style="display:none;">
+        <label>Quanto investe por mês em anúncios atualmente?</label>
+        <input type="text" name="verba_anuncios" placeholder="Ex: R$ 500,00 / mês"/>
+      </div>
+
+      <div class="field-group">
+        <label>Já trabalhou com alguma agência ou gestor de tráfego antes?
+          <span class="hint">Como foi a experiência? O que funcionou ou não?</span>
+        </label>
+        <textarea name="experiencia_agencia" rows="3" placeholder="Ex: Trabalhei 3 meses com um freelancer, gerou poucos resultados. Os anúncios traziam leads mas ninguém aparecia na aula experimental…"></textarea>
+      </div>
+
+      <div class="field-group">
+        <label>Você tem alguém responsável por atender novos leads? <span class="req">*</span>
+          <span class="hint">Responder WhatsApp, marcar aula experimental, follow-up</span>
+        </label>
+        <div class="option-grid" style="grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));">
+          <label class="option-item"><input type="radio" name="atendimento_leads" value="Sim, tenho pessoa dedicada"/><span>Sim, pessoa dedicada</span></label>
+          <label class="option-item"><input type="radio" name="atendimento_leads" value="Eu mesmo atendo"/><span>Eu mesmo atendo</span></label>
+          <label class="option-item"><input type="radio" name="atendimento_leads" value="Atendimento informal"/><span>Atendimento informal</span></label>
+          <label class="option-item"><input type="radio" name="atendimento_leads" value="Não tenho processo"/><span>Não tenho processo</span></label>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label>Qual rede social você mais usa no negócio?</label>
+        <div class="option-grid" style="grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));">
+          <label class="option-item"><input type="radio" name="rede_principal" value="Instagram"/><span>Instagram</span></label>
+          <label class="option-item"><input type="radio" name="rede_principal" value="TikTok"/><span>TikTok</span></label>
+          <label class="option-item"><input type="radio" name="rede_principal" value="Facebook"/><span>Facebook</span></label>
+          <label class="option-item"><input type="radio" name="rede_principal" value="YouTube"/><span>YouTube</span></label>
+          <label class="option-item"><input type="radio" name="rede_principal" value="Não uso"/><span>Não uso</span></label>
+        </div>
+      </div>
+
+      <div class="form-nav">
+        <button type="button" class="btn btn-secondary" onclick="prevStep(3)">← Voltar</button>
+        <div class="step-counter">Bloco <span>3</span> de <span>5</span></div>
+        <button type="button" class="btn btn-primary" onclick="nextStep(3)">Próximo bloco →</button>
+      </div>
+    </div>
+
+    <!-- ── BLOCO 4 ─────────────────────────────────────────── -->
+    <div class="form-section" id="section4">
+      <div class="section-header">
+        <div class="section-num">Bloco 04</div>
+        <div class="section-title">Desafios e Estrutura</div>
+        <div class="section-desc">O que está travando o crescimento do seu negócio. Essas respostas definem as prioridades do planejamento.</div>
+      </div>
+
+      <div class="field-group">
+        <label>Quais são seus 3 principais desafios hoje? <span class="req">*</span>
+          <span class="hint">Selecione os 3 mais urgentes para você agora</span>
+        </label>
+        <div class="option-grid">
+          <label class="option-item"><input type="checkbox" name="desafios" value="Atrair novos alunos"/><span>Atrair novos alunos</span></label>
+          <label class="option-item"><input type="checkbox" name="desafios" value="Reter alunos que chegam"/><span>Reter alunos</span></label>
+          <label class="option-item"><input type="checkbox" name="desafios" value="Converter leads em alunos"/><span>Converter leads</span></label>
+          <label class="option-item"><input type="checkbox" name="desafios" value="Aumentar o ticket médio"/><span>Aumentar ticket médio</span></label>
+          <label class="option-item"><input type="checkbox" name="desafios" value="Criar conteúdo para redes"/><span>Criar conteúdo</span></label>
+          <label class="option-item"><input type="checkbox" name="desafios" value="Organizar processos internos"/><span>Organizar processos</span></label>
+          <label class="option-item"><input type="checkbox" name="desafios" value="Gestão financeira"/><span>Gestão financeira</span></label>
+          <label class="option-item"><input type="checkbox" name="desafios" value="Montar equipe"/><span>Montar equipe</span></label>
+          <label class="option-item"><input type="checkbox" name="desafios" value="Concorrência local"/><span>Concorrência local</span></label>
+          <label class="option-item"><input type="checkbox" name="desafios" value="Falta de tempo"/><span>Falta de tempo</span></label>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label>O que você acredita que está te impedindo de crescer mais rápido? <span class="req">*</span>
+          <span class="hint">Seja honesto — essa resposta é fundamental para o diagnóstico</span>
+        </label>
+        <textarea name="impedimento_crescimento" rows="4" placeholder="Ex: Não tenho verba para marketing, não sei como fazer anúncios, a concorrência está crescendo na minha cidade…" required></textarea>
+      </div>
+
+      <hr class="field-divider"/>
+
+      <div class="field-group">
+        <label>Você tem disponibilidade para gravar vídeos e fotos para as redes sociais? <span class="req">*</span>
+          <span class="hint">Conteúdo próprio acelera muito os resultados</span>
+        </label>
+        <div class="option-grid" style="grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));">
+          <label class="option-item"><input type="radio" name="disponibilidade_conteudo" value="Sim, consigo gravar sempre"/><span>Sim, consigo sempre</span></label>
+          <label class="option-item"><input type="radio" name="disponibilidade_conteudo" value="Às vezes, quando dá"/><span>Às vezes, quando dá</span></label>
+          <label class="option-item"><input type="radio" name="disponibilidade_conteudo" value="Pouco, preciso de ajuda"/><span>Pouco, preciso de ajuda</span></label>
+          <label class="option-item"><input type="radio" name="disponibilidade_conteudo" value="Não tenho disponibilidade"/><span>Não tenho disponibilidade</span></label>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label>Você tem uma base de contatos de leads ou ex-alunos?
+          <span class="hint">Lista de WhatsApp, planilha, CRM ou qualquer base de contatos</span>
+        </label>
+        <div class="option-grid" style="grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));">
+          <label class="option-item"><input type="radio" name="base_contatos" value="Sim, base organizada"/><span>Sim, base organizada</span></label>
+          <label class="option-item"><input type="radio" name="base_contatos" value="Sim, mas desorganizada"/><span>Sim, mas desorganizada</span></label>
+          <label class="option-item"><input type="radio" name="base_contatos" value="Não tenho"/><span>Não tenho</span></label>
+        </div>
+      </div>
+
+      <div class="form-nav">
+        <button type="button" class="btn btn-secondary" onclick="prevStep(4)">← Voltar</button>
+        <div class="step-counter">Bloco <span>4</span> de <span>5</span></div>
+        <button type="button" class="btn btn-primary" onclick="nextStep(4)">Próximo bloco →</button>
+      </div>
+    </div>
+
+    <!-- ── BLOCO 5 ─────────────────────────────────────────── -->
+    <div class="form-section" id="section5">
+      <div class="section-header">
+        <div class="section-num">Bloco 05</div>
+        <div class="section-title">Metas e Contexto</div>
+        <div class="section-desc">Para onde você quer ir. Essas metas são o alvo do planejamento — seja ambicioso e honesto.</div>
+      </div>
+
+      <div class="field-group">
+        <label>Quantos alunos você quer ter em 90 dias? <span class="req">*</span></label>
+        <input type="number" name="meta_alunos_90d" placeholder="Ex: 80" min="0" required/>
+      </div>
+
+      <div class="field-group">
+        <div class="field-row">
+          <div>
+            <label>Meta de faturamento em 6 meses <span class="req">*</span></label>
+            <input type="text" name="meta_faturamento_6m" placeholder="Ex: R$ 25.000/mês" required/>
+          </div>
+          <div>
+            <label>Meta de faturamento em 1 ano</label>
+            <input type="text" name="meta_faturamento_1a" placeholder="Ex: R$ 50.000/mês"/>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label>Qual o maior resultado que você espera da parceria com a MaisAlunos? <span class="req">*</span></label>
+        <div class="option-grid">
+          <label class="option-item"><input type="checkbox" name="expectativa" value="Encher as turmas"/><span>Encher as turmas</span></label>
+          <label class="option-item"><input type="checkbox" name="expectativa" value="Criar lista de espera"/><span>Criar lista de espera</span></label>
+          <label class="option-item"><input type="checkbox" name="expectativa" value="Aumentar faturamento"/><span>Aumentar faturamento</span></label>
+          <label class="option-item"><input type="checkbox" name="expectativa" value="Ter presença digital forte"/><span>Presença digital forte</span></label>
+          <label class="option-item"><input type="checkbox" name="expectativa" value="Parar de depender só de indicação"/><span>Menos dependência de indicação</span></label>
+          <label class="option-item"><input type="checkbox" name="expectativa" value="Escalar o negócio"/><span>Escalar o negócio</span></label>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label>O que te motivou a buscar a MaisAlunos agora? <span class="req">*</span>
+          <span class="hint">Esse contexto ajuda a entender o momento do seu negócio</span>
+        </label>
+        <textarea name="motivacao" rows="4" placeholder="Ex: Vi o case da Art Dojo no Instagram e percebi que minha academia tem o mesmo potencial mas sem estratégia de marketing…" required></textarea>
+      </div>
+
+      <div class="field-group">
+        <label>Tem mais alguma informação que queira compartilhar?
+          <span class="hint">Detalhes extras, contexto específico, dúvidas ou recados</span>
+        </label>
+        <textarea name="informacao_extra" rows="3" placeholder="Espaço livre para qualquer informação relevante…"></textarea>
+      </div>
+
+      <div class="form-nav">
+        <button type="button" class="btn btn-secondary" onclick="prevStep(5)">← Voltar</button>
+        <div class="step-counter">Bloco <span>5</span> de <span>5</span></div>
+        <button type="submit" class="btn btn-submit">Enviar Raio-X ✓</button>
+      </div>
+    </div>
+
+  </form>
+
+  <!-- SUCCESS -->
+  <div class="success-screen" id="successScreen">
+    <div class="success-icon">🎯</div>
+    <div class="success-title">Raio-X <span>Enviado!</span></div>
+    <p class="success-desc">
+      Recebemos todas as informações da sua academia. Nosso time vai analisar o diagnóstico e entrar em contato em até <strong>24 horas úteis</strong> para dar o próximo passo.
+      <br><br>
+      Enquanto isso, siga a gente no Instagram:
+      <br><strong style="color:var(--orange);">@maisalunosmarketing</strong>
+    </p>
+  </div>
+
+</div><!-- /form-wrap -->
+
+<footer>
+  <div class="footer-logo">MaisAlunos Marketing</div>
+  <div class="footer-copy">Raio-X · Diagnóstico Completo · <a href="https://instagram.com/maisalunosmarketing" style="color:var(--orange);text-decoration:none;">@maisalunosmarketing</a></div>
+</footer>
+
+<script>
+let current = 1;
+const total = 5;
+
+const progressMap = { 1: 20, 2: 40, 3: 60, 4: 80, 5: 100 };
+
+function goTo(step) {
+  if (step > current) return; // só pode navegar para trás via abas
+  showStep(step);
+}
+
+function showStep(step) {
+  document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.step-tab').forEach((t, i) => {
+    t.classList.remove('active', 'done');
+    if (i + 1 < step) t.classList.add('done');
+    if (i + 1 === step) t.classList.add('active');
+  });
+  const sec = document.getElementById('section' + step);
+  if (sec) sec.classList.add('active');
+  document.getElementById('progressFill').style.width = progressMap[step] + '%';
+  current = step;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function nextStep(from) {
+  if (from < total) showStep(from + 1);
+}
+
+function prevStep(from) {
+  if (from > 1) showStep(from - 1);
+}
+
+// Show/hide verba field based on tráfego pago selection
+document.querySelectorAll('input[name="trafego_pago"]').forEach(radio => {
+  radio.addEventListener('change', function() {
+    const campo = document.getElementById('campo_verba');
+    campo.style.display = this.value === 'Sim, atualmente' ? 'block' : 'none';
+  });
+});
+
+function handleSubmit(e) {
+  e.preventDefault();
+  document.getElementById('raiox-form').style.display = 'none';
+  document.querySelector('.steps-nav').style.display = 'none';
+  document.getElementById('successScreen').classList.add('active');
+  document.getElementById('progressFill').style.width = '100%';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
