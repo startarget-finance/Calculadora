@@ -2,3 +2,5 @@ node_modules/
 .claude/
 aiox-core/
 *.log
+
+.vercel
