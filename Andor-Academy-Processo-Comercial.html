@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Andor Academy — Processo Comercial · MaisAlunos</title>
+<style>
+:root {
+  --orange: #FF6500;
+  --orange-dark: #CC5000;
+  --black: #000000;
+  --gray-dark: #0a0a0a;
+  --gray-mid: #111111;
+  --gray-light: #1a1a1a;
+  --white: #ffffff;
+  --white-dim: rgba(255,255,255,0.65);
+  --white-faint: rgba(255,255,255,0.08);
+  --green: #22c55e;
+  --red: #ef4444;
+  --yellow: #f59e0b;
+  --blue: #3b82f6;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--black); color: var(--white); min-height: 100vh; display: flex; }
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed; top: 0; left: 0; bottom: 0;
+  width: 240px; z-index: 100;
+  background: var(--gray-dark);
+  border-right: 1px solid rgba(255,101,0,0.15);
+  display: flex; flex-direction: column;
+  overflow-y: auto;
+}
+.sidebar-logo {
+  padding: 28px 24px 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.sidebar-logo .ma-tag {
+  font-size: 9px; font-weight: 900; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--orange); margin-bottom: 8px;
+}
+.sidebar-logo .ct-name {
+  font-size: 15px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; line-height: 1.2;
+}
+.sidebar-logo .ct-sub {
+  font-size: 11px; color: var(--white-dim); margin-top: 4px;
+}
+.sidebar-nav { padding: 16px 0; flex: 1; }
+.nav-section {
+  padding: 12px 24px 6px;
+  font-size: 9px; font-weight: 900; letter-spacing: 3px;
+  text-transform: uppercase; color: rgba(255,101,0,0.5);
+}
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 24px;
+  font-size: 12px; font-weight: 600;
+  color: var(--white-dim); text-decoration: none;
+  cursor: pointer; border-left: 2px solid transparent;
+  transition: all 0.15s;
+}
+.nav-item:hover, .nav-item.active {
+  color: var(--white); background: rgba(255,101,0,0.06);
+  border-left-color: var(--orange);
+}
+.nav-item .step-num {
+  width: 20px; height: 20px; border-radius: 50%;
+  background: rgba(255,255,255,0.06);
+  font-size: 10px; font-weight: 900;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.nav-item.active .step-num { background: var(--orange); color: #000; }
+.sidebar-footer {
+  padding: 16px 24px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  font-size: 10px; color: rgba(255,255,255,0.25);
+}
+
+/* MAIN */
+.main { margin-left: 240px; flex: 1; min-height: 100vh; }
+
+/* HERO */
+.hero {
+  min-height: 44vh;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 80px 60px 60px;
+  position: relative; overflow: hidden;
+  background: var(--gray-dark);
+  border-bottom: 1px solid rgba(255,101,0,0.15);
+}
+.hero-grid {
+  position: absolute; inset: 0; z-index: 0;
+  background-image:
+    repeating-linear-gradient(0deg, transparent, transparent 79px, rgba(255,101,0,0.04) 80px),
+    repeating-linear-gradient(90deg, transparent, transparent 79px, rgba(255,101,0,0.04) 80px);
+}
+.hero-glow {
+  position: absolute; top: -80px; right: -80px;
+  width: 500px; height: 500px; z-index: 0;
+  background: radial-gradient(circle, rgba(255,101,0,0.1) 0%, transparent 70%);
+}
+.hero-content { position: relative; z-index: 1; max-width: 700px; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 10px; font-weight: 900; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--orange); margin-bottom: 20px;
+}
+.hero-badge::before {
+  content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--orange);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(1.4)} }
+.hero-title {
+  font-size: 44px; font-weight: 900; text-transform: uppercase;
+  letter-spacing: -1px; line-height: 1.05; margin-bottom: 16px;
+}
+.hero-title span { color: var(--orange); }
+.hero-sub {
+  font-size: 15px; color: var(--white-dim); line-height: 1.6; margin-bottom: 28px;
+}
+.hero-meta {
+  display: flex; gap: 24px; flex-wrap: wrap;
+}
+.meta-pill {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 11px; font-weight: 700; letter-spacing: 1px;
+  color: var(--white-dim);
+}
+.meta-pill::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--orange); }
+
+/* CONTENT */
+.content { padding: 0 60px 80px; }
+
+/* SECTION */
+.section {
+  padding-top: 64px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  margin-top: 0;
+}
+.section:first-child { border-top: none; }
+
+.section-header { margin-bottom: 36px; }
+.section-label {
+  font-size: 10px; font-weight: 900; letter-spacing: 4px;
+  text-transform: uppercase; color: var(--orange);
+  display: flex; align-items: center; gap: 10px; margin-bottom: 12px;
+}
+.section-label::before {
+  content: ''; width: 32px; height: 2px; background: var(--orange);
+}
+.section-title {
+  font-size: 26px; font-weight: 900; text-transform: uppercase;
+  letter-spacing: -0.5px; line-height: 1.1;
+}
+.section-desc {
+  font-size: 14px; color: var(--white-dim); line-height: 1.7; margin-top: 10px; max-width: 620px;
+}
+
+/* FUNNEL VISUAL */
+.funnel {
+  display: flex; gap: 0; margin: 32px 0; overflow: hidden; border-radius: 4px;
+}
+.funnel-step {
+  flex: 1; padding: 20px 16px; text-align: center;
+  background: var(--gray-mid); position: relative;
+  border-right: 2px solid var(--black);
+}
+.funnel-step:last-child { border-right: none; }
+.funnel-step.active { background: rgba(255,101,0,0.12); border-top: 2px solid var(--orange); }
+.funnel-num { font-size: 28px; font-weight: 900; color: var(--orange); line-height: 1; }
+.funnel-label { font-size: 10px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; color: var(--white-dim); margin-top: 6px; }
+.funnel-value { font-size: 11px; color: rgba(255,255,255,0.35); margin-top: 4px; }
+.funnel-arrow {
+  position: absolute; right: -14px; top: 50%; transform: translateY(-50%);
+  width: 0; height: 0;
+  border-top: 12px solid transparent; border-bottom: 12px solid transparent;
+  border-left: 14px solid var(--orange); z-index: 10;
+}
+
+/* PHASE BLOCK */
+.phase-block {
+  background: var(--gray-mid); border-radius: 4px; overflow: hidden; margin-bottom: 20px;
+  border-left: 3px solid var(--orange);
+}
+.phase-header {
+  padding: 20px 24px;
+  display: flex; align-items: center; gap: 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  cursor: pointer;
+}
+.phase-icon {
+  width: 40px; height: 40px; border-radius: 4px;
+  background: rgba(255,101,0,0.12);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; flex-shrink: 0;
+}
+.phase-title { font-size: 15px; font-weight: 900; text-transform: uppercase; letter-spacing: -0.3px; }
+.phase-sub { font-size: 12px; color: var(--white-dim); margin-top: 2px; }
+.phase-tag {
+  margin-left: auto;
+  font-size: 9px; font-weight: 900; letter-spacing: 2px;
+  text-transform: uppercase; padding: 4px 12px;
+  border-radius: 4px; flex-shrink: 0;
+}
+.tag-green { background: rgba(34,197,94,0.12); color: #22c55e; border: 1px solid rgba(34,197,94,0.25); }
+.tag-orange { background: rgba(255,101,0,0.12); color: var(--orange); border: 1px solid rgba(255,101,0,0.25); }
+.tag-blue { background: rgba(59,130,246,0.12); color: #3b82f6; border: 1px solid rgba(59,130,246,0.25); }
+.tag-yellow { background: rgba(245,158,11,0.12); color: #f59e0b; border: 1px solid rgba(245,158,11,0.25); }
+.tag-red { background: rgba(239,68,68,0.12); color: #ef4444; border: 1px solid rgba(239,68,68,0.25); }
+
+.phase-body { padding: 24px; }
+
+/* SCRIPT BOX */
+.script-box {
+  background: var(--gray-dark); border-radius: 4px;
+  padding: 20px 24px; margin: 16px 0;
+  border-left: 3px solid rgba(255,255,255,0.1);
+  position: relative;
+}
+.script-box.zap { border-left-color: #22c55e; }
+.script-box.call { border-left-color: #3b82f6; }
+.script-box.presencial { border-left-color: var(--orange); }
+.script-box.objecao { border-left-color: #ef4444; }
+.script-label {
+  font-size: 9px; font-weight: 900; letter-spacing: 2px;
+  text-transform: uppercase; margin-bottom: 12px;
+  display: flex; align-items: center; gap: 8px;
+}
+.script-label.zap { color: #22c55e; }
+.script-label.call { color: #3b82f6; }
+.script-label.presencial { color: var(--orange); }
+.script-label.objecao { color: #ef4444; }
+.script-text {
+  font-size: 13px; line-height: 1.8; color: var(--white-dim);
+  font-style: italic;
+}
+.script-text strong { color: var(--white); font-style: normal; font-weight: 700; }
+.script-text .placeholder {
+  color: var(--orange); font-style: normal; font-weight: 700;
+  background: rgba(255,101,0,0.1); padding: 0 4px; border-radius: 2px;
+}
+
+/* STEP LIST */
+.step-list { display: flex; flex-direction: column; gap: 12px; margin: 16px 0; }
+.step-item {
+  display: flex; gap: 16px; align-items: flex-start;
+}
+.step-dot {
+  width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+  background: rgba(255,101,0,0.12);
+  border: 1px solid rgba(255,101,0,0.3);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 900; color: var(--orange);
+}
+.step-content {}
+.step-title { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+.step-desc { font-size: 12px; color: var(--white-dim); line-height: 1.6; }
+
+/* CHECK LIST */
+.check-list { display: flex; flex-direction: column; gap: 8px; margin: 12px 0; }
+.check-item {
+  display: flex; align-items: flex-start; gap: 10px;
+  font-size: 13px; color: var(--white-dim); line-height: 1.5;
+}
+.check-item::before {
+  content: '✓'; color: var(--orange);
+  font-weight: 900; font-size: 13px; flex-shrink: 0; margin-top: 1px;
+}
+
+/* GRID 2 */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin: 16px 0; }
+
+/* INFO CARD */
+.info-card {
+  background: var(--gray-dark); border-radius: 4px; padding: 20px;
+  border-top: 2px solid var(--orange);
+}
+.info-card-label {
+  font-size: 9px; font-weight: 900; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--orange); margin-bottom: 8px;
+}
+.info-card-value { font-size: 22px; font-weight: 900; line-height: 1; margin-bottom: 4px; }
+.info-card-desc { font-size: 12px; color: var(--white-dim); line-height: 1.5; }
+
+/* PLAN CARDS */
+.plan-cards { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin: 20px 0; }
+.plan-card {
+  background: var(--gray-dark); border-radius: 4px; padding: 24px 20px;
+  border: 1px solid rgba(255,255,255,0.06); text-align: center;
+  position: relative;
+}
+.plan-card.highlight {
+  border-color: rgba(255,101,0,0.4);
+  background: rgba(255,101,0,0.06);
+}
+.plan-rec {
+  position: absolute; top: -1px; left: 50%; transform: translateX(-50%);
+  background: var(--orange); color: #000;
+  font-size: 9px; font-weight: 900; letter-spacing: 2px; text-transform: uppercase;
+  padding: 4px 14px; border-radius: 0 0 4px 4px;
+}
+.plan-name { font-size: 12px; font-weight: 900; letter-spacing: 2px; text-transform: uppercase; color: var(--orange); margin-bottom: 12px; margin-top: 8px; }
+.plan-price { font-size: 32px; font-weight: 900; line-height: 1; margin-bottom: 4px; }
+.plan-period { font-size: 11px; color: var(--white-dim); }
+.plan-features { text-align: left; margin-top: 16px; display: flex; flex-direction: column; gap: 6px; }
+.plan-feature { font-size: 12px; color: var(--white-dim); display: flex; align-items: center; gap: 8px; }
+.plan-feature::before { content: '—'; color: var(--orange); font-weight: 900; }
+
+/* TIMELINE */
+.timeline { display: flex; flex-direction: column; gap: 0; margin: 16px 0; }
+.timeline-item {
+  display: flex; gap: 20px; padding-bottom: 24px;
+  position: relative;
+}
+.timeline-left { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; width: 32px; }
+.timeline-circle {
+  width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+  background: var(--orange); color: #000;
+  font-size: 12px; font-weight: 900;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 1;
+}
+.timeline-line {
+  flex: 1; width: 2px; background: rgba(255,101,0,0.2); margin-top: 4px;
+}
+.timeline-item:last-child .timeline-line { display: none; }
+.timeline-content { flex: 1; padding-top: 4px; }
+.timeline-when {
+  font-size: 10px; font-weight: 900; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--orange); margin-bottom: 6px;
+}
+.timeline-title { font-size: 14px; font-weight: 800; margin-bottom: 6px; }
+.timeline-desc { font-size: 12px; color: var(--white-dim); line-height: 1.6; }
+
+/* OBJECTION BLOCK */
+.obj-block {
+  background: var(--gray-dark); border-radius: 4px; margin: 12px 0; overflow: hidden;
+}
+.obj-question {
+  background: rgba(239,68,68,0.08); padding: 14px 20px;
+  font-size: 13px; font-weight: 700; color: #ef4444;
+  border-left: 3px solid #ef4444; display: flex; align-items: center; gap: 10px;
+}
+.obj-question::before { content: '❝'; font-size: 16px; }
+.obj-answer {
+  padding: 14px 20px;
+  font-size: 13px; color: var(--white-dim); line-height: 1.7;
+  font-style: italic;
+}
+.obj-answer strong { color: var(--white); font-style: normal; }
+
+/* KPI TABLE */
+.kpi-table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+.kpi-table th {
+  text-align: left; padding: 10px 16px;
+  font-size: 9px; font-weight: 900; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--orange); background: rgba(255,101,0,0.06);
+  border-bottom: 1px solid rgba(255,101,0,0.2);
+}
+.kpi-table td {
+  padding: 12px 16px; font-size: 13px; color: var(--white-dim);
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.kpi-table td:first-child { color: var(--white); font-weight: 600; }
+.kpi-table tr:last-child td { border-bottom: none; }
+.kpi-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+/* HIGHLIGHT BOX */
+.highlight-box {
+  background: rgba(255,101,0,0.06); border: 1px solid rgba(255,101,0,0.2);
+  border-radius: 4px; padding: 20px 24px; margin: 16px 0;
+}
+.highlight-box p { font-size: 13px; color: var(--white-dim); line-height: 1.7; }
+.highlight-box strong { color: var(--white); }
+
+/* WARNING BOX */
+.warning-box {
+  background: rgba(245,158,11,0.06); border: 1px solid rgba(245,158,11,0.2);
+  border-radius: 4px; padding: 16px 20px; margin: 12px 0;
+  font-size: 12px; color: rgba(245,158,11,0.8); line-height: 1.6;
+  display: flex; gap: 10px; align-items: flex-start;
+}
+.warning-box::before { content: '⚡'; flex-shrink: 0; }
+
+/* DIVIDER */
+.divider { border: none; border-top: 1px solid rgba(255,255,255,0.05); margin: 32px 0; }
+
+/* FOOTER */
+footer {
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding: 28px 60px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.footer-logo { font-size: 12px; font-weight: 900; letter-spacing: 3px; text-transform: uppercase; color: var(--orange); }
+.footer-copy { font-size: 11px; color: rgba(255,255,255,0.25); }
+
+@media (max-width: 900px) {
+  .sidebar { display: none; }
+  .main { margin-left: 0; }
+  .hero, .content { padding-left: 24px; padding-right: 24px; }
+  .hero-title { font-size: 28px; }
+  .grid-2, .grid-3, .plan-cards, .funnel { grid-template-columns: 1fr; flex-direction: column; }
+  footer { flex-direction: column; gap: 8px; text-align: center; padding: 20px 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="ma-tag">MaisAlunos · Processo Comercial</div>
+    <div class="ct-name">Andor Academy</div>
+    <div class="ct-sub">Jiu-Jitsu · Belém/PA</div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section">Diagnóstico</div>
+    <a class="nav-item" href="#funil">
+      <span class="step-num">—</span> Visão do Funil
+    </a>
+    <a class="nav-item" href="#planos">
+      <span class="step-num">—</span> Planos e Preços
+    </a>
+    <div class="nav-section">Processo</div>
+    <a class="nav-item" href="#fase1">
+      <span class="step-num">1</span> Captação de Leads
+    </a>
+    <a class="nav-item" href="#fase2">
+      <span class="step-num">2</span> Primeiro Contato
+    </a>
+    <a class="nav-item" href="#fase3">
+      <span class="step-num">3</span> 3 Aulas Experimentais
+    </a>
+    <a class="nav-item" href="#fase4">
+      <span class="step-num">4</span> Fechamento
+    </a>
+    <a class="nav-item" href="#fase5">
+      <span class="step-num">5</span> Follow-up
+    </a>
+    <a class="nav-item" href="#fase6">
+      <span class="step-num">6</span> Reativação de Base
+    </a>
+    <div class="nav-section">Gestão</div>
+    <a class="nav-item" href="#objecoes">
+      <span class="step-num">—</span> Objeções
+    </a>
+    <a class="nav-item" href="#kpis">
+      <span class="step-num">—</span> KPIs do Funil
+    </a>
+  </nav>
+  <div class="sidebar-footer">Processo Comercial v1.0 · Jun/2026</div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Processo Comercial · Ativo</div>
+    <h1 class="hero-title">Andor Academy<br><span>Jiu Jitsu</span></h1>
+    <p class="hero-sub">Processo completo de captação, qualificação e conversão de alunos — da aula experimental ao fechamento. Desenvolvido por MaisAlunos Marketing.</p>
+    <div class="hero-meta">
+      <span class="meta-pill">Victor Magalhães · Prof. Responsável</span>
+      <span class="meta-pill">3 Aulas Experimentais</span>
+      <span class="meta-pill">3 Planos Disponíveis</span>
+      <span class="meta-pill">Sistema KANRI</span>
+    </div>
+  </div>
+</section>
+
+<!-- CONTENT -->
+<div class="content">
+
+<!-- FUNIL OVERVIEW -->
+<section class="section" id="funil">
+  <div class="section-header">
+    <div class="section-label">Visão Geral</div>
+    <h2 class="section-title">Funil de Conversão</h2>
+    <p class="section-desc">Cada lead percorre 5 etapas antes de se tornar aluno ativo. A taxa de conversão alvo está indicada em cada fase.</p>
+  </div>
+
+  <div class="funnel">
+    <div class="funnel-step active">
+      <div class="funnel-num">100</div>
+      <div class="funnel-label">Leads</div>
+      <div class="funnel-value">Meta Ads</div>
+      <div class="funnel-arrow"></div>
+    </div>
+    <div class="funnel-step">
+      <div class="funnel-num">70</div>
+      <div class="funnel-label">Contatos</div>
+      <div class="funnel-value">Atendidos em 5min</div>
+      <div class="funnel-arrow"></div>
+    </div>
+    <div class="funnel-step">
+      <div class="funnel-num">50</div>
+      <div class="funnel-label">Agendados</div>
+      <div class="funnel-value">1ª aula marcada</div>
+      <div class="funnel-arrow"></div>
+    </div>
+    <div class="funnel-step">
+      <div class="funnel-num">35</div>
+      <div class="funnel-label">Compareceram</div>
+      <div class="funnel-value">Taxa 70% de show</div>
+      <div class="funnel-arrow"></div>
+    </div>
+    <div class="funnel-step">
+      <div class="funnel-num">21</div>
+      <div class="funnel-label">Matriculados</div>
+      <div class="funnel-value">Meta: 60% fechamento</div>
+    </div>
+  </div>
+
+  <div class="grid-3">
+    <div class="info-card">
+      <div class="info-card-label">Meta Mensal</div>
+      <div class="info-card-value">20 alunos</div>
+      <div class="info-card-desc">Novos matrículas por mês via tráfego pago</div>
+    </div>
+    <div class="info-card">
+      <div class="info-card-label">Custo por aluno</div>
+      <div class="info-card-value">R$ 60–120</div>
+      <div class="info-card-desc">CPL alvo de R$ 12–25 com funil de 3 aulas</div>
+    </div>
+    <div class="info-card">
+      <div class="info-card-label">ROI Esperado</div>
+      <div class="info-card-value">6–10×</div>
+      <div class="info-card-desc">Para cada R$ 1 investido em anúncio</div>
+    </div>
+  </div>
+
+  <div class="warning-box">
+    Tempo de resposta é o fator que mais impacta a conversão. Lead que não é atendido em até 5 minutos tem 80% menos chance de fechar. Configure notificação imediata no WhatsApp Business.
+  </div>
+</section>
+
+<!-- PLANOS -->
+<section class="section" id="planos">
+  <div class="section-header">
+    <div class="section-label">Oferta Comercial</div>
+    <h2 class="section-title">Planos e Preços</h2>
+    <p class="section-desc">Conheça os planos antes de entrar em campo. O plano ideal a ofertar depende do perfil do lead qualificado.</p>
+  </div>
+
+  <div class="plan-cards">
+    <div class="plan-card">
+      <div class="plan-name">Plano Mensal</div>
+      <div class="plan-price">R$ 270</div>
+      <div class="plan-period">por mês</div>
+      <div class="plan-features">
+        <div class="plan-feature">Acesso completo às aulas</div>
+        <div class="plan-feature">Todos os horários</div>
+        <div class="plan-feature">Acompanhamento profissional</div>
+        <div class="plan-feature">App KANRI incluso</div>
+        <div class="plan-feature">Sem fidelidade</div>
+      </div>
+    </div>
+    <div class="plan-card highlight">
+      <div class="plan-rec">Mais Vendido</div>
+      <div class="plan-name">Plano Anual</div>
+      <div class="plan-price">R$ 200</div>
+      <div class="plan-period">por mês · 12 meses</div>
+      <div class="plan-features">
+        <div class="plan-feature">Constância e comprometimento</div>
+        <div class="plan-feature">Todos os horários</div>
+        <div class="plan-feature">Evolução técnica garantida</div>
+        <div class="plan-feature">App KANRI incluso</div>
+        <div class="plan-feature">Economia de R$ 840/ano</div>
+      </div>
+    </div>
+    <div class="plan-card">
+      <div class="plan-name">Plano Família</div>
+      <div class="plan-price">R$ 330</div>
+      <div class="plan-period">por mês · 2 pessoas · anual</div>
+      <div class="plan-features">
+        <div class="plan-feature">Pai/mãe e filho(a)</div>
+        <div class="plan-feature">Casal / irmãos</div>
+        <div class="plan-feature">Todos os horários</div>
+        <div class="plan-feature">App KANRI incluso</div>
+        <div class="plan-feature">R$ 165/pessoa no plano anual</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="highlight-box">
+    <p><strong>Estratégia de oferta:</strong> Sempre apresente os 3 planos juntos, começando pelo Mensal. Isso ancora o preço — quando o lead vê o Anual por R$200, o desconto de R$70/mês parece óbvio. Para casais ou pais com filhos, sempre mencione o Família: "Você tem filho? Treinar juntos custa R$165 por pessoa."</p>
+  </div>
+</section>
+
+<!-- FASE 1 -->
+<section class="section" id="fase1">
+  <div class="section-header">
+    <div class="section-label">Fase 1</div>
+    <h2 class="section-title">Captação de Leads</h2>
+    <p class="section-desc">O lead chega via Meta Ads ao preencher um formulário de interesse. O objetivo do anúncio é gerar leads qualificados para aula experimental gratuita.</p>
+  </div>
+
+  <div class="phase-block">
+    <div class="phase-header">
+      <div class="phase-icon">📣</div>
+      <div>
+        <div class="phase-title">Configuração do Anúncio</div>
+        <div class="phase-sub">Segmentação e criativo para Belém/PA</div>
+      </div>
+      <span class="phase-tag tag-orange">Meta Ads</span>
+    </div>
+    <div class="phase-body">
+      <div class="grid-2">
+        <div>
+          <div class="step-list">
+            <div class="step-item">
+              <div class="step-dot">1</div>
+              <div class="step-content">
+                <div class="step-title">Público</div>
+                <div class="step-desc">Homens e mulheres 18–45 anos em Belém/PA e raio de 10km. Interesses: artes marciais, jiu-jitsu, UFC, defesa pessoal, condicionamento físico.</div>
+              </div>
+            </div>
+            <div class="step-item">
+              <div class="step-dot">2</div>
+              <div class="step-content">
+                <div class="step-title">Objetivo da campanha</div>
+                <div class="step-desc">Geração de cadastros (Leads). Formulário instantâneo dentro do Meta com nome + WhatsApp.</div>
+              </div>
+            </div>
+            <div class="step-item">
+              <div class="step-dot">3</div>
+              <div class="step-content">
+                <div class="step-title">Oferta do anúncio</div>
+                <div class="step-desc">"3 aulas de Jiu-Jitsu grátis — sem experiência necessária." Sempre gratifique a primeira ação — remova todo o risco de entrada.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="script-box presencial">
+            <div class="script-label presencial">Headline do Anúncio</div>
+            <div class="script-text">
+              <strong>"Você nunca treinou Jiu-Jitsu — e esse é o momento certo para começar."</strong><br><br>
+              3 aulas experimentais gratuitas na Andor Academy. Sem contrato, sem experiência necessária. Professor com 8 anos de tatame, alunos de todas as idades.<br><br>
+              <strong>Clique e reserve sua vaga agora.</strong>
+            </div>
+          </div>
+          <div class="warning-box">
+            Responda o lead imediatamente após o cadastro. O Meta notifica em tempo real — crie um alerta no celular para cada novo lead.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FASE 2 -->
+<section class="section" id="fase2">
+  <div class="section-header">
+    <div class="section-label">Fase 2</div>
+    <h2 class="section-title">Primeiro Contato</h2>
+    <p class="section-desc">O momento mais crítico do funil. Tempo de resposta ideal: até 5 minutos após o cadastro. Um lead aquecido se esfria em menos de 30 minutos.</p>
+  </div>
+
+  <div class="phase-block">
+    <div class="phase-header">
+      <div class="phase-icon">💬</div>
+      <div>
+        <div class="phase-title">Abordagem no WhatsApp</div>
+        <div class="phase-sub">Mensagem 1 — enviada em até 5 minutos</div>
+      </div>
+      <span class="phase-tag tag-green">WhatsApp</span>
+    </div>
+    <div class="phase-body">
+      <div class="script-box zap">
+        <div class="script-label zap">WhatsApp · Mensagem 1 (até 5 min)</div>
+        <div class="script-text">
+          Oi, <span class="placeholder">[NOME]</span>! 👋<br><br>
+          Aqui é o Victor da Andor Academy. Vi que você se interessou pelas nossas aulas de Jiu-Jitsu.<br><br>
+          <strong>Sua vaga para as 3 aulas experimentais gratuitas está reservada!</strong><br><br>
+          Me conta: você nunca treinou Jiu-Jitsu antes, ou já tem alguma experiência?
+        </div>
+      </div>
+
+      <div class="script-box zap">
+        <div class="script-label zap">WhatsApp · Mensagem 2 (após resposta)</div>
+        <div class="script-text">
+          Perfeito! Aqui você vai se sentir em casa — temos turmas para todos os níveis, do iniciante ao avançado.<br><br>
+          Qual dia da semana fica melhor pra você vir conhecer a academia e fazer sua primeira aula?<br><br>
+          <strong>Os horários disponíveis são:</strong><br>
+          · Segunda e Quarta: 19h (Iniciantes) e 20h (Avançado)<br>
+          · Terça e Quinta: 18h (Kids+Iniciante) ou 20h (No Gi)<br>
+          · Sexta: 19h (Sparring aberto)
+        </div>
+      </div>
+
+      <div class="script-box zap">
+        <div class="script-label zap">WhatsApp · Confirmação de Agendamento</div>
+        <div class="script-text">
+          Ótimo, <span class="placeholder">[NOME]</span>! <strong>Anotei você para <span class="placeholder">[DIA]</span> às <span class="placeholder">[HORA]</span>.</strong><br><br>
+          📍 Endereço: <span class="placeholder">[ENDEREÇO COMPLETO]</span><br>
+          🥋 Pode vir de roupa de treino ou agasalho — kimono fornecemos para as aulas experimentais.<br><br>
+          Qualquer dúvida, pode chamar aqui. Nos vemos <span class="placeholder">[DIA]</span>! 💪
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase-block">
+    <div class="phase-header">
+      <div class="phase-icon">📞</div>
+      <div>
+        <div class="phase-title">Ligação de Qualificação</div>
+        <div class="phase-sub">Para leads que não respondem WhatsApp em 30 min</div>
+      </div>
+      <span class="phase-tag tag-blue">Ligação</span>
+    </div>
+    <div class="phase-body">
+      <div class="script-box call">
+        <div class="script-label call">Ligação · Script (máx. 3 min)</div>
+        <div class="script-text">
+          "Oi, <span class="placeholder">[NOME]</span>, tudo bem? Aqui é o Victor da Andor Academy Jiu-Jitsu.<br><br>
+          Você se cadastrou para conhecer as nossas aulas — queria só confirmar se o interesse ainda está em pé e te ajudar a reservar um horário. Temos vagas essa semana ainda.<br><br>
+          <strong>Você teria disponibilidade para vir amanhã ou depois?</strong>"
+        </div>
+      </div>
+      <div class="check-list">
+        <div class="check-item">Se não atender: enviar áudio curto pelo WhatsApp com a mesma mensagem</div>
+        <div class="check-item">Tente no máximo 3 ligações em 3 horários diferentes (manhã / tarde / noite)</div>
+        <div class="check-item">Após 48h sem resposta: mover para a trilha de Follow-up Frio</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FASE 3 -->
+<section class="section" id="fase3">
+  <div class="section-header">
+    <div class="section-label">Fase 3</div>
+    <h2 class="section-title">As 3 Aulas Experimentais</h2>
+    <p class="section-desc">O funil de conversão acontece dentro das 3 aulas. Cada encontro tem um objetivo comercial além do técnico — construir confiança, pertencimento e desejo de continuar.</p>
+  </div>
+
+  <div class="timeline">
+
+    <div class="timeline-item">
+      <div class="timeline-left">
+        <div class="timeline-circle">1</div>
+        <div class="timeline-line"></div>
+      </div>
+      <div class="timeline-content">
+        <div class="timeline-when">Aula 1 · Recepção e Primeiros Movimentos</div>
+        <div class="timeline-title">Objetivo: fazer o lead se sentir bem-vindo e capaz</div>
+        <div class="timeline-desc">
+          <div class="check-list">
+            <div class="check-item">Recepcionar pelo nome, apresentar a academia e as regras do tatame</div>
+            <div class="check-item">Técnicas: fuga de quadril, triângulo, amortecimento de queda, entrada de Double Leg, passagem Toreada, controle lateral e Americana</div>
+            <div class="check-item">Ao final: "Você foi muito bem hoje. Quase todo mundo fica travado no primeiro dia — você pegou rápido."</div>
+            <div class="check-item">Perguntar: "O que você achou? Isso é o que você esperava?"</div>
+            <div class="check-item">Confirmar presença na Aula 2: "Te espero <span class="placeholder">[DIA/HORÁRIO]</span>. Na próxima aula a gente evolui para montada."</div>
+          </div>
+          <div class="script-box zap" style="margin-top:16px">
+            <div class="script-label zap">WhatsApp após Aula 1 (enviar no mesmo dia)</div>
+            <div class="script-text">
+              <span class="placeholder">[NOME]</span>, que ótima primeira aula! 🥋<br><br>
+              Você se saiu muito bem para um primeiro dia. Na próxima aula a gente trabalha montada e você vai ver como tudo começa a se conectar.<br><br>
+              <strong>Te confirmo: <span class="placeholder">[DIA]</span> às <span class="placeholder">[HORA]</span>. A gente te espera!</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-left">
+        <div class="timeline-circle">2</div>
+        <div class="timeline-line"></div>
+      </div>
+      <div class="timeline-content">
+        <div class="timeline-when">Aula 2 · Progressão e Pertencimento</div>
+        <div class="timeline-title">Objetivo: criar vínculo com o grupo e sentimento de evolução</div>
+        <div class="timeline-desc">
+          <div class="check-list">
+            <div class="check-item">Apresentar o aluno aos demais membros da academia pelo nome</div>
+            <div class="check-item">Técnicas: revisão Double Leg, Toreada, Montada e Armlock da Montada</div>
+            <div class="check-item">Ao final: mostrar a progressão comparada à Aula 1 — "Olha só a diferença de uma aula para outra"</div>
+            <div class="check-item">Plantar a semente: "Na última aula a gente fecha o ciclo de posições básicas — você vai conseguir montar uma sequência de ataque completa"</div>
+            <div class="check-item">Confirmar Aula 3</div>
+          </div>
+          <div class="script-box zap" style="margin-top:16px">
+            <div class="script-label zap">WhatsApp após Aula 2</div>
+            <div class="script-text">
+              Segunda aula concluída e a evolução tá evidente! 💪<br><br>
+              Na próxima aula a gente fecha o ciclo com reversão da montada e armlock — você vai ter uma sequência completa de ataque nas mãos.<br><br>
+              É a última aula experimental. <strong>Vem preparado pra fechar esse ciclo: <span class="placeholder">[DIA]</span> às <span class="placeholder">[HORA]</span>.</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-left">
+        <div class="timeline-circle">3</div>
+      </div>
+      <div class="timeline-content">
+        <div class="timeline-when">Aula 3 · Fechamento do Ciclo + Oferta</div>
+        <div class="timeline-title">Objetivo: completar a jornada técnica e apresentar os planos</div>
+        <div class="timeline-desc">
+          <div class="check-list">
+            <div class="check-item">Técnicas: revisão completa Double Leg, Toreada, Montada, Reversão da Montada, Armlock da Guarda Fechada</div>
+            <div class="check-item">Fazer o aluno executar a sequência completa — criar momento de conquista</div>
+            <div class="check-item">Ao final da aula (fora do tatame, sem pressão): "Você gostou? Quero te mostrar como você pode continuar esse caminho"</div>
+            <div class="check-item">Apresentar os 3 planos lado a lado — use o script de fechamento da Fase 4</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="highlight-box">
+    <p><strong>Regra de ouro das 3 aulas:</strong> nunca fale em planos antes do final da Aula 3. O processo de compra começa na Aula 1 — mas a decisão é tomada depois que o aluno conquista algo. Deixe a conquista acontecer primeiro.</p>
+  </div>
+</section>
+
+<!-- FASE 4 -->
+<section class="section" id="fase4">
+  <div class="section-header">
+    <div class="section-label">Fase 4</div>
+    <h2 class="section-title">Fechamento</h2>
+    <p class="section-desc">Acontece logo após a Aula 3, em ambiente informal e sem pressão. A conversa de fechamento dura no máximo 5 minutos.</p>
+  </div>
+
+  <div class="phase-block">
+    <div class="phase-header">
+      <div class="phase-icon">🏆</div>
+      <div>
+        <div class="phase-title">Script de Apresentação dos Planos</div>
+        <div class="phase-sub">Ao final da Aula 3 — fora do tatame, ambiente descontraído</div>
+      </div>
+      <span class="phase-tag tag-orange">Fechamento</span>
+    </div>
+    <div class="phase-body">
+      <div class="script-box presencial">
+        <div class="script-label presencial">Script · Linha 1 (Abertura Natural)</div>
+        <div class="script-text">
+          "<span class="placeholder">[NOME]</span>, você completou as 3 aulas e deu pra ver que você tem muito potencial aqui. Quero te mostrar como você pode continuar esse caminho com a gente.<br><br>
+          Temos 3 opções — deixa eu te explicar rápido:"
+        </div>
+      </div>
+
+      <div class="script-box presencial">
+        <div class="script-label presencial">Script · Apresentação dos Planos</div>
+        <div class="script-text">
+          "<strong>O plano Mensal é R$ 270 por mês</strong> — acesso completo, sem fidelidade, cancela quando quiser. É pra quem quer começar sem compromisso de longo prazo.<br><br>
+          <strong>O plano Anual é R$ 200 por mês</strong> — você paga 12 meses e economiza R$ 840 no ano. É o que a maioria dos alunos escolhe quando decide que o Jiu-Jitsu vai fazer parte da vida.<br><br>
+          <strong>E tem o Plano Família: R$ 330 por mês para duas pessoas.</strong> Se você tem um filho, esposa, irmão — sai por R$ 165 por pessoa no plano anual. Muito mais em conta.<br><br>
+          Qual das três faz mais sentido pra sua realidade agora?"
+        </div>
+      </div>
+
+      <hr class="divider"/>
+
+      <div class="step-list">
+        <div class="step-item">
+          <div class="step-dot" style="background:rgba(34,197,94,.15);border-color:rgba(34,197,94,.4);color:#22c55e">✓</div>
+          <div class="step-content">
+            <div class="step-title" style="color:#22c55e">Se fechar na hora</div>
+            <div class="step-desc">Cadastrar no KANRI imediatamente. Enviar boas-vindas no WhatsApp com horários, endereço e informações do app. Marcar kimono se necessário.</div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-dot" style="background:rgba(245,158,11,.15);border-color:rgba(245,158,11,.4);color:#f59e0b">⏸</div>
+          <div class="step-content">
+            <div class="step-title" style="color:#f59e0b">Se pedir para pensar</div>
+            <div class="step-desc">Responder: <em>"Claro, sem problema. Posso te mandar as informações por escrito para você ter tudo em mãos? Qual o melhor horário para te chamar amanhã?"</em> — e agendar o follow-up.</div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-dot" style="background:rgba(239,68,68,.15);border-color:rgba(239,68,68,.4);color:#ef4444">✗</div>
+          <div class="step-content">
+            <div class="step-title" style="color:#ef4444">Se apresentar objeção de preço</div>
+            <div class="step-desc">Nunca descontar de cara. Ir para a Linha 2 → Linha 3 → Linha 4 conforme o script de objeções abaixo.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FASE 5 -->
+<section class="section" id="fase5">
+  <div class="section-header">
+    <div class="section-label">Fase 5</div>
+    <h2 class="section-title">Follow-up</h2>
+    <p class="section-desc">Para quem não fechou após a Aula 3 ou faltou a alguma aula. Persistência com elegância — o objetivo é manter a conversa viva sem pressionar.</p>
+  </div>
+
+  <div class="phase-block">
+    <div class="phase-header">
+      <div class="phase-icon">🔄</div>
+      <div>
+        <div class="phase-title">Trilha para "Vou Pensar"</div>
+        <div class="phase-sub">Lead que assistiu as 3 aulas mas não fechou</div>
+      </div>
+      <span class="phase-tag tag-yellow">Follow-up Quente</span>
+    </div>
+    <div class="phase-body">
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-left">
+            <div class="timeline-circle" style="font-size:9px;width:28px;height:28px">24h</div>
+            <div class="timeline-line"></div>
+          </div>
+          <div class="timeline-content">
+            <div class="timeline-when">Contato 1 — 24 horas após Aula 3</div>
+            <div class="timeline-title">Reforço do valor, não do preço</div>
+            <div class="timeline-desc">
+              <div class="script-box zap">
+                <div class="script-label zap">WhatsApp · 24h</div>
+                <div class="script-text">
+                  Oi <span class="placeholder">[NOME]</span>! 👊<br><br>
+                  Fiquei pensando na evolução que você teve nas 3 aulas. É raro ver alguém pegar tão rápido desde o início.<br><br>
+                  Ficou alguma dúvida sobre os planos que posso te ajudar a esclarecer?
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-left">
+            <div class="timeline-circle" style="font-size:9px;width:28px;height:28px">3d</div>
+            <div class="timeline-line"></div>
+          </div>
+          <div class="timeline-content">
+            <div class="timeline-when">Contato 2 — 3 dias após Aula 3</div>
+            <div class="timeline-title">Urgência suave + social proof</div>
+            <div class="timeline-desc">
+              <div class="script-box zap">
+                <div class="script-label zap">WhatsApp · Dia 3</div>
+                <div class="script-text">
+                  <span class="placeholder">[NOME]</span>, ontem tivemos 2 alunos novos matriculados nas turmas de iniciante. A turma das 19h tá ficando bem movimentada.<br><br>
+                  <strong>Ainda tem vaga pra te encaixar sem mudar nada na sua rotina.</strong> Quer que eu reserve o seu lugar?
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-left">
+            <div class="timeline-circle" style="font-size:9px;width:28px;height:28px">7d</div>
+          </div>
+          <div class="timeline-content">
+            <div class="timeline-when">Contato 3 — 7 dias após Aula 3</div>
+            <div class="timeline-title">Oferta de última chance</div>
+            <div class="timeline-desc">
+              <div class="script-box zap">
+                <div class="script-label zap">WhatsApp · Dia 7 (última tentativa da trilha quente)</div>
+                <div class="script-text">
+                  Oi <span class="placeholder">[NOME]</span>! Quero te fazer uma proposta diferente.<br><br>
+                  <strong>Se você quiser fechar essa semana, consigo te encaixar no plano Anual com a taxa de matrícula sem custo.</strong><br><br>
+                  Depois disso volto para o valor normal. Me fala o que você acha?
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase-block">
+    <div class="phase-header">
+      <div class="phase-icon">🚫</div>
+      <div>
+        <div class="phase-title">Trilha para No-Show (Faltou à Aula)</div>
+        <div class="phase-sub">Lead que agendou mas não compareceu</div>
+      </div>
+      <span class="phase-tag tag-red">Recuperação</span>
+    </div>
+    <div class="phase-body">
+      <div class="script-box zap">
+        <div class="script-label zap">WhatsApp · Até 2h após a aula perdida</div>
+        <div class="script-text">
+          Oi <span class="placeholder">[NOME]</span>, sentimos sua falta hoje! Aconteceu alguma coisa?<br><br>
+          Sem problema — <strong>temos vagas ainda essa semana.</strong> Qual dia fica melhor pra você vir fazer a sua primeira aula?
+        </div>
+      </div>
+      <div class="script-box zap">
+        <div class="script-label zap">WhatsApp · 48h sem resposta</div>
+        <div class="script-text">
+          <span class="placeholder">[NOME]</span>, reservei uma vaga para você nas próximas turmas de iniciante.<br><br>
+          Se você tiver 1 hora livre qualquer dia essa semana, vale muito a pena aparecer — a primeira aula muda a perspectiva de todo mundo.<br><br>
+          <strong>Tem algum dia que funciona?</strong>
+        </div>
+      </div>
+      <div class="warning-box">
+        Depois de 3 tentativas sem resposta, mover para a base fria. Não insistir mais do que isso — preserva a relação para uma reativação futura.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FASE 6 -->
+<section class="section" id="fase6">
+  <div class="section-header">
+    <div class="section-label">Fase 6</div>
+    <h2 class="section-title">Reativação de Base</h2>
+    <p class="section-desc">Leads que pararam de responder ou ex-alunos que saíram. Nunca descarte uma base — um lead frio pode fechar meses depois com o contexto certo.</p>
+  </div>
+
+  <div class="grid-2">
+    <div class="phase-block" style="margin-bottom:0">
+      <div class="phase-header">
+        <div class="phase-icon">🌡️</div>
+        <div>
+          <div class="phase-title">Base Morna</div>
+          <div class="phase-sub">Leads que sumiram há 8–30 dias</div>
+        </div>
+        <span class="phase-tag tag-yellow">Morno</span>
+      </div>
+      <div class="phase-body">
+        <div class="script-box zap">
+          <div class="script-label zap">WhatsApp · Reativação Morna</div>
+          <div class="script-text">
+            Oi <span class="placeholder">[NOME]</span>! Faz um tempo que a gente não fala.<br><br>
+            Só queria te contar que <strong>abrimos novas turmas de iniciante</strong> — horários mais acessíveis e a turma tá ótima.<br><br>
+            Interesse ainda em fazer as aulas experimentais?
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase-block" style="margin-bottom:0">
+      <div class="phase-header">
+        <div class="phase-icon">❄️</div>
+        <div>
+          <div class="phase-title">Base Fria</div>
+          <div class="phase-sub">Leads sem resposta há 30+ dias</div>
+        </div>
+        <span class="phase-tag tag-blue">Frio</span>
+      </div>
+      <div class="phase-body">
+        <div class="script-box zap">
+          <div class="script-label zap">WhatsApp · Reativação Fria (1×/mês)</div>
+          <div class="script-text">
+            <span class="placeholder">[NOME]</span>, tudo bem?<br><br>
+            Lembrei de você porque <strong>tivemos um resultado incrível esse mês</strong> — um aluno que começou do zero há 4 meses acabou de ganhar sua primeira competição.<br><br>
+            Se em algum momento bater aquela vontade de começar, estamos aqui. 🥋
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OBJEÇÕES -->
+<section class="section" id="objecoes">
+  <div class="section-header">
+    <div class="section-label">Gestão de Objeções</div>
+    <h2 class="section-title">Como Responder</h2>
+    <p class="section-desc">As 6 objeções mais comuns e como neutralizá-las sem perder a venda. Nunca contradiga — ouça, valide e redirecione.</p>
+  </div>
+
+  <div class="obj-block">
+    <div class="obj-question">"Tá caro, não tenho esse dinheiro agora."</div>
+    <div class="obj-answer">
+      "Entendo. Mas deixa eu te perguntar: quanto você gasta por mês com algo que te faz bem — academia, saúde, lazer? Muitos dos nossos alunos cancelaram outras coisas pra priorizar o Jiu-Jitsu porque viram o retorno em qualidade de vida.<br><br>
+      <strong>Se o mensal (R$270) ainda pesado, o anual a R$200/mês você paga em parcelas e economiza no final. Posso te mostrar como funciona?"</strong>
+    </div>
+  </div>
+
+  <div class="obj-block">
+    <div class="obj-question">"Preciso pensar melhor / falar com minha esposa."</div>
+    <div class="obj-answer">
+      "Claro, faz sentido. O que eu posso fazer é te mandar todas as informações por escrito pra facilitar a conversa com ela. E se vocês quiserem, <strong>ela pode vir para uma aula junto — temos o Plano Família que fica em R$165 por pessoa.</strong> Às vezes é mais fácil decidir juntos na prática."
+    </div>
+  </div>
+
+  <div class="obj-block">
+    <div class="obj-question">"Não sei se tenho tempo pra treinar todo dia."</div>
+    <div class="obj-answer">
+      "A maioria dos nossos alunos treina 2 ou 3 vezes por semana — é suficiente para evoluir e sentir a diferença. <strong>Você não precisa vir todo dia, só precisa ser consistente.</strong> Com 2x por semana em 3 meses você já domina o básico."
+    </div>
+  </div>
+
+  <div class="obj-block">
+    <div class="obj-question">"Nunca treinei nada na vida, acho que não vou conseguir."</div>
+    <div class="obj-answer">
+      "<strong>Você acabou de completar 3 aulas experimentais e executou técnicas que maioria das pessoas acha impossível no primeiro contato.</strong> O Jiu-Jitsu não é sobre força nem atletismo — é sobre técnica e estratégia. É por isso que funciona para todas as idades e biotipo."
+    </div>
+  </div>
+
+  <div class="obj-block">
+    <div class="obj-question">"Vou esperar a vida estabilizar um pouco."</div>
+    <div class="obj-answer">
+      "Entendo essa sensação. Mas curiosidade: quando foi a última vez que a vida ficou completamente estável? Muitos dos nossos alunos disseram exatamente isso — e quando finalmente começaram, <strong>disseram que o Jiu-Jitsu foi o que ajudou a vida a estabilizar,</strong> não o contrário. Posso te reservar uma vaga e a gente combina os horários conforme sua rotina?"
+    </div>
+  </div>
+
+  <div class="obj-block">
+    <div class="obj-question">"Tenho medo de me machucar."</div>
+    <div class="obj-answer">
+      "Essa é uma das perguntas mais comuns — e faz todo sentido ter. O que a maioria das pessoas não sabe é que <strong>o Jiu-Jitsu tem um dos menores índices de lesão entre as artes marciais,</strong> justamente porque o treinamento é controlado e o parceiro para quando você bater. Nas turmas de iniciante, o contato é sempre gradual."
+    </div>
+  </div>
+</section>
+
+<!-- KPIs -->
+<section class="section" id="kpis">
+  <div class="section-header">
+    <div class="section-label">Métricas</div>
+    <h2 class="section-title">KPIs do Funil</h2>
+    <p class="section-desc">Monitore esses números semanalmente. Se algum estiver abaixo do alvo, a problema está na etapa anterior — não na seguinte.</p>
+  </div>
+
+  <table class="kpi-table">
+    <thead>
+      <tr>
+        <th>Indicador</th>
+        <th>Como Medir</th>
+        <th>Meta</th>
+        <th>Alerta (abaixo de)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>CPL (Custo por Lead)</td>
+        <td>Gasto em anúncios ÷ leads gerados</td>
+        <td>R$ 15–25</td>
+        <td>Se >R$40, revisar criativo</td>
+      </tr>
+      <tr>
+        <td>Taxa de Resposta</td>
+        <td>Leads respondidos ÷ leads recebidos</td>
+        <td>90%+</td>
+        <td>&lt;70%: verificar tempo de resposta</td>
+      </tr>
+      <tr>
+        <td>Taxa de Agendamento</td>
+        <td>Aulas agendadas ÷ leads contactados</td>
+        <td>70%+</td>
+        <td>&lt;50%: revisar script de 1º contato</td>
+      </tr>
+      <tr>
+        <td>Taxa de Comparecimento (Show Rate)</td>
+        <td>Alunos que vieram ÷ agendados</td>
+        <td>70%+</td>
+        <td>&lt;50%: reforçar confirmação 4h antes</td>
+      </tr>
+      <tr>
+        <td>Taxa de Conclusão (3 aulas)</td>
+        <td>Completaram 3 aulas ÷ compareceram à 1ª</td>
+        <td>65%+</td>
+        <td>&lt;50%: revisar experiência na Aula 1</td>
+      </tr>
+      <tr>
+        <td>Taxa de Fechamento</td>
+        <td>Matriculados ÷ completaram 3 aulas</td>
+        <td>60%+</td>
+        <td>&lt;40%: revisar script de fechamento</td>
+      </tr>
+      <tr>
+        <td>Custo de Aquisição (CAC)</td>
+        <td>Gasto total ÷ alunos matriculados</td>
+        <td>R$ 60–120</td>
+        <td>&gt;R$200: funil com falha sistêmica</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="highlight-box" style="margin-top:24px">
+    <p><strong>Relatório semanal (toda sexta-feira):</strong> preencher os 7 KPIs acima com os números da semana. Qualquer métrica fora do alvo por 2 semanas seguidas gera uma reunião de análise com MaisAlunos Marketing para ajuste de estratégia.</p>
+  </div>
+</section>
+
+</div><!-- /content -->
+
+<footer>
+  <div class="footer-logo">MaisAlunos Marketing</div>
+  <div class="footer-copy">Andor Academy Jiu Jitsu · Processo Comercial v1.0 · Jun/2026</div>
+</footer>
+
+</main>
+
+<script>
+// Highlight active nav item on scroll
+const sections = document.querySelectorAll('section[id]');
+const navItems = document.querySelectorAll('.nav-item[href]');
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navItems.forEach(item => {
+        item.classList.toggle('active', item.getAttribute('href') === '#' + entry.target.id);
+      });
+    }
+  });
+}, { threshold: 0.3 });
+
+sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
